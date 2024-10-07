@@ -1,0 +1,39 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position:fixed;
+    height: 60px;
+    width: calc(100% - 250px);
+    left: 250px;
+}
+
+.navbar-left {
+    flex-grow: 1;
+}
+
+.organizer-label {
+    font-style: italic;
+    font-size: 16px;
+}
+
+.navbar-right a {
+    padding-left: 100px;
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.navbar-right a:hover {
+    color: gray;
+}
+
+.navbar-right a:active {
+    color: darkgray;
+}
