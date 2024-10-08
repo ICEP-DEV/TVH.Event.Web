@@ -13,7 +13,7 @@ function Login() {
 
     const login = () => {
         var data = { email: Email, password: Password }
-        axios.post('http://localhost:3001/api/login', data).then(respond => {
+        axios.post('http://localhost:3001/api/admin/login', data).then(respond => {
             console.log(respond);
             if (respond.data.success) {
                 console.log(respond.data.results[0]);

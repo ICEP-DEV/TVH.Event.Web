@@ -16,12 +16,25 @@ import UserDetails from "./screens/UserDetails.jsx";
 import FeedbackReviews from "./screens/FeedbackReviews.jsx";
 import ManagedOrganizers from "./screens/ManagedOrganizers.jsx";
 import CalendarPage from "./screens/CalendarPage.jsx";
-import ContactUs from "./screens/ContactUs.jsx";
 
 function App() {
   return (
     <>
-      <ContactUs/>
+      <Router>
+        <div className="app">
+          <SideBar />
+          <div className="main-content">
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<CalendarPage />} />
+              <Route path="/events" element={<EventPage />} />
+              <Route path="/users" element={<ManagedOrganizers />} />
+              <Route path="/registration" element={<RegistrationForm />} />
+              <Route path="/feedback" element={<FeedbackReviews />} />
+            </Routes>
+          </div>
+        </div>
+      </Router>
     </>
   );
 }
