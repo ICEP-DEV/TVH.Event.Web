@@ -15,11 +15,13 @@ import RegistrationForm from "./screens/RegistrationForm.jsx";
 import UserDetails from "./screens/UserDetails.jsx";
 import FeedbackReviews from "./screens/FeedbackReviews.jsx";
 import ManagedOrganizers from "./screens/ManagedOrganizers.jsx";
+import CalendarPage from "./screens/CalendarPage.jsx";
+import ContactUs from "./screens/ContactUs.jsx";
 
 function App() {
   return (
     <>
-      <ManagedOrganizers />
+      <ContactUs/>
     </>
   );
 }

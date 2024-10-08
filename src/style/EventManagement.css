@@ -1,43 +1,43 @@
 .event-management-container {
-    background-color: #f9f9f9;
-    min-height: 100vh;
+  background-color: #f9f9f9;
+  min-height: 100vh;
 }
 
-
 header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-left: 25%;
-    margin-bottom: 0px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: 30%;
+  margin-bottom: 0px;
 }
 
 .underline {
-    background-color: rgba(0, 4, 255, 0.63); 
-    width: 500px;
-    height: 5px;
-    margin-top: 0px;
-    margin-left: 20%;
-    margin-bottom: 30px;
+  background-color: rgba(0, 4, 255, 0.63);
+  width: 500px !important;
+  height: 5px;
+  margin-top: 0px;
+  margin-left: 0% !important;
+  margin-right: 9 00px;
+  margin-bottom: 30px;
 }
 
 .main-content {
-    background-color: #fff;
-    border-radius: 10px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 
 .admin-section {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #555;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
 }
 
 .card {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .buttons button {
-    min-width: 150px;
+  min-width: 150px;
 }
