@@ -1,9 +1,10 @@
 import React from "react";
+import '../style/SideBar.css';
 
 const SideBar = () => {
     return (
       <>
-        <div className="col-md-3 sidebar bg-primary text-white p-4" id="column">
+        <div className="col-md-3 sidebar text-white p-4" id="column">
           <h3 className="sidebar-title mb-4">Tshwane Varsity Hackathon</h3>
           <ul className="nav flex-column">
             <li className="nav-item">
