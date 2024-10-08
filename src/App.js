@@ -1,10 +1,11 @@
+import "./App.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import Login from "./screens/Login";
 
-import SideBar from "./components/SideBar";
 
+<<<<<<< HEAD
 import "./App.css";
 import EventManagement from "./screens/EventManagement.jsx";
 import NavBar from "./components/NavBar.jsx";
@@ -36,6 +37,18 @@ function App() {
         </div>
       </Router>
     </>
+=======
+
+
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={ <Login/> }/>
+      </Routes>
+    </Router>
+>>>>>>> ea7f2bf55612f6c5f1d81d53fc62e722ede01890
   );
 }
 export default App;
