@@ -13,10 +13,13 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import EventPage from "./screens/EventPage .jsx";
 import RegistrationForm from "./screens/RegistrationForm.jsx";
 import UserDetails from "./screens/UserDetails.jsx";
+import FeedbackReviews from "./screens/FeedbackReviews.jsx";
+import ManagedOrganizers from "./screens/ManagedOrganizers.jsx";
+
 function App() {
   return (
     <>
-      <UserDetails />
+      <ManagedOrganizers />
     </>
   );
 }
