@@ -5,17 +5,28 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../style/Login.css'; 
 
+import api from '../APIs/API';
+
 function Login() {
     const navigate = useNavigate();
     const [Email, setEmail] = useState('');
     const [Password, setPassword] = useState('');
-
+    const [type, setType] = useState('');
     const login = async () => {
         var data = { email: Email, password: Password };
         
         try {
-            const respond = await axios.post('http://localhost:3001/api/admin/login', data);
-            
+            let endpoint = "";
+
+            if(type === "admin"){
+                endpoint = api + 'admin/login';
+            }
+            else if(type === "organizer"){
+                endpoint = api + 'organiser/login';
+            }
+
+            const respond = await axios.post(endpoint, data);
+            console.log(respond)
             if (respond.status === 200) {
                 localStorage.setItem("token", respond.data.token);
                 localStorage.setItem("type", respond.data.type);
@@ -33,16 +44,18 @@ function Login() {
                 toast.warn(respond.data.message);
             }
         } catch (err) {
-            toast.error("Something went wrong");
+            //console.log(err.response.data.message);
+            toast.error(err.response.data.message);
         }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.currentTarget;
-
+        
         if (form.checkValidity() === false) {
             event.stopPropagation();
+            
         } else {
             login();
         }
@@ -62,7 +75,7 @@ function Login() {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <a className="nav-link" href="/home">Home</a>
+                                <a className="nav-link" href="/">Landing</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="/contact">Contact</a>
@@ -107,11 +120,11 @@ function Login() {
                         </div>
 
                         <div className="d-grid gap-2">
-                            <button type="submit" className="btn btn-dark btn-block">
+                            <button type="submit" onClick={()=>{setType('admin')}} className="btn btn-dark btn-block">
                                 Sign In Admin
                             </button>
 
-                            <button type="submit" className="btn btn-secondary btn-block">
+                            <button type="submit" onClick={()=>{setType('organizer')}} value="admin" className="btn btn-secondary btn-block">
                                 Sign In Organizer
                             </button>
                         </div>
