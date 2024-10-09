@@ -22,7 +22,7 @@
     font-size: 16px;
 }
 
-.navbar-right a {
+.navbar-right li {
     padding-left: 100px;
     margin-left: 20px;
     text-decoration: none;
@@ -31,10 +31,10 @@
     font-weight: normal;
 }
 
-.navbar-right a:hover {
+.navbar-right li:hover {
     color: gray;
 }
 
-.navbar-right a:active {
+.navbar-right li:active {
     color: darkgray;
 }
