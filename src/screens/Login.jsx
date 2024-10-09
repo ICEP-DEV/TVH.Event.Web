@@ -15,11 +15,7 @@ function Login() {
 
     const login = async() => {
         var data = { email: Email, password: Password }
-<<<<<<< HEAD
-        axios.post('http://localhost:3001/api/admin/login', data).then(respond => {
-=======
         await axios.post('http://localhost:3001/api/admin/login', data).then(respond => {
->>>>>>> ea7f2bf55612f6c5f1d81d53fc62e722ede01890
             console.log(respond);
             if (respond.status === 200) {
                 localStorage.setItem("token", respond.data.token)

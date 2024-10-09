@@ -1,6 +1,8 @@
 .event-management-container {
   background-color: #f9f9f9;
   min-height: 100vh;
+  left: 1000px !important;
+  right: 0px;
 }
 
 header {
@@ -16,14 +18,16 @@ header {
   width: 500px !important;
   height: 5px;
   margin-top: 0px;
-  margin-left: 0% !important;
-  margin-right: 9 00px;
+  margin-left: 22% !important;
+  margin-top: -20px;
   margin-bottom: 30px;
 }
 
 .main-content {
   background-color: #fff;
   border-radius: 10px;
+  margin-left: 300px;
+  margin-top: 50px;
 }
 
 .admin-section {
