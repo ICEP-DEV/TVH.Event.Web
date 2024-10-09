@@ -4,11 +4,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./screens/Login";
 import LandingPage from "./screens/LandingPage";
-import EventManagement from "./screens/EventManagement";
+import EventManagementPage from "./screens/EventManagement";
 
 import ContactUs from "./screens/ContactUs";
 
 
+// Side Bar imports
+import CalendarPage from "./screens/CalendarPage";
 
 
 function App() {
@@ -17,9 +19,11 @@ function App() {
       <Routes>
         <Route path="/" element={ <LandingPage/> }/>
         <Route path="/login" element={ <Login/>} />
-        <Route path="/home" element={ <EventManagement/> }/>
+        <Route path="/home" element={ <EventManagementPage/> }/>
 
         <Route path="/contact" element={< ContactUs />} />
+
+        <Route path="/calendar" element={< CalendarPage />} />
       </Routes>
     </Router>
   );

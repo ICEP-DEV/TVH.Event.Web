@@ -31,15 +31,15 @@ const NavBar = () => {
         </ul>
         <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li>
-            <Link to="/" className="nav-link px-2 link-secondary">Home</Link>
+            <Link to="/home" className="nav-link px-2 link-secondary">Home</Link>
           </li>
           <li>
-            <Link className="nav-link px-2 link-secondary">Contact</Link>
+            <Link to="/contact" className="nav-link px-2 link-secondary">Contact</Link>
           </li>
           <li>
             <Link className="nav-link px-2 link-secondary">About Us</Link>
           </li>
-          <li onClick={logout} className="nav-link px-2 link-secondary">
+          <li onClick={logout} className="nav-link px-2 link-secondary" style={{cursor : "pointer"}}>
             Log Out
           </li>
         </ul>

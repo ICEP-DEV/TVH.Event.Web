@@ -78,50 +78,58 @@ const ContactUs = () => {
   );
 
   return (
-    <div className="main-layout">
-      <SideBar /> {/* SideBar Component */}
-      <div className="content">
-        <NavBar /> {/* NavBar Component */}
-        <div className="contact-us-queries">
-          <h2>Contact Us Queries</h2>
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="🔍 search"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
+    <div className="container-fluid my-0">
+      < NavBar />
+
+      <div className="row">
+        <div className="col-lg-2">
+          < SideBar />
+        </div>
+        <div className="col-lg-10">
+          <div className="container-fluid d-flex flex-column">
+            <h2>Contact Us Queries</h2>
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="🔍 search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </div>
+            <div className="container-fluid">
+              <table className="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Send Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredQueries.map((query, index) => (
+                    <tr key={query.id}>
+                      <td>{index + 1}</td>
+                      <td>{query.date}</td>
+                      <td>{query.name}</td>
+                      <td>{query.email}</td>
+                      <td>{query.subject}</td>
+                      <td>{query.message}</td>
+                      <td>
+                        <button className="btn bg-info">Send Email</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Date</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Subject</th>
-                <th>Message</th>
-                <th>Send Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredQueries.map((query, index) => (
-                <tr key={query.id}>
-                  <td>{index + 1}</td>
-                  <td>{query.date}</td>
-                  <td>{query.name}</td>
-                  <td>{query.email}</td>
-                  <td>{query.subject}</td>
-                  <td>{query.message}</td>
-                  <td>
-                    <button className="send-email-button">Send Email</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
+      
     </div>
   );
 };
