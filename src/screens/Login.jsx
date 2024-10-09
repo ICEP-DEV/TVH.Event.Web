@@ -28,24 +28,21 @@ function Login() {
             const respond = await axios.post(endpoint, data);
             console.log(respond)
             if (respond.status === 200) {
+
                 localStorage.setItem("token", respond.data.token);
                 localStorage.setItem("type", respond.data.type);
 
-                var user = {
-                    user_id: respond.data.result[0].admin_id,
-                    username: respond.data.result[0].username,
-                    email: respond.data.result[0].email,
-                    created_at: respond.data.result[0].created_at,
-                };
-                
-                localStorage.setItem('user_info', JSON.stringify(user));
+                localStorage.setItem('user_id', respond.data.result[0].admin_id);
+                localStorage.setItem('username', respond.data.result[0].username);
+                localStorage.setItem('email', respond.data.result[0].email);
+                localStorage.setItem('created_at', respond.data.result[0].created_at);
                 navigate('/home');
             } else {
                 toast.warn(respond.data.message);
             }
         } catch (err) {
-            //console.log(err.response.data.message);
-            toast.error(err.response.data.message);
+            //console.log(err.respond.data.message);
+            toast.error(err.respond.data.message)
         }
     };
 

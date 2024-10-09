@@ -7,7 +7,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const auth = isAuthenticated();
   const type = localStorage.getItem('type');
-  const user = localStorage.getItem('user');
+  const username = localStorage.getItem('username');
 
   const logout = ()=>{
     localStorage.clear();
@@ -17,9 +17,18 @@ const NavBar = () => {
   return (
     <div className="container-fluid">
       <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 ">
-        <div className="col-md-3 mb-2 mb-md-0">
-
-        </div>
+        <ul className="col-md-3 mb-2 mb-md-0">
+          {
+            auth ? (
+              <div className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li className="nav-link px-2 link-secondary">{type}</li>
+                <li className="nav-link px-2 link-secondary">{username}</li>
+              </div>
+            ) : (
+              <></>
+            )
+          }
+        </ul>
         <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li>
             <Link to="/" className="nav-link px-2 link-secondary">Home</Link>
