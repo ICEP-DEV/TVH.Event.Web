@@ -6,12 +6,13 @@ import Login from "./screens/Login";
 import LandingPage from "./screens/LandingPage";
 import EventManagementPage from "./screens/EventManagement";
 
+
 import ContactUs from "./screens/ContactUs";
 
 
 // Side Bar imports
 import CalendarPage from "./screens/CalendarPage";
-
+import EventPage from "./screens/EventPage ";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <LandingPage/> }/>
         <Route path="/login" element={ <Login/>} />
-        <Route path="/home" element={ <EventManagementPage/> }/>
+        <Route path="/home" element={ <EventPage/> }/>
 
         <Route path="/contact" element={< ContactUs />} />
 

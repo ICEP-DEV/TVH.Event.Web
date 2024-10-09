@@ -16,37 +16,37 @@ const SideBar = () => {
 
         <ul className="nav nav-pills flex-column mb-auto">
           <Link to="/home" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faCalendarCheck} class="bi me-2" width="24" height="24"/>
+            <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24"/>
             Events
           </Link>
 
 
           <Link to="/organisers" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faUsers} class="bi me-2" width="24" height="24"/>
+            <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
             &nbsp; Users
           </Link>
 
 
           <Link to="/notifications" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faBell} class="bi me-2" width="24" height="24"/>
+            <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24"/>
             &nbsp; Notifications
           </Link>
 
 
           <Link to="/calendar" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faCalendarAlt} class="bi me-2" width="24" height="24"/>
+            <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24"/>
             &nbsp; Calendar
           </Link>
 
 
           <Link to="/registrationform" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faFileSignature} class="bi me-2" width="24" height="24"/>
+            <FontAwesomeIcon icon={faFileSignature} className="bi me-2" width="24" height="24"/>
             &nbsp; Registration Form
           </Link>
 
 
           <Link to="/feedback" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faCommentDots} class="bi me-2" width="24" height="24"/>
+            <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24"/>
             Feedback & Review
           </Link>
         </ul>

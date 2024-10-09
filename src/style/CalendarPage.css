@@ -17,11 +17,15 @@
   font-size: 1.2em;
 }
 
+
 .event-indicator {
+  font-size: 12px;
+  padding: 2px;
   background-color: #6200ea;
   color: #fff;
-  font-size: 12px;
-  margin-top: 5px;
-  padding: 2px 4px;
-  border-radius: 4px;
+  border-radius: 3px;
+  margin: 2px 0;
+  text-align: center;
+  width: 100%;
+  word-wrap: break-word; /* Ensure long event titles wrap within the tile */
 }
