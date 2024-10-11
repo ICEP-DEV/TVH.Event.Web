@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./screens/Login";
 import LandingPage from "./screens/LandingPage";
-import EventManagementPage from "./screens/EventManagement";
+
 
 
 import ContactUs from "./screens/ContactUs";

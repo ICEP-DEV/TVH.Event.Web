@@ -1,6 +1,6 @@
 import React, { useState }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
-
+import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
@@ -17,7 +17,7 @@ const EventPage = () => {
   const [start_date, setStart_date] = useState('');
   const [end_date, setEnd_date] = useState('');
   const [category, setCategory] = useState([]);
-
+  const navigate = useNavigate()
 
   useState(()=>{
     const getAllEvents = async()=>{
@@ -49,7 +49,7 @@ const EventPage = () => {
 
 
   const handleSaveEvent = async(e) => {
-    //e.preventDefault();
+    e.preventDefault();
     const cat = document.getElementById("event_form_category")
 
 
@@ -80,7 +80,7 @@ const EventPage = () => {
     ).then(
       document.getElementById("eventForm").reset()
     ).then(
-      alert("Event created")
+      navigate('/home')
     )
     .catch((error) => (
       console.log(error)
