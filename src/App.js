@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./screens/Login";
 import LandingPage from "./screens/LandingPage";
-import EventManagementPage from "./screens/EventManagement";
+import Notifications from "./screens/Notifications";
 
 
 import ContactUs from "./screens/ContactUs";
@@ -25,6 +25,7 @@ function App() {
         <Route path="/contact" element={< ContactUs />} />
 
         <Route path="/calendar" element={< CalendarPage />} />
+        <Route path="/Notifications" element={< Notifications />} />
       </Routes>
     </Router>
   );
