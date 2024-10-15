@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./screens/Login";
 import LandingPage from "./screens/LandingPage";
 import Notifications from "./screens/Notifications";
+import Feedback from "./screens/Feedback";
 
 
 import ContactUs from "./screens/ContactUs";
@@ -26,6 +27,7 @@ function App() {
 
         <Route path="/calendar" element={< CalendarPage />} />
         <Route path="/Notifications" element={< Notifications />} />
+        <Route path="/Feedback" element={< Feedback />} />
       </Routes>
     </Router>
   );

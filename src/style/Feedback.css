@@ -1,0 +1,137 @@
+.feedback-page {
+    display: flex;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .feedback-container {
+    margin: 20px 0;
+  }
+  
+  .feedback-cards {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 16px; 
+  }
+  
+  .feedback-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    width: calc(25% - 16px); 
+    box-sizing: border-box; 
+  }
+  
+  .feedback-card h3 {
+    margin: 0;
+  }
+  
+  .feedback-card span {
+    display: block;
+    margin-top: 8px;
+  }
+  
+  .placeholder {
+    background-color: #eaeaea;
+  }
+  
+  .feedback-form {
+    margin-top: 40px;
+  }
+  
+  .feedback-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .feedback-form label {
+    margin: 8px 0 4px;
+  }
+  
+  .feedback-form input {
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .feedback-card-container {
+    background-color:white; 
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    padding: 20px; 
+    margin: 20px 0; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  }
+  .feedback-form-container {
+    background-color:pink; 
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    padding: 20px; 
+    margin: 20px 0; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .feedback-cards {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+  }
+  
+  .feedback-card {
+    background-color: #f9f9f9; 
+    border: 1px solid #e1e1e1; 
+    border-radius: 5px; 
+    padding: 15px; 
+    margin: 10px; 
+    flex: 1 1 200px;
+    max-width: 300px; 
+  }
+  
+  .feedback-card h3 {
+    margin: 0; 
+  }
+  
+  .feedback-form {
+    display: flex; 
+    flex-direction: column; 
+  }
+  .heading-container {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically (if you have a height set) */
+    margin: 20px 0; /* Optional: Add some margin for spacing */
+  }
+  
+  .heading-container h1 {
+    margin: 0; /* Remove default margin */
+  }
+  .underlined-heading {
+    margin: 0; /* Remove default margin */
+    border-bottom: 5px solid blue; /* Change the thickness of the underline */
+    display: inline-block; /* Ensures the border fits the text */
+    padding-bottom: 5px; /* Optional: Adds space between text and border */
+  }
+  .underlineHack{
+    margin: 0; /* Remove default margin */
+    border-bottom: 5px grey; /* Change the thickness of the underline */
+    display: inline-block; /* Ensures the border fits the text */
+    padding-bottom: 5px; /* Optional: Adds space between text and border */
+  }
+  .underline {
+    border-bottom: 4px solid blue; /* Thick blue underline */
+    width: 100vw; /* 100% of the viewport width (full screen width) */
+   
+}
+
+   
+  
+  
+  
+  
+  
+  
