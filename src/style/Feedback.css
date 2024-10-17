@@ -127,7 +127,65 @@
     width: 100vw; /* 100% of the viewport width (full screen width) */
    
 }
+.question-set {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
+.question-set label {
+  margin-right: 10px;
+  min-width: 100px; /* Adjust width as needed */
+}
+
+.add-question-icon {
+  margin-top: 10px;
+}
+
+.add-question-icon i {
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+}
+
+.add-question-icon i:hover {
+  color: black;
+}
+.add-question-section {
+  display: flex;                /* Use flexbox to align items horizontally */
+  align-items: center;         /* Align items vertically centered */
+  margin-top: 10px;            /* Add space above the section */
+}
+
+.add-question-icon {
+  cursor: pointer;              /* Change cursor to pointer for clickable icon */
+}
+
+.add-question-icon i:hover {
+  color: black;              /* Change color on hover */
+}
+
+label {
+  margin-left: 10px;           /* Add space between icon and label */
+}
+.upload-button {
+  padding: 6px 12px;           /* Adjust vertical and horizontal padding */
+  font-size: 14px;             /* Font size for the button text */
+  background-color: white;   /* Button background color */
+  color: black;                /* Text color */
+  border: none;                /* Remove default border */
+  border-radius: 4px;         /* Rounded corners */
+  cursor: pointer;             /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Transition effect for background color */
+  position: relative;          /* Required for absolute positioning */
+  bottom: 0;                   /* Align to bottom */
+  left: 0;                     /* Align to left */
+  margin-top: 10px;           /* Space from the input fields above */
+  display: inline-block;       /* Allow margin adjustments */
+}
+.Personalized{
+  text-align: center;
+}
    
   
   
