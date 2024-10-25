@@ -89,7 +89,7 @@ const Feedback = () => {
           {/* Feedback Form Section */}
           <div className="feedback-form-container">
             <div className="Personalized">
-            <label>Add your personalized feedback questions below</label>
+            <p>Add your personalized feedback questions below</p>
             </div>
             <div className="feedback-form">
               <form>
