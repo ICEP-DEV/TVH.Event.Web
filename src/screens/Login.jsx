@@ -12,11 +12,35 @@ function Login() {
     const navigate = useNavigate();
     const [Email, setEmail] = useState('');
     const [Password, setPassword] = useState('');
-    const [type, setType] = useState('');
+    //const [type, setType] = useState('');
 
     const login = async () => {
         var data = { email: Email, password: Password };
-        
+
+        try{
+            const endpoint = api + "auth/web/login";
+            const response = await axios.post(
+                endpoint,
+                data
+            );
+            if (response.status === 200){
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("type", response.data.type);
+
+                localStorage.setItem('user_id', response.data.res.user_id);
+                localStorage.setItem('username', response.data.res.username);
+                localStorage.setItem('email', response.data.res.email);
+
+                navigate('/home');
+            } 
+            else {
+                //console.log(respond)
+                toast.warn(response.data.message);
+            }
+        }catch(error){
+            toast.error(error.response.data.message)
+        }
+        /*
         try {
             let endpoint = "";
             let user_id = "";
@@ -48,6 +72,9 @@ function Login() {
             //console.log(err);
             toast.error(err.response.data.message)
         }
+            */
+
+
     };
 
     const handleSubmit = (event) => {
@@ -93,7 +120,7 @@ function Login() {
             <div className="container mt-5 d-flex justify-content-center">
                 <div className="login-box col-md-6 p-4 shadow-lg rounded">
                     <ToastContainer />
-                    <h2 className="text-center mb-4" style={{ fontWeight: 'bold' }}>Login</h2>
+                    <h2 className="text-center mb-4" style={{ fontWeight: 'bold' }}>Sign In</h2>
 
                     <form noValidate className="needs-validation" onSubmit={handleSubmit}>
                         <div className="form-group mb-3">
@@ -121,13 +148,10 @@ function Login() {
                         </div>
 
                         <div className="d-grid gap-2">
-                            <button type="submit" onClick={()=>{setType('admin')}} className="btn btn-dark btn-block">
-                                Sign In Admin
+                            <button type="submit" className="btn btn-dark btn-block">
+                                Sign In 
                             </button>
 
-                            <button type="submit" onClick={()=>{setType('organizer')}} value="admin" className="btn btn-secondary btn-block">
-                                Sign In Organizer
-                            </button>
                         </div>
 
                         <div className="mt-3 text-center">

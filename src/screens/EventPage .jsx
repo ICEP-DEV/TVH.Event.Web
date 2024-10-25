@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React, { useState, useEffect }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
@@ -17,7 +17,10 @@ const EventPage = () => {
   const [start_date, setStart_date] = useState('');
   const [end_date, setEnd_date] = useState('');
   const [category, setCategory] = useState([]);
+  const [image, setImage] = useState(null)
   const navigate = useNavigate()
+
+
 
   useState(()=>{
     const getAllEvents = async()=>{
@@ -40,7 +43,7 @@ const EventPage = () => {
 
     getAllEvents();
     getAllCategories();
-  })
+  },[])
 
   const navToEvent = () =>{
     console.log("Implement to event Here");
@@ -48,47 +51,47 @@ const EventPage = () => {
 
 
 
-  const handleSaveEvent = async(e) => {
+  const handleSaveEvent = async (e) => {
     e.preventDefault();
-    const cat = document.getElementById("event_form_category")
-
-
+    const cat = document.getElementById("event_form_category");
+  
     let admin, organiser;
-    if(localStorage.getItem("type") === "admin"){
+    if (localStorage.getItem("type") === "admin") {
       admin = localStorage.getItem("user_id");
       organiser = 0;
-    }
-    else if(localStorage.getItem("type") === "organizer"){
+    } else if (localStorage.getItem("type") === "organizer") {
       admin = 0;
       organiser = localStorage.getItem("user_id");
     }
-    console.log(time)
+  
+    const formData = new FormData(); // Create a FormData object
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("time", `${start_date} ${time}:00`);
+    formData.append("location", location);
+    formData.append("admin_id", admin);
+    formData.append("organiser_id", organiser);
+    formData.append("category_id", cat.value);
+    formData.append("start_date", start_date);
+    formData.append("end_date", end_date);
+    formData.append("image", image); 
 
-    await axios.post(
-      api + "event/create",
-      {
-        "title" : title,
-        "description" : description,
-        "time" : start_date + " " + time + ":00",
-        "location" : location,
-        "admin_id" : admin,
-        "organiser_id" : organiser,
-        "category_id" : cat.value,
-        "start_date" : start_date,
-        "end_date" : end_date
-      }
-    ).then(
-      document.getElementById("eventForm").reset()
-    ).then(
-      navigate('/home')
-    )
-    .catch((error) => (
-      console.log(error)
-    ))
 
-    
-  }
 
+    await axios.post(api + "event/create", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", 
+      },
+    })
+    .then(() => {
+      document.getElementById("eventForm").reset();
+      navigate('/home');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+  
 
   return (
    <div className="container-fluid">
@@ -123,7 +126,10 @@ const EventPage = () => {
                     onClick={()=>{navToEvent(event)}}
                   >
                 <div className="event-image">
-                  <img src="https://via.placeholder.com/400" alt={event.title} />
+                  <img 
+                    src={`data:image/*;base64,${event.image}`}
+                    alt={event.title} 
+                  />
                 </div>
                 <div className="event-details">
                   <h3>{event.title}</h3>
@@ -142,7 +148,7 @@ const EventPage = () => {
                 <div className="d-flex flex-column justify-content-center">
                   <h1 className="align-self-center">Create New Event</h1>
                   <div className="card col-6 align-self-center">
-                    <form id="eventForm" onSubmit={handleSaveEvent}>
+                    <form id="eventForm" onSubmit={handleSaveEvent} encType="multipart/form-data">
                       <div className="form-group">
                         <label >Event Name: </label>
                         <input
@@ -218,6 +224,16 @@ const EventPage = () => {
                             }
                           
                         </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Image</label>
+                        <input
+                          type="file"
+                          name="image"
+                          accept="image/*"
+                          onChange={(e) => setImage(e.target.files[0])}
+                          className="form-control"
+                        />
                       </div>
                       <div className="buttons mt-4">
                         <button type="submit" className="btn btn-secondary">
