@@ -1,6 +1,6 @@
 import React, { useState }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
@@ -62,10 +62,15 @@ const EventPage = () => {
     getMyEvents();
   },[])
 
-  const navToEvent = () =>{
-    console.log("Implement to event Here");
+  const navToEvent = (event) =>{
+    //console.log("Implement to event Here : ");
+    //console.log(event)
+    navigate("/event/details")
   }
 
+  const modalEvent = (event) => {
+    console.log("A modal showing details about the event")
+  }
 
 
   const handleSaveEvent = async (e) => {
@@ -112,18 +117,10 @@ const EventPage = () => {
   return (
    <div className="container-fluid">
     <NavBar />
-    <h2 className="event-title">
-        More Event Options
-          <hr style={{height:"1px",color:"blue" , background:"#333" }}/>
-        </h2>
     <div className="row">
-      <div className="col-md-2">
-        <SideBar />
-      </div>
+      <SideBar />
 
-      <div className="col-sm-10">
-        
-
+      <div className="col">
         <div className="d-flex justify-content-center">
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("")}}>All Events</button>
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("create")}}>Create Event</button>
@@ -139,7 +136,7 @@ const EventPage = () => {
 
                     className="event-card m-5"
                     style={{cursor:"pointer"}}
-                    onClick={()=>{navToEvent(event)}}
+                    onClick={()=>{ modalEvent(event) }}
                   >
                 <div className="event-image">
                   <img 
@@ -264,10 +261,11 @@ const EventPage = () => {
             {
               controller === "myevents" ? (
                 myevents.map((event) =>(
-                  <div key={event.event_id}
-
+                  <Link key={event.event_id}
                     className="event-card m-5"
-                    style={{cursor:"pointer"}}
+                    style={{cursor:"pointer", textDecoration:"none"}}
+                    to={"/event/details"}
+                    state={{event}}
                     onClick={()=>{navToEvent(event)}}
                   >
                 <div className="event-image">
@@ -284,7 +282,7 @@ const EventPage = () => {
                   <p className="event-description">{event.description}</p>
                 </div>
     
-                  </div>
+                  </Link>
                 ))
               ) : <></>
             }

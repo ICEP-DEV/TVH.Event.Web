@@ -31,7 +31,7 @@ function Login() {
                 localStorage.setItem('username', response.data.res.username);
                 localStorage.setItem('email', response.data.res.email);
 
-                navigate('/home');
+                navigate('/event');
             } 
             else {
                 //console.log(respond)
