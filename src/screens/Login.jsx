@@ -38,43 +38,9 @@ function Login() {
                 toast.warn(response.data.message);
             }
         }catch(error){
-            toast.error(error.response.data.message)
+            console.log(error)
+            //toast.error(error.response.data.message)
         }
-        /*
-        try {
-            let endpoint = "";
-            let user_id = "";
-            if(type === "admin"){
-                endpoint = api + 'admin/login';
-                user_id = "admin_id";
-            }
-            else if(type === "organizer"){
-                endpoint = api + 'organiser/login';
-                user_id = "organiser_id";
-            }
-
-            const respond = await axios.post(endpoint, data);
-            if (respond.status === 200) {
-
-                localStorage.setItem("token", respond.data.token);
-                localStorage.setItem("type", respond.data.type);
-
-                localStorage.setItem('user_id', respond.data.result[0][user_id]);
-                localStorage.setItem('username', respond.data.result[0].username);
-                localStorage.setItem('email', respond.data.result[0].email);
-                localStorage.setItem('created_at', respond.data.result[0].created_at);
-                navigate('/home');
-            } else {
-                //console.log(respond)
-                toast.warn(respond.data.message);
-            }
-        } catch (err) {
-            //console.log(err);
-            toast.error(err.response.data.message)
-        }
-            */
-
-
     };
 
     const handleSubmit = (event) => {

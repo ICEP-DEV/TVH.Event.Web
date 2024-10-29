@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
@@ -10,6 +10,7 @@ const EventPage = () => {
 
   const [controller, setController] = useState('');
   const [allevents, setAllEvents] = useState([]);
+  const [myevents, setMyevents] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [time, setTime] = useState('');
@@ -41,8 +42,24 @@ const EventPage = () => {
         })
     }
 
+    const getMyEvents = async() =>{
+      await axios.post(
+        api + "event/fetchbyuser",
+        {
+          type : localStorage.getItem("type"),
+          user_id : localStorage.getItem("user_id")
+        }
+      )
+      .then((response) => {
+        setMyevents(response.data.results)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+
     getAllEvents();
     getAllCategories();
+    getMyEvents();
   },[])
 
   const navToEvent = () =>{
@@ -76,20 +93,19 @@ const EventPage = () => {
     formData.append("end_date", end_date);
     formData.append("image", image); 
 
-
-
-    await axios.post(api + "event/create", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data", 
-      },
-    })
-    .then(() => {
+    try {
+      await axios.post(api + "event/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    
       document.getElementById("eventForm").reset();
       navigate('/home');
-    })
-    .catch((error) => {
+      
+    } catch (error) {
       console.log(error);
-    });
+    }
   };
   
 
@@ -247,7 +263,29 @@ const EventPage = () => {
             }
             {
               controller === "myevents" ? (
-                <div>My Events</div>
+                myevents.map((event) =>(
+                  <div key={event.event_id}
+
+                    className="event-card m-5"
+                    style={{cursor:"pointer"}}
+                    onClick={()=>{navToEvent(event)}}
+                  >
+                <div className="event-image">
+                  <img 
+                    src={`data:image/*;base64,${event.image}`}
+                    alt={event.title} 
+                  />
+                </div>
+                <div className="event-details">
+                  <h3>{event.title}</h3>
+                  <p className="event-location-date">
+                    {event.location} - {event.start_date}
+                  </p>
+                  <p className="event-description">{event.description}</p>
+                </div>
+    
+                  </div>
+                ))
               ) : <></>
             }
           </div>
