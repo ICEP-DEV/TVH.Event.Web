@@ -267,7 +267,7 @@ const EventDetails = () =>{
                                             />
                                         </div>
                                         <div className="buttons mt-4">
-                                            <button type="submit" className="btn btn-secondary">
+                                            <button type="submit" className="btn btn-primary">
                                             Save Event
                                             </button>
                                         </div>
