@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faUsers, faBell, faCalendarAlt, faFileSignature, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faUsers, faBell, faCalendarAlt, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 
 
 

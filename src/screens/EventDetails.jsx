@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
@@ -13,8 +13,12 @@ const EventDetails = () =>{
     const loc = useLocation();
     const { event } = loc.state || {};
     const navigate = useNavigate()
-    const [register, setRegister] = useState(null)
-    const [controller, setController] = useState("")
+    const [register, setRegister] = useState([])
+    const [controller, setController] = useState([])
+
+    //Register Form
+    const [questions, setQuestions] = useState([]); 
+    const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false); 
 
     // Edit event
     const [title, setTitle] = useState('');
@@ -31,6 +35,37 @@ const EventDetails = () =>{
         
     }
 
+    const addQuestion = () => {
+        setShowAdditionalQuestions(true); // Show additional question fields
+        setQuestions([...questions, ""]); // Add a new empty input field
+    };
+
+    const handleChange = (index, e) => {
+        const newQuestions = [...questions];
+        newQuestions[index] = e.target.value;
+        setQuestions(newQuestions);
+    };
+
+    const handleRegisterSave = async(e) =>{
+        try{
+            e.preventDefault()
+            const response = await axios.post(
+                api + 'register/create',
+                {
+                    event_id : event.event_id,
+                    questionair : questions 
+                }
+            );
+            if(response.data.message === "Successfully Created"){
+                Navigate({to : "/event/details", state : event });
+            }
+        }catch(error){
+
+        }
+        
+    }
+
+
     useEffect(() => {
         setTitle(event.title)
         setTime(event.time)
@@ -39,11 +74,22 @@ const EventDetails = () =>{
         setEnd_date(event.end_date)
         setStart_date(event.start_date)
         setImage(event.image)
+        setController('')
+        const getRegister = async()=>{
+            console.log(event.event_id)
+            await axios.get(api + 'register/' + event.event_id)
+            .then((response)=>{
+                setRegister(response.data.results)
+            }).catch((error)=>{
+                setRegister([])
+            })
+        }
+
+        getRegister()
+
     }, [event]);
 
-    const setActive = (ctrl)=>{
-        setController(ctrl)
-    }
+
     const controllerStyle = (ctrl) =>(
         
         controller === ctrl ? {
@@ -67,13 +113,13 @@ const EventDetails = () =>{
                             </button>
                         </div>
                         <div className="btn-group container-fluid  justify-self-center">
-                            <button className="btn btn-primary" onClick={()=>{setActive("")}} style={controllerStyle("")}>
+                            <button className="btn btn-primary" onClick={()=>{setController("")}} style={controllerStyle("")}>
                                 Registration Form
                             </button>
-                            <button className="btn btn-primary" onClick={()=>{setActive("view")}} style={controllerStyle("view")}>
+                            <button className="btn btn-primary" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
                                 View Register
                             </button>
-                            <button className="btn btn-primary" onClick={()=>{setActive("edit")}} style={controllerStyle("edit")}>
+                            <button className="btn btn-primary" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
                                 Edit Event
                             </button>
                         </div>
@@ -81,8 +127,58 @@ const EventDetails = () =>{
                     <div className="container-fluid">
                         {
                             controller === "" ? 
+                                register.length === 0 ?
                                 <div>
-                                    Register form
+                                    <h3 className="pt-5">Registration Form </h3> 
+                                    <form onSubmit={handleRegisterSave}>
+                                        <input type="text" className="form-control mt-3" value="Name" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Surname" readOnly/>
+                                    {showAdditionalQuestions &&
+                                        questions.slice(1).map((question, index) => (
+                                            <div key={index + 1} className="question-set">
+                                            <input
+                                                type="text"
+                                                name={`question-${index + 1}`}
+                                                value={question}
+                                                onChange={(e) => handleChange(index + 1, e)}
+                                                required
+                                                className="form-control mt-3"
+                                            />
+                                            </div>
+                                        ))}
+                                        <div className="add-question-section">
+                                            <div className="add-question-icon" onClick={addQuestion}>
+                                            <i
+                                                className="fas fa-plus-circle"
+                                                style={{ fontSize: "24px", color: "#007bff", cursor: "pointer" }}
+                                            ></i>
+                                            </div>
+                                            <label style={{ marginLeft: "10px", fontSize: "16px" }}>
+                                                Add form question
+                                            </label>
+                                        </div>
+                                        <button className="btn btn-info">
+                                            Create Register
+                                        </button>
+                                    </form>
+                                </div>
+                                : <div>
+                                    <h3 className="pt-5">Form for {event.title}</h3>
+                                    <form action="">
+                                        <input type="text" className="form-control mt-3" value="Name" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Surname" readOnly/>
+                                        {
+                                            register.questionair.map((question) => (
+                                                <input 
+                                                    key={question}
+                                                    value={question}
+                                                    className="form-control mt-3"
+                                                    readOnly
+                                                />
+                                            ))
+                                        }
+                                        <button className="mt-5 btn btn-danger">Delete Form</button>
+                                    </form>
                                 </div>
                             :   <div></div>
                         }
