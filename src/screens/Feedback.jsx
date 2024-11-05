@@ -22,10 +22,11 @@ const Feedback = () => {
   };
 
   return (
-    <div className="feedback-page">
+    <div className="container-fluid">
+      <NavBar/>
+      <div className="row">
       <SideBar />
-      <div className="main-content">
-        <NavBar />
+      <div className="col">
         <div className="heading-container">
           <h1 className="underlined-heading">Feedback & Reviews</h1>
         </div>
@@ -147,6 +148,7 @@ const Feedback = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

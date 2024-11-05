@@ -1,58 +1,66 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faUsers, faBell, faCalendarAlt, faFileSignature, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarCheck, faUsers, faBell, faCalendarAlt, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 
 
 
 const SideBar = () => {
-    return (
-      <div className="d-flex flex-column flex-shrink-0 p-3" style={{width:280, backgroundColor:"#040081"}}>
+  const location = useLocation();
 
-        <Link to='/home' className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-          <h3 className="fs-4">Events System</h3>
-        </Link>
-        <hr style={{color:"white"}}/>
+  const linkStyle = (path) => (
+    location.pathname.includes(path) ? { 
+      backgroundColor : "white",
+      height : "5vh",
+      width : 250,
+      paddingLeft : 20,
+      display : "flex",
+      alignItems : "center",
+      color : "blue" ,
+      borderRadius : "0px 20px 20px 0"
+      
+    } : {
+      height : "5vh",
+      width : 250,
+      paddingLeft : 20,
+      display : "flex",
+      alignItems : "center",
+      color : "white" 
+      
+    }
+  );
 
-        <ul className="nav nav-pills flex-column mb-auto">
-          <Link to="/home" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24"/>
-            Events
-          </Link>
+  return (
+    <div  style={{width:280, backgroundColor:"#040081", minHeight : "90vh", padding:0 }}>
 
+      <Link to='/event' className="d-flex align-items-center  mb-1 mb-md-1 me-md-auto text-white text-decoration-none" style={{margin:10}}>
+        <h3 className="fs-4" >Events System</h3>
+      </Link>
+      <hr style={{color:"white"}}/>
+      <Link to="/event" className="nav-link" style={linkStyle("/event")}>
+        <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24"/>
+        Events
+      </Link>
 
-          <Link to="/organisers" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
-            &nbsp; Users
-          </Link>
+      <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
+        <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
+        Organisers
+      </Link>
+      <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
+        <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24"/>
+        Notifications
+      </Link>
+      <Link to="/calendar" className="nav-link my-3" style={linkStyle("/calendar")}>
+        <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24"/>
+        Calendar
+      </Link>
+      <Link to="/feedback" className="nav-link my-3" style={linkStyle("/feedback")}>
+        <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24"/>
+        Feedback & Review
+      </Link>
 
-
-          <Link to="/notifications" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24"/>
-            &nbsp; Notifications
-          </Link>
-
-
-          <Link to="/calendar" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24"/>
-            &nbsp; Calendar
-          </Link>
-
-
-          <Link to="/registrationform" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faFileSignature} className="bi me-2" width="24" height="24"/>
-            &nbsp; Registration Form
-          </Link>
-
-
-          <Link to="/feedback" className="nav-link text-white my-3">
-            <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24"/>
-            Feedback & Review
-          </Link>
-        </ul>
-
-      </div>
-    );
+    </div>
+  )
 };
 
 export default SideBar;

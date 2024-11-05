@@ -53,11 +53,9 @@ const CalendarPage = () => {
     <div className="container-fluid">
       <NavBar />
       <div className="row">
-        <div className="col-lg-2">
-          <SideBar />
-        </div>
-        <div className="col-lg-10">
-          <h2 className="page-title">Calendar</h2>
+        <SideBar />
+        <div className="col d-flex flex-column">
+          <h2 className="page-title" style={{alignSelf:"center"}}>Calendar</h2>
           <Calendar
             onChange={handleDateChange}
             value={date}

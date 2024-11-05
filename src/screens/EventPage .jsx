@@ -1,6 +1,6 @@
-import React, { useState,   }  from "react";
+import React, { useState }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
@@ -10,6 +10,7 @@ const EventPage = () => {
 
   const [controller, setController] = useState('');
   const [allevents, setAllEvents] = useState([]);
+  const [myevents, setMyevents] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [time, setTime] = useState('');
@@ -41,14 +42,35 @@ const EventPage = () => {
         })
     }
 
+    const getMyEvents = async() =>{
+      await axios.post(
+        api + "event/fetchbyuser",
+        {
+          type : localStorage.getItem("type"),
+          user_id : localStorage.getItem("user_id")
+        }
+      )
+      .then((response) => {
+        setMyevents(response.data.results)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+
     getAllEvents();
     getAllCategories();
+    getMyEvents();
   },[])
 
-  const navToEvent = () =>{
-    console.log("Implement to event Here");
+  const navToEvent = (event) =>{
+    //console.log("Implement to event Here : ");
+    //console.log(event)
+    navigate("/event/details")
   }
 
+  const modalEvent = (event) => {
+    console.log("A modal showing details about the event")
+  }
 
 
   const handleSaveEvent = async (e) => {
@@ -76,20 +98,19 @@ const EventPage = () => {
     formData.append("end_date", end_date);
     formData.append("image", image); 
 
-
-
-    await axios.post(api + "event/create", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data", 
-      },
-    })
-    .then(() => {
+    try {
+      await axios.post(api + "event/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    
       document.getElementById("eventForm").reset();
       navigate('/home');
-    })
-    .catch((error) => {
+      
+    } catch (error) {
       console.log(error);
-    });
+    }
   };
   
   
@@ -97,18 +118,10 @@ const EventPage = () => {
   return (
    <div className="container-fluid">
     <NavBar />
-    <h2 className="event-title">
-        More Event Options
-          <hr style={{height:"1px",color:"blue" , background:"#333" }}/>
-        </h2>
     <div className="row">
-      <div className="col-md-2">
-        <SideBar />
-      </div>
+      <SideBar />
 
-      <div className="col-sm-10">
-        
-
+      <div className="col">
         <div className="d-flex justify-content-center">
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("")}}>All Events</button>
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("create")}}>Create Event</button>
@@ -124,7 +137,7 @@ const EventPage = () => {
 
                     className="event-card m-5"
                     style={{cursor:"pointer"}}
-                    onClick={()=>{navToEvent(event)}}
+                    onClick={()=>{ modalEvent(event) }}
                   >
                 <div className="event-image">
                   <img 
@@ -248,7 +261,30 @@ const EventPage = () => {
             }
             {
               controller === "myevents" ? (
-                <div>My Events</div>
+                myevents.map((event) =>(
+                  <Link key={event.event_id}
+                    className="event-card m-5"
+                    style={{cursor:"pointer", textDecoration:"none"}}
+                    to={"/event/details"}
+                    state={{event}}
+                    onClick={()=>{navToEvent(event)}}
+                  >
+                <div className="event-image">
+                  <img 
+                    src={`data:image/*;base64,${event.image}`}
+                    alt={event.title} 
+                  />
+                </div>
+                <div className="event-details">
+                  <h3>{event.title}</h3>
+                  <p className="event-location-date">
+                    {event.location} - {event.start_date}
+                  </p>
+                  <p className="event-description">{event.description}</p>
+                </div>
+    
+                  </Link>
+                ))
               ) : <></>
             }
           </div>

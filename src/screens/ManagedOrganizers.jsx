@@ -135,14 +135,13 @@ const organizers = [
   };
 
   return (
-    <>
+    <div className="container-fluid">
       <NavBar />
-      <div className="managed-organizers-page row no-gutters">
+      <div className="row">
         <SideBar />
-        <div className="col-md-9 main-content">
+        <div className="col">
           <h2 className="page-title">
             Managed Organizers
-            <div className="underline" style={{ marginLeft: "45%" }}></div>
           </h2>
 
           <div className="search-bar-section">
@@ -237,7 +236,7 @@ const organizers = [
           </table>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

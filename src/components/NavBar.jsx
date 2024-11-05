@@ -15,7 +15,7 @@ const NavBar = () => {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{height : "10vh"}}>
       <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 ">
         <ul className="col-md-3 mb-2 mb-md-0">
           {
