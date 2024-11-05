@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState,   }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
@@ -91,6 +91,7 @@ const EventPage = () => {
       console.log(error);
     });
   };
+  
   
 
   return (
