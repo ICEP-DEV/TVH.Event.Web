@@ -7,6 +7,7 @@ import LandingPage from "./screens/LandingPage";
 import Notifications from "./screens/Notifications";
 import Feedback from "./screens/Feedback";
 
+import UserDetails from "./screens/UserDetails";
 
 import EventDetails from "./screens/EventDetails";
 
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <LandingPage/> }/>
         <Route path="/login" element={ <Login/>} />
+        <Route path="/UserDetails" element={< UserDetails />} />
         <Route path="/event" element={ <EventPage/> }/>
 
         <Route path="/contact" element={< ContactUs />} />
