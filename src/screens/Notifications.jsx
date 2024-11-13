@@ -72,6 +72,10 @@ const Notifications = () => {
           </div>
         </div>
       </div>
+      {/* Footer */}
+      <footer className="bg-dark text-white text-center py-3 mt-5">
+                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
+            </footer>
     </div>
   );
 };
