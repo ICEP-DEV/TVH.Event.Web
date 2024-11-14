@@ -24,6 +24,7 @@ const UserDetails = () => {
     e.preventDefault();
     console.log("User Details:", user);
     // Add further functionality for form submission here
+    
   };
 
   return (
@@ -32,12 +33,11 @@ const UserDetails = () => {
       <div className="user-details-page row no-gutters">
         <SideBar />
         <div className="col-md-9 main-content">
-          <h2 className="form-title">
+        {/*<h2 className="form-title">
             Users Details
-            <div className="underline" style={{ marginLeft: "40%" }}></div>
-          </h2>
+            <div className="underline" style={{ marginLeft: "100%" }}></div>
+          </h2>*/}
           <p className="form-subtitle">Fill In The User Details Below</p>
-
           <form className="user-details-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Name:</label>
@@ -108,6 +108,10 @@ const UserDetails = () => {
             </button>
           </form>
         </div>
+        {/* Footer */}
+        <footer className="bg-dark text-white text-center py-3 mt-5">
+                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
+            </footer>
       </div>
     </>
   );

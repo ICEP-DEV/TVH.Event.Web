@@ -1,8 +1,8 @@
 /* UserDetails.css */
 
-.user-details-page {
-  display: flex;
-  height: 100vh;
+
+.user-details-form{
+  display: center;
 }
 
 .main-content {
@@ -17,10 +17,10 @@
 }
 
 .underline {
-  width: 40px;
+  width: 10px;
   height: 2px;
   background-color: #333;
-  margin: 10px auto;
+  margin: 40px auto;
 }
 
 .form-subtitle {
@@ -70,3 +70,4 @@
 .add-user-btn:hover {
   background-color: #0056b3;
 }
+
