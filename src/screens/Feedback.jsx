@@ -1,160 +1,208 @@
 import React, { useState } from "react";
-import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
-import "../style/Feedback.css";
+import SideBar from "../components/SideBar";
+import PieChart  from "../components/Graphs";
+import AnimatedValue from "../components/AnimatedValue";
+import axios from 'axios';
+import api from "../APIs/API";
 
-const Feedback = () => {
-  // State to manage questions (initially only one question field)
-  const [questions, setQuestions] = useState([""]); // Start with one input for the first question
-  const [showAdditionalQuestions, setShowAdditionalQuestions] = useState(false); // To track if additional questions should be shown
 
-  // Function to add a new question input
-  const addQuestion = () => {
-    setShowAdditionalQuestions(true); // Show additional question fields
-    setQuestions([...questions, ""]); // Add a new empty input field
-  };
 
-  // Function to handle input change for question fields
-  const handleChange = (index, e) => {
-    const newQuestions = [...questions];
-    newQuestions[index] = e.target.value;
-    setQuestions(newQuestions);
-  };
 
-  return (
-    <div className="container-fluid">
-      <NavBar/>
-      <div className="row">
-      <SideBar />
+
+
+
+const FeedbackPage = () => {
+
+  const [ events , setEvents ] = useState([])
+  const [ totalApplicants, setTotalApplicants] = useState(null)
+  const [ totalParticipants, setTotalParticipants] = useState(null)
+  const [ totalReviews, setTotalReviews] = useState(null)
+  const [selectedEvent, setSelectedEvent ] = useState('');
+
+  useState(()=>{
+    
+    const fetchEvents = async()=>{
+      setTotalApplicants(10)
+      setTotalParticipants(10)
+      setTotalReviews(20)
+      await axios.post(
+        api + "event/fetchbyuser",
+        {
+          type : localStorage.getItem("type"),
+          user_id : localStorage.getItem("user_id")
+        }
+      ).then((response) =>{
+        setEvents(response.data.results)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+
+    fetchEvents();
+
+  })
+
+  var totalParticipantsLabels = [
+    "Successful Applicants",
+    "Unsuccessful Applicants",
+  ]
+
+  var totalParticipantsValues = [
+    totalParticipants,
+    (totalApplicants - totalParticipants),
+  ]
+
+  var totalParticipantsColors = [
+    "#40ccff",
+    "#f70289",
+  ]
+
+  var reviewsLabels = [
+    '1 Star',
+    '2 Star',
+    '3 Star',
+    '4 Star',
+    '5 Star',
+  ]
+  var reviewsValues = [
+    12,32,64,31,12
+  ]
+
+  var reviewColors = [
+    "#40ccff",
+    "#e0ecff",
+    '#f70289',
+    '#011291',
+    '#014091'
+  ]
+
+
+  const handleFilter = async(e)=>{
+    setSelectedEvent(e.target.value)
+    
+  }
+
+  return <div className="container-fluid">
+    <NavBar/>
+    <div className="row">
+      <SideBar/>
       <div className="col">
-        <div className="heading-container">
-          <h1 className="underlined-heading">Feedback & Reviews</h1>
+        <div className="col-4 d-flex">
+          <select onChange={handleFilter} name="" id="" className="form-select" >
+            <option value="">-- Select an event --</option>
+            {
+              events.map((event) =>(
+                <option
+                  key={event.event_id}
+                  value={event.event_id}
+                >
+                  {event.title}
+                </option>
+              ))
+            }
+          </select>
         </div>
-
-        <div className="feedback-container">
-          <div className="underlineHack">
-            <h2>GKHack '24</h2>
-          </div>
-
-          {/* Feedback Cards Section */}
-          <div className="feedback-card-container">
-            <div className="feedback-cards">
-              <div className="feedback-card">
-                <h3>Amazing Innovation and Collaboration</h3>
-                <p>
-                  GKHack was well-organized with exciting challenges and helpful
-                  mentors. A fantastic event for learning and networking!
-                </p>
-                <span>Paulina Selala</span>
-                <span>30 June '24</span>
-                <span>⭐⭐⭐⭐</span>
-              </div>
-
-              <div className="feedback-card">
-                <h3>Great Hackathon Experience!</h3>
-                <p>
-                  GKHack was well-organized with exciting challenges and helpful
-                  mentors. A fantastic event for learning and networking!
-                </p>
-                <span>Lethabo Molefe</span>
-                <span>29 June '24</span>
-                <span>⭐⭐⭐⭐⭐</span>
-              </div>
-
-              <div className="feedback-card">
-                <h3>Incredible Learning Opportunities</h3>
-                <p>
-                  The mentors were very knowledgeable and provided invaluable
-                  insights. Can't wait for the next event!
-                </p>
-                <span>Yinhla Makamu</span>
-                <span>28 June '24</span>
-                <span>⭐⭐⭐⭐</span>
-              </div>
-
-              <div className="feedback-card">
-                <h3>Networking at its Best</h3>
-                <p>
-                  GKHack brought together amazing individuals. The networking
-                  opportunities were phenomenal!
-                </p>
-                <span>Ronaldo Developer</span>
-                <span>27 June '24</span>
-                <span>⭐⭐⭐⭐⭐</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="underline"></div>
-
-          {/* Feedback Form Section */}
-          <div className="feedback-form-container">
-            <div className="Personalized">
-            <p>Add your personalized feedback questions below</p>
-            </div>
-            <div className="feedback-form">
-              <form>
-                {/* Event field only once at the top */}
-                <div className="event-section">
-                  <label>Select Event:</label>
-                  <input
-                    type="text"
-                    name="event"
+        {
+          selectedEvent !== '' ?
+          <div>
+            <div className="row mt-5">
+              <div className="col-lg-4 p-2">
+                <div className="container" style={{backgroundColor:'var(--blue)'}}>
+                  <p className="text-white">
+                    Total Applicants
+                  </p>
+                  < PieChart 
+                    labels={['Total Applications']} values={[totalApplicants]} colors={['#f70289']}
                   />
-                </div>
+        
+                  <h4 className="text-white d-flex justify-content-center pt-2">
+                    <AnimatedValue 
+                      start={0} end={totalApplicants} duration={1000}
+                    />
+                    <p className="pt-0 pb-0 p-3">Applicants</p>
+                  </h4>
 
-                {/* Single Question Label with Input Field next to each other */}
-                <div className="question-set">
-                  <label>Question:</label>
-                  <input
-                    type="text"
-                    name="question-0"
-                    value={questions[0]}
-                    onChange={(e) => handleChange(0, e)}
-                    required
+                </div>
+              </div>
+              <div className="col-lg-4 p-2">
+                <div className="container" style={{backgroundColor:'var(--blue)'}}>
+                  <p className="text-white">
+                    Total Participants
+                  </p>
+                  < PieChart 
+                    labels={totalParticipantsLabels} values={totalParticipantsValues} colors={totalParticipantsColors}
                   />
+                  <h4 className="text-white d-flex justify-content-center pt-2">
+                    <AnimatedValue 
+                      start={0} end={totalParticipants} duration={1000}
+                    />
+                    <p className="pt-0 pb-0 p-3">Participants</p>
+                  </h4>
                 </div>
-
-                {/* Show additional question fields only when the user clicks the icon */}
-                {showAdditionalQuestions &&
-                  questions.slice(1).map((question, index) => (
-                    <div key={index + 1} className="question-set">
-                      <input
-                        type="text"
-                        name={`question-${index + 1}`}
-                        value={question}
-                        onChange={(e) => handleChange(index + 1, e)}
-                        required
-                      />
-                    </div>
-                  ))}
-
-                {/* Add more question icon with label next to it */}
-                <div className="add-question-section">
-                  <div className="add-question-icon" onClick={addQuestion}>
-                    <i
-                      className="fas fa-plus-circle"
-                      style={{ fontSize: "24px", color: "#007bff", cursor: "pointer" }}
-                    ></i>
-                  </div>
-                  <label style={{ marginLeft: "10px", fontSize: "16px" }}>
-                    Add form question
-                  </label>
+              </div>
+              <div className="col-lg-4 p-2">
+                <div className="container" style={{backgroundColor:'var(--blue)'}}>
+                  <p className="text-white">
+                    Reviews
+                  </p>
+                  < PieChart 
+                    labels={reviewsLabels} values={reviewsValues} colors={reviewColors}
+                  />
+                  <h4 className="text-white d-flex  justify-content-center pt-2">
+                    <AnimatedValue 
+                      start={0} end={totalReviews} duration={1000}
+                    />
+                    <p className="pt-0 pb-0 p-3">Reviews</p>
+                  </h4>
                 </div>
+              </div>
+            </div>
+            <div className="col-4">
+              <select name="" id="" className="form-select">
+                <option value="" >
+                  All Ratings
+                </option>
+                  {
+                    reviewsLabels.map((review) =>(
+                      <option
+                        key={review}
+                        value={review}
+                      >
+                        {review}
+                      </option>
+                    ))
+                  }
+              </select>
+            </div>
 
-                <button type="submit" className="upload-button">Upload Form</button>
-              </form>
+            <div className="mt-2 p-5 pt-2 pb-1 text-black rounded-4" style={{background:"#f5f6f7"}}>
+              <div className="d-flex justify-content-between">
+                <p className="fs-3">
+                  Yinhla Makamu
+                </p>
+                <div>ratings</div>
+              </div>
+              <hr />
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+              </p>
             </div>
           </div>
-        </div>
+          : <></>
+        }
       </div>
     </div>
-    {/* Footer */}
-    <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
-    </div>
-  );
-};
+  </div>
+}
 
-export default Feedback;
+
+
+
+export default FeedbackPage;
+
+
+
+
+
+
