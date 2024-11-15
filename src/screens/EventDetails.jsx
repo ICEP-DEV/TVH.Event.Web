@@ -4,7 +4,10 @@ import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import api from "../APIs/API";
-
+//import ParticipantsComponent from "../components/manage_events/allParticipants";
+import AllRegisteredComponent from "../components/manage_events/AllRegistered";
+import SurveyComponent from "../components/manage_events/Survey";
+import AllParticipantsComponent from "../components/manage_events/participants";
 
 
 
@@ -14,7 +17,7 @@ const EventDetails = () =>{
     const { event } = loc.state || {};
     const navigate = useNavigate()
     const [register, setRegister] = useState([])
-    const [controller, setController] = useState([])
+    const [controller, setController] = useState("")
 
     //Register Form
     const [questions, setQuestions] = useState([]); 
@@ -29,7 +32,8 @@ const EventDetails = () =>{
     const [end_date, setEnd_date] = useState('');
     const [image, setImage] = useState(null)
 
-    
+    // manage events
+    const [manageController, setManageController] = useState("")
 
     const handleEditEvent = async() => {
         
@@ -76,7 +80,6 @@ const EventDetails = () =>{
         setImage(event.image)
         setController('')
         const getRegister = async()=>{
-            console.log(event.event_id)
             await axios.get(api + 'register/' + event.event_id)
             .then((response)=>{
                 setRegister(response.data.results)
@@ -93,10 +96,18 @@ const EventDetails = () =>{
     const controllerStyle = (ctrl) =>(
         
         controller === ctrl ? {
-            backgroundColor : "#040081"
+            backgroundColor : "var(--blue)"
         } : {
             backgroundColor : "white",
             color : "black",
+        }
+    )
+
+    const manageStyles = (ctrl) =>(
+        manageController === ctrl ? {
+            backgroundColor : "var(--grey)"
+        } : {
+            backgroundColor : "white"
         }
     )
 
@@ -117,7 +128,7 @@ const EventDetails = () =>{
                                 Registration Form
                             </button>
                             <button className="btn btn-primary" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
-                                View Register
+                                Manage Event
                             </button>
                             <button className="btn btn-primary" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
                                 Edit Event
@@ -126,7 +137,7 @@ const EventDetails = () =>{
                     </div>
                     <div className="container-fluid">
                         {
-                            controller === "" ? 
+                            controller === "view" ? 
                                 register.length === 0 ?
                                 <div>
                                     <h3 className="pt-5">Registration Form </h3> 
@@ -183,9 +194,34 @@ const EventDetails = () =>{
                             :   <div></div>
                         }
                         {
-                            controller === "view" ? 
-                                <div>
-                                    View registered attendees form
+                            controller === "" ? 
+                                <div className="container-fluid">
+                                    <div className="fs-2 mt-5">
+                                        {event.title}
+                                    </div>
+                                    <div className="d-flex mt-5 mx-2">
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("")}} style={manageStyles('')}>Registered</button>
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("participants")}} style={manageStyles('participants')}>Participants</button>
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("survey")}} style={manageStyles('survey')}>Survey</button>
+                                    </div>
+                                    {
+                                        manageController === "" ?
+                                        <AllRegisteredComponent event_id={event.event_id}/>
+                                        : <></>
+                                        
+                                    }
+                                    {
+                                        manageController === "participants" ?
+                                        <AllParticipantsComponent/>
+                                        : <></>
+                                        
+                                    }
+                                    {
+                                        manageController === "survey" ?
+                                        <SurveyComponent/>
+                                        : <></>
+                                        
+                                    }
                                 </div>
                             :   <div></div>
                         }
@@ -278,10 +314,6 @@ const EventDetails = () =>{
                     </div>
                 </div>
             </div>
-            {/* Footer */}
-            <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
         </div>
     )
 }
