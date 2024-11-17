@@ -31,7 +31,7 @@ const SideBar = () => {
   );
 
   return (
-    <div  style={{width:280, backgroundColor: "var(--blue)", minHeight : "90vh", padding:0 }}>
+    <div className="px-2 m-0"  style={{width:280, backgroundColor: "var(--blue)", minHeight : "95vh", padding:0 }}>
 
       <Link to='/event' className="d-flex align-items-center  mb-1 mb-md-1 me-md-auto text-white text-decoration-none" style={{margin:10}}>
         <h3 className="fs-4" >Events System</h3>

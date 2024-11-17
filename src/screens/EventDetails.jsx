@@ -4,10 +4,10 @@ import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import api from "../APIs/API";
-//import ParticipantsComponent from "../components/manage_events/allParticipants";
 import AllRegisteredComponent from "../components/manage_events/AllRegistered";
 import SurveyComponent from "../components/manage_events/Survey";
 import AllParticipantsComponent from "../components/manage_events/participants";
+import Footer from "../components/Footer";
 
 
 
@@ -34,6 +34,8 @@ const EventDetails = () =>{
 
     // manage events
     const [manageController, setManageController] = useState("")
+    const [attendees, setAttendees] = useState([])
+
 
     const handleEditEvent = async() => {
         
@@ -88,6 +90,14 @@ const EventDetails = () =>{
             })
         }
 
+        const fetchRegister = async()=>{
+            await axios.get(
+                api + 'register/attendee/' + event.event_id
+            ).then((response) =>{
+                setAttendees(response.data.results)
+            })
+        }
+        fetchRegister();
         getRegister()
 
     }, [event]);
@@ -113,10 +123,11 @@ const EventDetails = () =>{
 
     return (
         <div className="container-fluid">
-            <NavBar/>
+            
             <div className="row">
                 <SideBar />
                 <div className="col">
+                    <NavBar/>
                     <div className="d-flex container-fluid">
                         <div className="col-1">
                             <button className="btn" onClick={()=>{navigate("/event")}}>
@@ -206,13 +217,13 @@ const EventDetails = () =>{
                                     </div>
                                     {
                                         manageController === "" ?
-                                        <AllRegisteredComponent event_id={event.event_id}/>
+                                        <AllRegisteredComponent attendees={attendees}/>
                                         : <></>
                                         
                                     }
                                     {
                                         manageController === "participants" ?
-                                        <AllParticipantsComponent/>
+                                        <AllParticipantsComponent attendees={attendees}/>
                                         : <></>
                                         
                                     }
@@ -314,6 +325,7 @@ const EventDetails = () =>{
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }

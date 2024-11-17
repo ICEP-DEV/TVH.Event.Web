@@ -3,6 +3,7 @@ import "../style/EventPage.css"; // Custom CSS for this page
 import { useNavigate, Link } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 import axios from "axios";
 import api from "../APIs/API";
 
@@ -116,12 +117,13 @@ const EventPage = () => {
   
 
   return (
-   <div className="container-fluid">
-    <NavBar />
-    <div className="row">
+   <div className="container-fluid m-0 p-0">
+    
+    
+    <div className="row m-0 p-0">
       <SideBar />
-
       <div className="col">
+        <NavBar />
         <div className="d-flex justify-content-center">
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("")}}>All Events</button>
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("create")}}>Create Event</button>
@@ -290,10 +292,9 @@ const EventPage = () => {
           </div>
       </div>
     </div>
-    {/* Footer */}
-    <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+    
+    <Footer />
+    
    </div>
   );
 };
