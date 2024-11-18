@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import "../style/CalendarPage.css"; // Custom styling
 import SideBar from "../components/SideBar"; // Import SideBar component
 import NavBar from "../components/NavBar"; // Import NavBar component
+import Footer from "../components/Footer";
 import axios from "axios";
 import api from "../APIs/API";
 
@@ -51,10 +52,11 @@ const CalendarPage = () => {
 
   return (
     <div className="container-fluid">
-      <NavBar />
+      
       <div className="row">
         <SideBar />
         <div className="col d-flex flex-column">
+          <NavBar />
           <h2 className="page-title" style={{alignSelf:"center"}}>Calendar</h2>
           <Calendar
             onChange={handleDateChange}
@@ -64,10 +66,7 @@ const CalendarPage = () => {
           />
         </div>
       </div>
-      {/* Footer */}
-      <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+      <Footer/>
     </div>
   );
 };

@@ -36,6 +36,7 @@ const EventDetails = () =>{
     const [manageController, setManageController] = useState("")
     const [attendees, setAttendees] = useState([])
 
+    const [surveys, setSurveys] = useState([])
 
     const handleEditEvent = async() => {
         
@@ -62,13 +63,22 @@ const EventDetails = () =>{
                     questionair : questions 
                 }
             );
-            if(response.data.message === "Successfully Created"){
-                Navigate({to : "/event/details", state : event });
-            }
+            Navigate({to : "/event/details", state : event });
         }catch(error){
 
         }
         
+    }
+
+    const deleteRegistrationForm = async(e)=>{
+        e.preventDefault();
+        await axios.delete(
+            api + "register/form/" + register.registration_form_id
+        ).then((response) => {
+            Navigate({to : "/event/details", state : event });
+        }).catch((error) =>{
+            console.log(error)
+        });
     }
 
 
@@ -97,8 +107,18 @@ const EventDetails = () =>{
                 setAttendees(response.data.results)
             })
         }
+
+        const fetchSurveys = async()=>{
+            await axios.get(
+                api + 'survey/all/' + event.event_id
+            ).then((response) =>{
+                setSurveys(response.data.results)
+            })
+            
+        }
         fetchRegister();
-        getRegister()
+        getRegister();
+        fetchSurveys();
 
     }, [event]);
 
@@ -148,26 +168,28 @@ const EventDetails = () =>{
                     </div>
                     <div className="container-fluid">
                         {
-                            controller === "view" ? 
+                            controller === "" ? 
                                 register.length === 0 ?
                                 <div>
                                     <h3 className="pt-5">Registration Form </h3> 
                                     <form onSubmit={handleRegisterSave}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
-                                    {showAdditionalQuestions &&
-                                        questions.slice(1).map((question, index) => (
+                                    { showAdditionalQuestions ?
+                                        questions.map((question, index) => (
                                             <div key={index + 1} className="question-set">
                                             <input
                                                 type="text"
-                                                name={`question-${index + 1}`}
+                                                name={`question-${index}`}
                                                 value={question}
-                                                onChange={(e) => handleChange(index + 1, e)}
+                                                onChange={(e) => handleChange(index, e)}
                                                 required
                                                 className="form-control mt-3"
                                             />
                                             </div>
-                                        ))}
+                                        )) :    <></>
+
+                                    }
                                         <div className="add-question-section">
                                             <div className="add-question-icon" onClick={addQuestion}>
                                             <i
@@ -186,7 +208,7 @@ const EventDetails = () =>{
                                 </div>
                                 : <div>
                                     <h3 className="pt-5">Form for {event.title}</h3>
-                                    <form action="">
+                                    <form onSubmit={(e)=>{deleteRegistrationForm(e)}}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
                                         {
@@ -199,13 +221,13 @@ const EventDetails = () =>{
                                                 />
                                             ))
                                         }
-                                        <button className="mt-5 btn btn-danger">Delete Form</button>
+                                        <button type="submit" className="mt-5 btn btn-danger">Delete Form</button>
                                     </form>
                                 </div>
                             :   <div></div>
                         }
                         {
-                            controller === "" ? 
+                            controller === "view" ? 
                                 <div className="container-fluid">
                                     <div className="fs-2 mt-5">
                                         {event.title}
@@ -229,7 +251,7 @@ const EventDetails = () =>{
                                     }
                                     {
                                         manageController === "survey" ?
-                                        <SurveyComponent/>
+                                        <SurveyComponent event_id={event.event_id} surveys={surveys} />
                                         : <></>
                                         
                                     }

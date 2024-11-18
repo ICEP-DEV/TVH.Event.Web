@@ -9,6 +9,9 @@ const AllRegisteredComponent = ({attendees})=>{
 
 
     return <div className="container-fluid mt-2" style={{minHeight: "70vh"}}>
+        <div className="col-5 my-2">
+            <input type="search" className="form-control" placeholder="Search"/>
+        </div>
         <table className="table">
             <thead>
                 <tr>

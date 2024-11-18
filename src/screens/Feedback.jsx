@@ -5,6 +5,7 @@ import PieChart  from "../components/Graphs";
 import AnimatedValue from "../components/AnimatedValue";
 import axios from 'axios';
 import api from "../APIs/API";
+import Footer from "../components/Footer";
 
 
 
@@ -18,14 +19,16 @@ const FeedbackPage = () => {
   const [ totalApplicants, setTotalApplicants] = useState(null)
   const [ totalParticipants, setTotalParticipants] = useState(null)
   const [ totalReviews, setTotalReviews] = useState(null)
-  const [selectedEvent, setSelectedEvent ] = useState('');
+  const [ selectedEvent, setSelectedEvent ] = useState('');
+  const [ attendees, setAttendees] = useState([])
+  //const [ successful, setSetSuccessful] = useState([])
+  const [ reviews, setReviews] = useState([])
+
+
 
   useState(()=>{
     
     const fetchEvents = async()=>{
-      setTotalApplicants(10)
-      setTotalParticipants(10)
-      setTotalReviews(20)
       await axios.post(
         api + "event/fetchbyuser",
         {
@@ -39,8 +42,21 @@ const FeedbackPage = () => {
       })
     }
 
-    fetchEvents();
+    async function fetchReviews(){
+      await axios.get(
+        api + "feedback/event/" + parseInt(selectedEvent)
+      ).then((response)=>{
+        setReviews(response.data.results);
+        setTotalReviews(reviews.length)
+        console.log("Reached")
+        console.log(reviews)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
 
+    fetchReviews();
+    fetchEvents();
   })
 
   var totalParticipantsLabels = [
@@ -78,17 +94,69 @@ const FeedbackPage = () => {
   ]
 
 
-  const handleFilter = async(e)=>{
+  const handleFilter = (e)=>{
+
+    console.log("Reached : " + e.target.value)
     setSelectedEvent(e.target.value)
-    
+    function setSuccessfulApplicants(){
+      let temp = []
+      attendees.map((attendee) => {
+        if(attendee.success === 1){
+          temp.push(attendee)
+        }
+      })
+      setTotalParticipants(temp.length);
+    }
+
+    async function getParticipants(){
+      await axios.get(
+        api + 'register/attendee/' + parseInt(e.target.value)
+      ).then((response) =>{
+        setAttendees(response.data.results);
+        setTotalApplicants(response.data.results.length);
+        
+        let temp = []
+        response.data.results.map((attendee)=>{
+          if(attendee.success === 1){
+            temp.push(attendee)
+          }
+        })
+        setTotalParticipants(temp.length)
+
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
+
+    async function getReviews(){
+      await axios.get(
+        api + "feedback/event/" + parseInt(e.target.value)
+      ).then((response)=>{
+        setReviews(response.data.results);
+        setTotalReviews(response.data.results.length)
+        //console.log(totalReviews)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+    getReviews();
+    getParticipants();
+
+  }
+
+  const decodeResponses = (responses)=>{
+    const decoder = new TextDecoder('utf-8');
+    const text = decoder.decode(new Uint8Array(responses.data));
+    console.log(text);
+    return text;
   }
 
   return <div className="container-fluid">
-    <NavBar/>
     <div className="row">
       <SideBar/>
       <div className="col">
-        <div className="col-4 d-flex">
+        <NavBar/>
+        <div className="col-4 d-flex ">
           <select onChange={handleFilter} name="" id="" className="form-select" >
             <option value="">-- Select an event --</option>
             {
@@ -105,8 +173,8 @@ const FeedbackPage = () => {
         </div>
         {
           selectedEvent !== '' ?
-          <div>
-            <div className="row mt-5">
+          <div style={{marginTop:"40"}}>
+            <div className="row mt-2">
               <div className="col-lg-4 p-2">
                 <div className="container" style={{backgroundColor:'var(--blue)'}}>
                   <p className="text-white">
@@ -175,24 +243,33 @@ const FeedbackPage = () => {
                   }
               </select>
             </div>
-
-            <div className="mt-2 p-5 pt-2 pb-1 text-black rounded-4" style={{background:"#f5f6f7"}}>
-              <div className="d-flex justify-content-between">
-                <p className="fs-3">
-                  Yinhla Makamu
-                </p>
-                <div>ratings</div>
-              </div>
-              <hr />
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-              </p>
-            </div>
+            {
+              reviews.map((review) =>(
+                <div key={review.feedback_id} className="mt-2 p-5 pt-2 pb-1 text-black rounded-4" style={{background:"#f5f6f7"}}>
+                  <div className="d-flex justify-content-between">
+                    <p className="fs-3">
+                      Yinhla Makamu
+                    </p>
+                    <div>rating - {review.rating}</div>
+                  </div>
+                  <hr />
+                  {
+                    decodeResponses(review.responses)
+                  }
+                </div>
+              ))
+            }
           </div>
+          
           : <></>
         }
+        <div style={{height:"10vh"}}>
+
+        </div>
       </div>
     </div>
+    
+    <Footer/>
   </div>
 }
 
