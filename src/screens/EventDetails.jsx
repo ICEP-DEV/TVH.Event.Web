@@ -147,8 +147,11 @@ const EventDetails = () =>{
         <div className="container-fluid m-0 p-0">
             <div className="d-flex">
                 <SideBar />
-                <div className="col">
-                    <NavBar/>
+                
+                <div className="col mt-5">
+                    <p className="fs-1 text-center pb-5">
+                        {event.title} - Event
+                    </p>
                     <div className="d-flex container-fluid">
                         <div className="col-1">
                             <button className="btn" onClick={()=>{navigate("/event")}}>
@@ -172,7 +175,7 @@ const EventDetails = () =>{
                             controller === "" ? 
                                 register.length === 0 ?
                                 <div>
-                                    <p className="pt-5 fs-3">{event.title} Registration Form </p> 
+                                    {/* <p className="pt-5 fs-3">{event.title} Registration Form </p>  */}
                                     <form onSubmit={handleRegisterSave}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
@@ -237,7 +240,7 @@ const EventDetails = () =>{
                             controller === "view" ? 
                                 <div className="container-fluid mt-5">
                                     <div className="fs-3 ">
-                                        {event.title}
+                                        {/* {event.title} */}
                                     </div>
                                     <div className="d-flex mt-5 mx-2">
                                         <button className="col-lg-2 btn " onClick={()=>{setManageController("")}} style={manageStyles('')}>Registered</button>

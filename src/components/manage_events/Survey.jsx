@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import api from "../../APIs/API";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  } from "@fortawesome/free-solid-svg-icons";
 
 
 const SurveyComponent = ({surveys, event_id})=>{

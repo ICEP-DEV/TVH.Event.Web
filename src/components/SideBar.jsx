@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCalendarCheck, faBell, faCalendarAlt, faCommentDots, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCalendarCheck, faBell, faCalendarAlt, faCommentDots, faUsers, faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const SideBar = () => {
   const location = useLocation();
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
@@ -15,7 +15,7 @@ const SideBar = () => {
     backgroundColor: location.pathname.includes(path) ? "white" : "transparent",
     color: location.pathname.includes(path) ? "var(--blue2)" : "white",
     height: "5vh",
-    width: "100%",
+    width: isSidebarExpanded ? "100%" : "80%",
     padding: isSidebarExpanded ? "10px 20px" : "10px",
     display: "flex",
     alignItems: "center",
@@ -35,47 +35,63 @@ const SideBar = () => {
         overflow: "hidden",
         whiteSpace: "nowrap",
         minHeight : "95vh",
-        position : "sticky"
       }}
       className="d-flex flex-column"
-    >
-      <div className="d-flex align-items-center justify-content-between ps-2 px-4 py-2">
-        <button onClick={toggleSidebar} type="button" className="btn btn-light px-4">
-          <FontAwesomeIcon icon={faBars} />
-        </button>
-        {isSidebarExpanded && <div className="sidebar-logo text-white fw-bold">Event System</div>}
-      </div>
-      <ul className="d-flex flex-column py-5 px-2 ps-0 mx-0">
-      <Link
-          to="/event"
-          className="nav-link"
-          style={linkStyle("/event")}
-          title={!isSidebarExpanded ? "Events" : ""}
-        >
-          <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24" />
-          {isSidebarExpanded && <span>Events</span>}
-        </Link>
-        {
-          localStorage.getItem('type') === "admin" ? 
-          <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
-            <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
-            {isSidebarExpanded && <span>Organisers</span>}
+    > 
+      <div style={{position:"fixed"}}>
+        <div className="d-flex align-items-center justify-content-between ps-2 px-4 py-2">
+          <button onClick={toggleSidebar} type="button" className="btn btn-light px-4">
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+          {isSidebarExpanded && <div className="sidebar-logo text-white fw-bold">Event System</div>}
+        </div>
+        <ul className="d-flex flex-column py-5 px-2 ps-0 mx-0">
+        <Link
+            to="/event"
+            className="nav-link"
+            style={linkStyle("/event")}
+            title={!isSidebarExpanded ? "Events" : ""}
+          >
+            <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Events</span>}
           </Link>
-          : <></>
-        }
-        <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
-          <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24" />
-          {isSidebarExpanded && <span>Notifications</span>}
-        </Link>
-        <Link to="/calendar" className="nav-link my-3" style={linkStyle("/calendar")}>
-          <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24" />
-          {isSidebarExpanded && <span>Calendar</span>}
-        </Link>
-        <Link to="/feedback" className="nav-link my-3" style={linkStyle("/feedback")}>
-          <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24" />
-          {isSidebarExpanded && <span>Feedback & Review</span>}
-        </Link>
-      </ul>
+          {
+            localStorage.getItem('type') === "admin" ? 
+            <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
+              <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
+              {isSidebarExpanded && <span>Organisers</span>}
+            </Link>
+            : <></>
+          }
+          <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
+            <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Notifications</span>}
+          </Link>
+          <Link to="/calendar" className="nav-link my-3" style={linkStyle("/calendar")}>
+            <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Calendar</span>}
+          </Link>
+          <Link to="/feedback" className="nav-link my-3" style={linkStyle("/feedback")}>
+            <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Feedback & Review</span>}
+          </Link>
+        </ul>
+
+        <div className="mt-50 border border-bottom"></div>
+        <ul className="d-flex flex-column py-5 px-2 ps-3 mx-0">
+          <li className="nav-link my-3 text-white">
+            <FontAwesomeIcon icon={faUser} width="24" height="24" className="bi me-2"/>
+            <span>
+              { isSidebarExpanded && 
+              localStorage.getItem('username') }
+            </span>
+          </li>
+          <Link className="nav-link my-3 text-white">
+              <FontAwesomeIcon icon={faArrowRightFromBracket} height="24" width="24" className="bi me-2"/>
+              {isSidebarExpanded && <span>Log Out</span>}
+          </Link>
+        </ul>
+      </div>
     </aside>
   );
 };

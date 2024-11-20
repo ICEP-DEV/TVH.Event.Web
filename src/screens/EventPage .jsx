@@ -117,11 +117,11 @@ const EventPage = () => {
   
 
   return (
-   <div className="container-fluid m-0 p-0">
-    <div className="d-flex m-0 p-0">
+   <div className="container-fluid p-0">
+    <div className="d-flex">
       <SideBar />
-      <div className="col">
-        <NavBar />
+
+      <div className="col mt-5">
         <div className="d-flex justify-content-center">
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("")}}>All Events</button>
           <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("create")}}>Create Event</button>
