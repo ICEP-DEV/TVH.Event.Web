@@ -51,9 +51,9 @@ const CalendarPage = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       
-      <div className="row">
+      <div className="d-flex">
         <SideBar />
         <div className="col d-flex flex-column">
           <NavBar />

@@ -118,9 +118,7 @@ const EventPage = () => {
 
   return (
    <div className="container-fluid m-0 p-0">
-    
-    
-    <div className="row m-0 p-0">
+    <div className="d-flex m-0 p-0">
       <SideBar />
       <div className="col">
         <NavBar />
@@ -136,8 +134,7 @@ const EventPage = () => {
               controller === "" ? (
                 allevents.map((event) =>(
                   <div key={event.event_id}
-
-                    className="event-card m-5"
+                    className="event-card m-5 text-blakc rounded-10, bg-light"
                     style={{cursor:"pointer"}}
                     onClick={()=>{ modalEvent(event) }}
                   >

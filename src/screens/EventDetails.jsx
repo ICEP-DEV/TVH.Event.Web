@@ -142,9 +142,8 @@ const EventDetails = () =>{
     )
 
     return (
-        <div className="container-fluid">
-            
-            <div className="row">
+        <div className="container-fluid m-0 p-0">
+            <div className="d-flex">
                 <SideBar />
                 <div className="col">
                     <NavBar/>
