@@ -34,7 +34,7 @@ const SideBar = () => {
         transition: "width 0.3s ease",
         overflow: "hidden",
         whiteSpace: "nowrap",
-        minHeight : "100vh",
+        minHeight : "95vh",
         position : "sticky"
       }}
       className="d-flex flex-column"

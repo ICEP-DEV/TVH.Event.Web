@@ -145,11 +145,11 @@ const EventPage = () => {
                   />
                 </div>
                 <div className="event-details">
-                  <h3>{event.title}</h3>
-                  <p className="event-location-date">
+                  <p className="fs-3">{event.title}</p>
+                  <p className="fs-6 text-secondary">
                     {event.location} - {event.start_date.split('T')[0]}
                   </p>
-                  <p className="event-description">{event.description}</p>
+                  <p className="fs-6 text-secondary">{event.description}</p>
                 </div>
     
                   </div>
@@ -262,7 +262,7 @@ const EventPage = () => {
               controller === "myevents" ? (
                 myevents.map((event) =>(
                   <Link key={event.event_id}
-                    className="event-card m-5"
+                    className="event-card m-5 rounded-10 bg-light"
                     style={{cursor:"pointer", textDecoration:"none"}}
                     to={"/event/details"}
                     state={{event}}
@@ -274,12 +274,12 @@ const EventPage = () => {
                     alt={event.title} 
                   />
                 </div>
-                <div className="event-details">
-                  <h3>{event.title}</h3>
-                  <p className="event-location-date">
+                <div className="event-details text-black">
+                  <p className="fs-3">{event.title}</p>
+                  <p className="fs-6 text-secondary">
                     {event.location} - {event.start_date}
                   </p>
-                  <p className="event-description">{event.description}</p>
+                  <p className="fs-6 text-secondary">{event.description}</p>
                 </div>
     
                   </Link>

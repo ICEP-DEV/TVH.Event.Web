@@ -126,7 +126,8 @@ const EventDetails = () =>{
     const controllerStyle = (ctrl) =>(
         
         controller === ctrl ? {
-            backgroundColor : "var(--blue)"
+            backgroundColor : "var(--blue2)",
+            color : "white"
         } : {
             backgroundColor : "white",
             color : "black",
@@ -135,7 +136,8 @@ const EventDetails = () =>{
 
     const manageStyles = (ctrl) =>(
         manageController === ctrl ? {
-            backgroundColor : "var(--grey)"
+            backgroundColor : "var(--blue2)",
+            color : "white"
         } : {
             backgroundColor : "white"
         }
@@ -154,13 +156,13 @@ const EventDetails = () =>{
                             </button>
                         </div>
                         <div className="btn-group container-fluid  justify-self-center">
-                            <button className="btn btn-primary" onClick={()=>{setController("")}} style={controllerStyle("")}>
+                            <button className="btn" onClick={()=>{setController("")}} style={controllerStyle("")}>
                                 Registration Form
                             </button>
-                            <button className="btn btn-primary" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
+                            <button className="btn" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
                                 Manage Event
                             </button>
-                            <button className="btn btn-primary" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
+                            <button className="btn" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
                                 Edit Event
                             </button>
                         </div>
@@ -170,10 +172,13 @@ const EventDetails = () =>{
                             controller === "" ? 
                                 register.length === 0 ?
                                 <div>
-                                    <h3 className="pt-5">Registration Form </h3> 
+                                    <p className="pt-5 fs-3">{event.title} Registration Form </p> 
                                     <form onSubmit={handleRegisterSave}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Email" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Gender" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Ethnic Group" readOnly/>
                                     { showAdditionalQuestions ?
                                         questions.map((question, index) => (
                                             <div key={index + 1} className="question-set">
@@ -189,7 +194,7 @@ const EventDetails = () =>{
                                         )) :    <></>
 
                                     }
-                                        <div className="add-question-section">
+                                        <div className="add-question-section mt-2">
                                             <div className="add-question-icon" onClick={addQuestion}>
                                             <i
                                                 className="fas fa-plus-circle"
@@ -200,7 +205,7 @@ const EventDetails = () =>{
                                                 Add form question
                                             </label>
                                         </div>
-                                        <button className="btn btn-info">
+                                        <button className="btn text-white" style={{backgroundColor:"var(--blue2)"}}>
                                             Create Register
                                         </button>
                                     </form>
@@ -210,6 +215,9 @@ const EventDetails = () =>{
                                     <form onSubmit={(e)=>{deleteRegistrationForm(e)}}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Email" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Gender" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Ethnic Group" readOnly/>
                                         {
                                             register.questionair.map((question) => (
                                                 <input 
@@ -227,8 +235,8 @@ const EventDetails = () =>{
                         }
                         {
                             controller === "view" ? 
-                                <div className="container-fluid">
-                                    <div className="fs-2 mt-5">
+                                <div className="container-fluid mt-5">
+                                    <div className="fs-3 ">
                                         {event.title}
                                     </div>
                                     <div className="d-flex mt-5 mx-2">
@@ -260,7 +268,7 @@ const EventDetails = () =>{
                         {
                             controller === "edit" ? 
                                 <div>
-                                    <h3>Edit Event</h3>
+                                    <p className="fs-3 mt-5">Edit Event</p>
                                     <form id="eventForm" onSubmit={handleEditEvent} encType="multipart/form-data">
                                         <div className="form-group">
                                             <label >Event Name: </label>
