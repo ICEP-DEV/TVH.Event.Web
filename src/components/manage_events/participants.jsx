@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 
 const AllParticipantsComponent = ({attendees})=>{
-    console.log(attendees)
+
     let participants = []
     attendees.map((attendee)=>{
         if(attendee.successful === 1){

@@ -2,7 +2,6 @@ import React, { useState }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
 import { useNavigate, Link } from "react-router-dom";
 import SideBar from "../components/SideBar";
-import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import api from "../APIs/API";
@@ -62,6 +61,14 @@ const EventPage = () => {
     getAllCategories();
     getMyEvents();
   },[])
+
+
+
+
+  const controllerStyles = (active)=>({
+    backgroundColor : controller === active ? "var(--blue2)" : "",
+    color : controller === active ? "var(--grey2)" : "black",
+  })
 
   const navToEvent = (event) =>{
     //console.log("Implement to event Here : ");
@@ -123,9 +130,9 @@ const EventPage = () => {
 
       <div className="col mt-5">
         <div className="d-flex justify-content-center">
-          <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("")}}>All Events</button>
-          <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("create")}}>Create Event</button>
-          <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("myevents")}}>My Events</button>
+          <button className="btn filter-btn m-1" style={controllerStyles("")} onClick={()=>{setController("")}}>All Events</button>
+          <button className="btn filter-btn m-1" style={controllerStyles("create")} onClick={()=>{setController("create")}}>Create Event</button>
+          <button className="btn filter-btn m-1" style={controllerStyles("myevents")} onClick={()=>{setController("myevents")}}>My Events</button>
           
         </div>
 

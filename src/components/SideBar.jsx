@@ -12,14 +12,14 @@ const SideBar = () => {
   };
 
   const linkStyle = (path) => ({
-    backgroundColor: location.pathname.includes(path) ? "white" : "transparent",
+    backgroundColor: location.pathname.includes(path) ? "var(--grey2)" : "transparent",
     color: location.pathname.includes(path) ? "var(--blue2)" : "white",
     height: "5vh",
     width: isSidebarExpanded ? "100%" : "80%",
-    padding: isSidebarExpanded ? "10px 20px" : "10px",
+    padding: isSidebarExpanded ? "10px 20px" : "10px 20px" ,
     display: "flex",
     alignItems: "center",
-    borderRadius: location.pathname.includes(path) ? "0px 20px 20px 0" : "none",
+    borderRadius: location.pathname.includes(path) ? "0px 10px 10px 0" : "none",
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
@@ -77,8 +77,10 @@ const SideBar = () => {
           </Link>
         </ul>
 
-        <div className="mt-50 border border-bottom"></div>
-        <ul className="d-flex flex-column py-5 px-2 ps-3 mx-0">
+        <div className="mt-5 mb-5">
+          <hr className="text-white"/>
+        </div>
+        <ul className="d-flex flex-column py-5 px-2 ps-3 mx-0 mt-5">
           <li className="nav-link my-3 text-white">
             <FontAwesomeIcon icon={faUser} width="24" height="24" className="bi me-2"/>
             <span>
