@@ -12,9 +12,17 @@ import { BarGraphComponent } from "../components/Graphs";
 
 
 const FeedbackPage = ()=>{
-  const [ events , setEvents ] = useState([])
+  const [ events , setEvents ] = useState([]) 
+  const [ surveys , setSurveys ] = useState([]) 
   const [ totalReviews, setTotalReviews] = useState(null)
   const [ selectedEvent, setSelectedEvent ] = useState('');
+  const [ selectedSurveyID, setSelectedSurveyID ] = useState('');
+  const [ selectedSurvey, setSelectedSurvey ] = useState(null)
+
+  // Chart data
+  const [ totalApplicants, setTotalApplicants] = useState(null)
+  const [ totalParticipants, setTotalParticipants] = useState(null)
+  const [ attendees, setAttendees] = useState([])
 
   useState(()=>{
     
@@ -35,8 +43,56 @@ const FeedbackPage = ()=>{
     fetchEvents();
   });
 
-  const handleFilter = (e) =>{
+  const handleEventFilter = (e) =>{
+    setSelectedEvent(e.target.value)
 
+    async function getParticipants(){
+      await axios.get(
+        api + 'register/attendee/' + parseInt(e.target.value)
+      ).then((response) =>{
+        setAttendees(response.data.results);
+        setTotalApplicants(response.data.results.length);
+        
+        let temp = []
+        response.data.results.map((attendee)=>{
+          if(attendee.success === 1){
+            temp.push(attendee)
+          }
+        })
+        setTotalParticipants(temp.length)
+
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
+
+    async function getSurveys(){
+      await axios.get(
+        api + "survey/all/" + parseInt(e.target.value)
+      ).then((response) => {
+        setSurveys(response.data.results)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+    getParticipants();
+    getSurveys();
+  }
+
+  const handleSurveyFilter = (e) =>{
+    setSelectedSurveyID(e.target.value);
+
+    async function getSurvey(){
+      await axios.get(
+        api + "survey/get/" + parseInt(e.target.value)
+      ).then((response) =>{
+        setSelectedSurvey(response.data.results)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+
+    getSurvey();
   }
 
   return <div className="container-fluid p-0">
@@ -44,7 +100,7 @@ const FeedbackPage = ()=>{
       <SideBar />
       <div className="col m-5">
         <div className="col-4 d-flex ">
-          <select onChange={handleFilter} name="" id="" className="form-select" >
+          <select onChange={handleEventFilter} className="form-select" >
             <option value="">-- Select an event --</option>
             {
               events.map((event) =>(
@@ -59,14 +115,14 @@ const FeedbackPage = ()=>{
           </select>
         </div>
         {
-          selectedEvent === "" ?
+          selectedEvent !== "" ?
           <div className="col">
-            <div className="row">
-              <InfoBox title="Total Applications" quantity="45" colour="var(--blue)" />
-              <InfoBox title="Total Participants" quantity="20" colour="var(--blue1)" />
-              <InfoBox title="Total Surveys Sent" quantity="5" colour="var(--blue2)" />
+            <div className="row ps-3 py-3">
+              <InfoBox title="Total Applications" quantity={totalApplicants} colour="var(--blue)" />
+              <InfoBox title="Total Participants" quantity={totalParticipants} colour="var(--blue1)" />
+              <InfoBox title="Total Surveys Sent" quantity={surveys.length} colour="var(--blue2)" />
             </div>
-            <div className="row">
+            <div className="row mb-5">
               <div className="col-md">
                 <BarGraphComponent 
                   label={"Gender Data"}
@@ -75,6 +131,7 @@ const FeedbackPage = ()=>{
                   colors={["rgba(54, 162, 235, 0.2)", "rgba(255, 99, 132, 0.2)"]}
                 />
               </div>
+              <div className="col-1"></div>
               <div className="col-md">
                 <BarGraphComponent 
                   label={"Ethnic Groups"}
@@ -83,6 +140,29 @@ const FeedbackPage = ()=>{
                 />
               </div>
             </div>
+
+
+            <div className="col-4">
+              <select className="form-select" onChange={handleSurveyFilter}>
+                <option value="0">-- Select a Survey --</option>
+                {
+                  surveys.map((survey) =>(
+                    <option 
+                      key={survey.survey_id}  
+                      value={survey.title}
+                    >
+                      {survey.title}
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+            {
+              selectedSurveyID === "0" ?
+              <div className="fs-2">testing</div>
+
+              : <></>
+            }
           </div>
 
           : <></>
