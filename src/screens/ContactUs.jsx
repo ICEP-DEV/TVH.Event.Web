@@ -1,140 +1,53 @@
-// ContactUsQueries.jsx
-import React, { useState } from "react";
+import React from 'react';
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
-import "../style/ContactUs.css"; // Custom CSS for styling
+import "../style/ContactUs.css"; 
 
-const ContactUs = () => {
-  const [queries, setQueries] = useState([
-    {
-      id: 1,
-      date: "14/09/2024",
-      name: "Obakeng Kgafela",
-      email: "kgafela@tut.ac.za",
-      subject: "Request To Upload Event",
-      message:
-        "Dear Admin, I am hosting a hackathon event and would like to upload details.",
-    },
-    {
-      id: 2,
-      date: "07/10/2024",
-      name: "Lethabo Molefe",
-      email: "molefel@tut.ac.za",
-      subject: "Request To Upload Event",
-      message:
-        "Dear Admin, I am hosting a hackathon event and would like to upload details.",
-    },
-    {
-      id: 3,
-      date: "06/05/2024",
-      name: "Yintha Makamu",
-      email: "makamuy@tut.ac.za",
-      subject: "Request To Upload Event",
-      message:
-        "Dear Admin, I am hosting a hackathon event and would like to upload details.",
-    },
-    {
-      id: 4,
-      date: "03/04/2024",
-      name: "Ronaldo Monyebodi",
-      email: "monyebodir@tut.ac.za",
-      subject: "Request To Upload Event",
-      message:
-        "Dear Admin, I am hosting a hackathon event and would like to upload details.",
-    },
-    {
-      id: 5,
-      date: "07/10/2024",
-      name: "Sinenhlanhla Ntombela",
-      email: "ntombelas@tut.ac.za",
-      subject: "Request To Upload Event",
-      message:
-        "Dear Admin, I am hosting a hackathon event and would like to upload details.",
-    },
-    {
-      id: 6,
-      date: "03/11/2024",
-      name: "Mplontlhe Motioung",
-      email: "motioungm@tut.ac.za",
-      subject: "Request To Upload Event",
-      message:
-        "Dear Admin, I am hosting a hackathon event and would like to upload details.",
-    },
-  ]);
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  // Function to handle search
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  // Filtered queries based on search term
-  const filteredQueries = queries.filter(
-    (query) =>
-      query.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      query.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      query.subject.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+const ContactUS = () => {
   return (
-    <div className="container-fluid my-0">
-      < NavBar />
+    <div className="contact-page">
+      {/* Render the NavBar */}
+      <NavBar />
+      
+      <div className="contact-content">
+        {/* Render the SideBar */}
+        <SideBar />
 
-      <div className="row">
-        <div className="col-lg-2">
-          < SideBar />
-        </div>
-        <div className="col-lg-10">
-          <div className="container-fluid d-flex flex-column">
-            <h2>Contact Us Queries</h2>
-            <div className="search-bar">
-              <input
-                type="text"
-                placeholder="🔍 search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
+        {/* Main Contact Form Section */}
+        <div className="contact-container">
+          <h2 className="contact-title">Contact Us</h2>
+          <form className="contact-form">
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input type="text" id="name" />
             </div>
-            <div className="container-fluid">
-              <table className="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>Date</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Message</th>
-                    <th>Send Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredQueries.map((query, index) => (
-                    <tr key={query.id}>
-                      <td>{index + 1}</td>
-                      <td>{query.date}</td>
-                      <td>{query.name}</td>
-                      <td>{query.email}</td>
-                      <td>{query.subject}</td>
-                      <td>{query.message}</td>
-                      <td>
-                        <button className="btn bg-info">Send Email</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="form-group">
+              <label htmlFor="surname">Surname</label>
+              <input type="text" id="surname" />
             </div>
-          </div>
+            <div className="form-group">
+              <label htmlFor="organization">Organization</label>
+              <input type="text" id="organization" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input type="email" id="email" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="message">Message</label>
+              <textarea id="message"></textarea>
+            </div>
+            <button type="submit" className="submit-button">Submit</button>
+          </form>
         </div>
       </div>
       {/* Footer */}
-      <footer className="bg-dark text-white text-center py-3 mt-5">
+        <footer className="bg-dark text-white text-center py-3 mt-5">
                 <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
             </footer>
     </div>
+    
   );
 };
 
-export default ContactUs;
+export default ContactUS;
