@@ -1,30 +1,28 @@
-import React, { useState } from "react";
-import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
-import PieChart  from "../components/Graphs";
-import AnimatedValue from "../components/AnimatedValue";
+import React, { useState } from "react";
 import axios from 'axios';
 import api from "../APIs/API";
-import Footer from "../components/Footer";
+import InfoBox from "../components/dashboard/infobox";
+import { BarGraphComponent } from "../components/Graphs";
 
 
 
 
 
 
-
-const FeedbackPage = () => {
-
-  const [ events , setEvents ] = useState([])
-  const [ totalApplicants, setTotalApplicants] = useState(null)
-  const [ totalParticipants, setTotalParticipants] = useState(null)
+const FeedbackPage = ()=>{
+  const [ events , setEvents ] = useState([]) 
+  const [ surveys , setSurveys ] = useState([]) 
   const [ totalReviews, setTotalReviews] = useState(null)
   const [ selectedEvent, setSelectedEvent ] = useState('');
+  const [ selectedSurveyID, setSelectedSurveyID ] = useState('');
+  const [ selectedSurvey, setSelectedSurvey ] = useState(null)
+
+  // Chart data
+  const [ totalApplicants, setTotalApplicants] = useState(null)
+  const [ totalParticipants, setTotalParticipants] = useState(null)
   const [ attendees, setAttendees] = useState([])
-  //const [ successful, setSetSuccessful] = useState([])
-  const [ reviews, setReviews] = useState([])
-
-
 
   useState(()=>{
     
@@ -42,71 +40,11 @@ const FeedbackPage = () => {
       })
     }
 
-    async function fetchReviews(){
-      await axios.get(
-        api + "feedback/event/" + parseInt(selectedEvent)
-      ).then((response)=>{
-        setReviews(response.data.results);
-        setTotalReviews(reviews.length)
-        console.log("Reached")
-        console.log(reviews)
-      }).catch((error) =>{
-        console.log(error)
-      })
-    }
-
-    fetchReviews();
     fetchEvents();
-  })
+  });
 
-  var totalParticipantsLabels = [
-    "Successful Applicants",
-    "Unsuccessful Applicants",
-  ]
-
-  var totalParticipantsValues = [
-    totalParticipants,
-    (totalApplicants - totalParticipants),
-  ]
-
-  var totalParticipantsColors = [
-    "#40ccff",
-    "#f70289",
-  ]
-
-  var reviewsLabels = [
-    '1 Star',
-    '2 Star',
-    '3 Star',
-    '4 Star',
-    '5 Star',
-  ]
-  var reviewsValues = [
-    12,32,64,31,12
-  ]
-
-  var reviewColors = [
-    "#40ccff",
-    "#e0ecff",
-    '#f70289',
-    '#011291',
-    '#014091'
-  ]
-
-
-  const handleFilter = (e)=>{
-
-    console.log("Reached : " + e.target.value)
+  const handleEventFilter = (e) =>{
     setSelectedEvent(e.target.value)
-    function setSuccessfulApplicants(){
-      let temp = []
-      attendees.map((attendee) => {
-        if(attendee.success === 1){
-          temp.push(attendee)
-        }
-      })
-      setTotalParticipants(temp.length);
-    }
 
     async function getParticipants(){
       await axios.get(
@@ -128,36 +66,41 @@ const FeedbackPage = () => {
       })
     }
 
-    async function getReviews(){
+    async function getSurveys(){
       await axios.get(
-        api + "feedback/event/" + parseInt(e.target.value)
-      ).then((response)=>{
-        setReviews(response.data.results);
-        setTotalReviews(response.data.results.length)
-        //console.log(totalReviews)
+        api + "survey/all/" + parseInt(e.target.value)
+      ).then((response) => {
+        setSurveys(response.data.results)
       }).catch((error) =>{
         console.log(error)
       })
     }
-    getReviews();
     getParticipants();
-
+    getSurveys();
   }
 
-  const decodeResponses = (responses)=>{
-    const decoder = new TextDecoder('utf-8');
-    const text = decoder.decode(new Uint8Array(responses.data));
-    console.log(text);
-    return text;
+  const handleSurveyFilter = (e) =>{
+    setSelectedSurveyID(e.target.value);
+
+    async function getSurvey(){
+      await axios.get(
+        api + "survey/get/" + parseInt(e.target.value)
+      ).then((response) =>{
+        setSelectedSurvey(response.data.results)
+      }).catch((error) =>{
+        console.log(error)
+      })
+    }
+
+    getSurvey();
   }
 
-  return <div className="container-fluid">
-    <div className="row">
-      <SideBar/>
-      <div className="col">
-        <NavBar/>
+  return <div className="container-fluid p-0">
+    <div className="d-flex">
+      <SideBar />
+      <div className="col m-5">
         <div className="col-4 d-flex ">
-          <select onChange={handleFilter} name="" id="" className="form-select" >
+          <select onChange={handleEventFilter} className="form-select" >
             <option value="">-- Select an event --</option>
             {
               events.map((event) =>(
@@ -172,103 +115,61 @@ const FeedbackPage = () => {
           </select>
         </div>
         {
-          selectedEvent !== '' ?
-          <div style={{marginTop:"40"}}>
-            <div className="row mt-2">
-              <div className="col-lg-4 p-2">
-                <div className="container" style={{backgroundColor:'var(--blue)'}}>
-                  <p className="text-white">
-                    Total Applicants
-                  </p>
-                  < PieChart 
-                    labels={['Total Applications']} values={[totalApplicants]} colors={['#f70289']}
-                  />
-        
-                  <h4 className="text-white d-flex justify-content-center pt-2">
-                    <AnimatedValue 
-                      start={0} end={totalApplicants} duration={1000}
-                    />
-                    <p className="pt-0 pb-0 p-3">Applicants</p>
-                  </h4>
-
-                </div>
+          selectedEvent !== "" ?
+          <div className="col">
+            <div className="row ps-3 py-3">
+              <InfoBox title="Total Applications" quantity={totalApplicants} colour="var(--blue)" />
+              <InfoBox title="Total Participants" quantity={totalParticipants} colour="var(--blue1)" />
+              <InfoBox title="Total Surveys Sent" quantity={surveys.length} colour="var(--blue2)" />
+            </div>
+            <div className="row mb-5">
+              <div className="col-md">
+                <BarGraphComponent 
+                  label={"Gender Data"}
+                  labels={["Male", "Females"]}
+                  values={[79,61]}  
+                  colors={["rgba(54, 162, 235, 0.2)", "rgba(255, 99, 132, 0.2)"]}
+                />
               </div>
-              <div className="col-lg-4 p-2">
-                <div className="container" style={{backgroundColor:'var(--blue)'}}>
-                  <p className="text-white">
-                    Total Participants
-                  </p>
-                  < PieChart 
-                    labels={totalParticipantsLabels} values={totalParticipantsValues} colors={totalParticipantsColors}
-                  />
-                  <h4 className="text-white d-flex justify-content-center pt-2">
-                    <AnimatedValue 
-                      start={0} end={totalParticipants} duration={1000}
-                    />
-                    <p className="pt-0 pb-0 p-3">Participants</p>
-                  </h4>
-                </div>
-              </div>
-              <div className="col-lg-4 p-2">
-                <div className="container" style={{backgroundColor:'var(--blue)'}}>
-                  <p className="text-white">
-                    Reviews
-                  </p>
-                  < PieChart 
-                    labels={reviewsLabels} values={reviewsValues} colors={reviewColors}
-                  />
-                  <h4 className="text-white d-flex  justify-content-center pt-2">
-                    <AnimatedValue 
-                      start={0} end={totalReviews} duration={1000}
-                    />
-                    <p className="pt-0 pb-0 p-3">Reviews</p>
-                  </h4>
-                </div>
+              <div className="col-1"></div>
+              <div className="col-md">
+                <BarGraphComponent 
+                  label={"Ethnic Groups"}
+                  labels={["African", "White", "Coloured", "Indian", "Asian", "Other"]}
+                  values={[471, 123, 52,12,54]}
+                />
               </div>
             </div>
+
+
             <div className="col-4">
-              <select name="" id="" className="form-select">
-                <option value="" >
-                  All Ratings
-                </option>
-                  {
-                    reviewsLabels.map((review) =>(
-                      <option
-                        key={review}
-                        value={review}
-                      >
-                        {review}
-                      </option>
-                    ))
-                  }
+              <select className="form-select" onChange={handleSurveyFilter}>
+                <option value="0">-- Select a Survey --</option>
+                {
+                  surveys.map((survey) =>(
+                    <option 
+                      key={survey.survey_id}  
+                      value={survey.title}
+                    >
+                      {survey.title}
+                    </option>
+                  ))
+                }
               </select>
             </div>
             {
-              reviews.map((review) =>(
-                <div key={review.feedback_id} className="mt-2 p-5 pt-2 pb-1 text-black rounded-4" style={{background:"#f5f6f7"}}>
-                  <div className="d-flex justify-content-between">
-                    <p className="fs-3">
-                      Yinhla Makamu
-                    </p>
-                    <div>rating - {review.rating}</div>
-                  </div>
-                  <hr />
-                  {
-                    decodeResponses(review.responses)
-                  }
-                </div>
-              ))
+              selectedSurveyID === "0" ?
+              <div className="fs-2">testing</div>
+
+              : <></>
             }
           </div>
-          
+
           : <></>
         }
-        <div style={{height:"10vh"}}>
-
-        </div>
       </div>
     </div>
-    
+
     <Footer/>
   </div>
 }
@@ -276,10 +177,5 @@ const FeedbackPage = () => {
 
 
 
+
 export default FeedbackPage;
-
-
-
-
-
-

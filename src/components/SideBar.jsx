@@ -1,66 +1,101 @@
-import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faCalendarCheck, faBell, faCalendarAlt, faCommentDots, faUsers, faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faUsers, faBell, faCalendarAlt, faCommentDots } from '@fortawesome/free-solid-svg-icons';
-
-
+import { useState } from "react";
 
 const SideBar = () => {
   const location = useLocation();
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
-  const linkStyle = (path) => (
-    location.pathname.includes(path) ? { 
-      backgroundColor : "white",
-      height : "5vh",
-      width : 250,
-      paddingLeft : 20,
-      display : "flex",
-      alignItems : "center",
-      color : "var(--blue)" ,
-      borderRadius : "0px 20px 20px 0"
-      
-    } : {
-      height : "5vh",
-      width : 250,
-      paddingLeft : 20,
-      display : "flex",
-      alignItems : "center",
-      color : "white" 
-      
-    }
-  );
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded);
+  };
+
+  const linkStyle = (path) => ({
+    backgroundColor: location.pathname.includes(path) ? "var(--grey2)" : "transparent",
+    color: location.pathname.includes(path) ? "var(--blue2)" : "white",
+    height: "5vh",
+    width: isSidebarExpanded ? "100%" : "80%",
+    padding: isSidebarExpanded ? "10px 20px" : "10px 20px" ,
+    display: "flex",
+    alignItems: "center",
+    borderRadius: location.pathname.includes(path) ? "0px 10px 10px 0" : "none",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  });
 
   return (
-    <div className="px-2 m-0"  style={{width:280, backgroundColor: "var(--blue)", minHeight : "95vh", padding:0 }}>
+    <aside
+      id="sidebar"
+      style={{
+        width: isSidebarExpanded ? "250px" : "80px",
+        backgroundColor: "var(--blue2)",
+        transition: "width 0.3s ease",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        minHeight : "95vh",
+      }}
+      className="d-flex flex-column"
+    > 
+      <div style={{position:"fixed"}}>
+        <div className="d-flex align-items-center justify-content-between ps-2 px-4 py-2">
+          <button onClick={toggleSidebar} type="button" className="btn btn-light px-4">
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+          {isSidebarExpanded && <div className="sidebar-logo text-white fw-bold">Event System</div>}
+        </div>
+        <ul className="d-flex flex-column py-5 px-2 ps-0 mx-0">
+        <Link
+            to="/event"
+            className="nav-link"
+            style={linkStyle("/event")}
+            title={!isSidebarExpanded ? "Events" : ""}
+          >
+            <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Events</span>}
+          </Link>
+          {
+            localStorage.getItem('type') === "admin" ? 
+            <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
+              <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
+              {isSidebarExpanded && <span>Organisers</span>}
+            </Link>
+            : <></>
+          }
+          <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
+            <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Notifications</span>}
+          </Link>
+          <Link to="/calendar" className="nav-link my-3" style={linkStyle("/calendar")}>
+            <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Calendar</span>}
+          </Link>
+          <Link to="/feedback" className="nav-link my-3" style={linkStyle("/feedback")}>
+            <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24" />
+            {isSidebarExpanded && <span>Feedback & Review</span>}
+          </Link>
+        </ul>
 
-      <Link to='/event' className="d-flex align-items-center  mb-1 mb-md-1 me-md-auto text-white text-decoration-none" style={{margin:10}}>
-        <h3 className="fs-4" >Events System</h3>
-      </Link>
-      <hr style={{color:"white"}}/>
-      <Link to="/event" className="nav-link" style={linkStyle("/event")}>
-        <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24"/>
-        Events
-      </Link>
-
-      <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
-        <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
-        Organisers
-      </Link>
-      <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
-        <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24"/>
-        Notifications
-      </Link>
-      <Link to="/calendar" className="nav-link my-3" style={linkStyle("/calendar")}>
-        <FontAwesomeIcon icon={faCalendarAlt} className="bi me-2" width="24" height="24"/>
-        Calendar
-      </Link>
-      <Link to="/feedback" className="nav-link my-3" style={linkStyle("/feedback")}>
-        <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24"/>
-        Feedback & Review
-      </Link>
-
-    </div>
-  )
+        <div className="mt-5 mb-5">
+          <hr className="text-white"/>
+        </div>
+        <ul className="d-flex flex-column py-5 px-2 ps-3 mx-0 mt-5">
+          <li className="nav-link my-3 text-white">
+            <FontAwesomeIcon icon={faUser} width="24" height="24" className="bi me-2"/>
+            <span>
+              { isSidebarExpanded && 
+              localStorage.getItem('username') }
+            </span>
+          </li>
+          <Link className="nav-link my-3 text-white">
+              <FontAwesomeIcon icon={faArrowRightFromBracket} height="24" width="24" className="bi me-2"/>
+              {isSidebarExpanded && <span>Log Out</span>}
+          </Link>
+        </ul>
+      </div>
+    </aside>
+  );
 };
 
 export default SideBar;

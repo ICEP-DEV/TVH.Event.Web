@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 
 const AllParticipantsComponent = ({attendees})=>{
-    console.log(attendees)
+
     let participants = []
     attendees.map((attendee)=>{
         if(attendee.successful === 1){
@@ -16,7 +16,7 @@ const AllParticipantsComponent = ({attendees})=>{
     
 
 
-    return <div>
+    return <div className="container-fluid">
         <div className="col-5 my-2">
             <input type="search" className="form-control" placeholder="Search participant"/>
         </div>

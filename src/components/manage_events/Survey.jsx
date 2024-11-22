@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import api from "../../APIs/API";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  } from "@fortawesome/free-solid-svg-icons";
 
 
 const SurveyComponent = ({surveys, event_id})=>{
@@ -55,7 +56,7 @@ const SurveyComponent = ({surveys, event_id})=>{
 
     return <div className="container-fluid mt-2">
         
-        <button className="btn btn-info mb-2" onClick={()=>{setIsFormOpen(true)}}>
+        <button className="btn mb-2 text-white" style={{backgroundColor:"var(--blue2)"}} onClick={()=>{setIsFormOpen(true)}}>
             Create New Survey
         </button>
         <Modal
@@ -108,7 +109,7 @@ const SurveyComponent = ({surveys, event_id})=>{
                 }
 
                 <div>
-                    <button className="btn btn-info my-2" type="submit">Create Survey</button>
+                    <button className="btn my-2 text-white" type="submit" style={{backgroundColor:"var(--blue1)"}}>Create Survey</button>
                 </div>
             </form>
         </Modal>
