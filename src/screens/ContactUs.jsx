@@ -14,12 +14,12 @@ const ContactUS = () => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the form from refreshing the page
-    setIsPopupVisible(true); // Show the popup
+    e.preventDefault(); 
+    setIsPopupVisible(true); 
   };
 
   const closePopup = () => {
-    setIsPopupVisible(false); // Hide the popup
+    setIsPopupVisible(false); 
 
     // Clear the form values
     setName("");
@@ -91,7 +91,7 @@ const ContactUS = () => {
         </div>
       </div>
 
-      {/* Popup Message */}
+      
       {isPopupVisible && (
         <div className="popup">
           <div className="popup-content">
@@ -101,7 +101,7 @@ const ContactUS = () => {
         </div>
       )}
 
-      {/* Footer */}
+   
       <footer className="bg-dark text-white text-center py-3 mt-5">
         <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
       </footer>
