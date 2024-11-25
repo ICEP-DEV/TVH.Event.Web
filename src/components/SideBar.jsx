@@ -25,6 +25,10 @@ const SideBar = () => {
     textOverflow: "ellipsis",
   });
 
+  const logout = ()=>{
+    console.log("logged out")
+  }
+
   return (
     <aside
       id="sidebar"

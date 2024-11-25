@@ -3,7 +3,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import '../style/Login.css'; 
+import '../style/Login.css';
+import Footer from '../components/Footer' ;
 
 import api from '../APIs/API';
 
@@ -58,7 +59,7 @@ function Login() {
     };
 
     return (
-        <div>
+        <div >
             {/* Navbar */}
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
@@ -126,10 +127,10 @@ function Login() {
                     </form>
                 </div>
             </div>
-             {/* Footer */}
-             <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+            
+            <div className="container-fluid" style={{position:'fixed', bottom:0}}>
+                <Footer/>
+            </div>
         </div>
     );
 }

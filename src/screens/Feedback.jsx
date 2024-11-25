@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import api from "../APIs/API";
 import InfoBox from "../components/dashboard/infobox";
-import { BarGraphComponent, PieChart } from "../components/Graphs";
+import { BarGraphComponent, PieChart, RatingGraph} from "../components/Graphs";
 import Modal from 'react-modal';
 
 
@@ -22,6 +22,8 @@ const FeedbackPage = ()=>{
   // Chart data
   const [ totalApplicants, setTotalApplicants] = useState(0)
   const [ totalParticipants, setTotalParticipants] = useState(0)
+  const [ reviews , setReviews] = useState([])
+  const [ ratings, setRatings] = useState([])
   //const [ attendees, setAttendees] = useState([])
 
 
@@ -64,6 +66,7 @@ const FeedbackPage = ()=>{
 
     fetchEvents();
   });
+
 
   const handleEventFilter = (e) =>{
     setSelectedEvent(e.target.value)
@@ -180,9 +183,53 @@ const FeedbackPage = ()=>{
         console.log(error)
       })
     }
+
+    const getRatings = (results) =>{
+      let y = [0,0,0,0,0];
+      results.map((result) => {
+        switch(result.rating){
+          case 1:
+            y[0] = y[0] + 1
+            break;
+          case 2:
+            y[1] = y[1] + 1
+            break;
+          case 3:
+            y[2] = y[2] + 1
+            break;
+          case 4:
+            y[3] = y[3] + 1
+            break;
+          default:
+            y[4] = y[4] + 1
+            
+        }
+      })
+      setRatings(y)
+      
+    }
+    
+
+    async function getReviews(){
+      await axios.get(
+        api + "reviews/event/" + parseInt(e.target.value)
+      ).then((response) =>{
+        setReviews(response.data.results)
+        getRatings(response.data.results)
+      }).catch((error) =>{
+        console.log(error.message)
+      })
+    }
+
+    
+
     getParticipants();
     getSurveys();
+    getReviews();
   }
+
+  
+
 
   const handleSurveyFilter = (e) =>{
     setSelectedSurveyID(e.target.value);
@@ -201,11 +248,21 @@ const FeedbackPage = ()=>{
     getSurvey();
   }
 
+  function calculateAverageRating(){
+    // Calculate 
+    let sum = 0;
+    reviews.map((review) =>{
+      sum += review.rating
+    })
+    
+    return (sum / reviews.length).toFixed(2);
+  }
+
   return <div className="container-fluid p-0">
     <div className="d-flex">
       <SideBar />
       <div className="col m-5">
-        <div className="col-4 d-flex ">
+        <div className="col-3 d-flex ">
           <select onChange={handleEventFilter} className="form-select" >
             <option value="">-- Select an event --</option>
             {
@@ -227,6 +284,7 @@ const FeedbackPage = ()=>{
               <InfoBox title="Total Applications" quantity={totalApplicants} colour="var(--blue)" />
               <InfoBox title="Total Participants" quantity={totalParticipants} colour="var(--blue1)" />
               <InfoBox title="Total Surveys Sent" quantity={surveys.length} colour="var(--blue2)" />
+              <InfoBox title="Overall Average Rating" quantity={calculateAverageRating()} colour="var(--blue2)" />
             </div>
             <div className="row mb-5">
               <div className="col-md mt-2">
@@ -254,8 +312,55 @@ const FeedbackPage = ()=>{
               </div>
             </div>
 
+            <div className="row mb-5">
+              
+              <div className="col-md-5 mt-2">
+                <RatingGraph 
+                  label={["1 Star", "2 Star","3 Star","4 Star","5 Star"]}
+                  values={ratings}
+                  labels={["Ratings"]}
+                  colors={["#93dffa", "#79cbf7","#005e61","#003a57","#000238"]}
+                />
+              </div>
+              <div className="col rounded-3 py-5 bg-light">
+                <div className="col-2">
+                  <select className="form-select" name="" id="">
+                    <option value="">All Reviews</option>
+                    <option value="">1 Star Reviews</option>
+                    <option value="">2 Star Reviews</option>
+                    <option value="">3 Star Reviews</option>
+                    <option value="">4 Star Reviews</option>
+                    <option value="">5 Star Reviews</option>
+                  </select>
+                </div>
 
-            <div className="col-4">
+                <div className="container-fluid">
+                  <div className="row py-3">
+                    <div className="col-3 fs-4">
+                      Names
+                    </div>
+                    <div className="col-9 fs-4">
+                      Content
+                    </div>
+                  </div>
+                  {console.log(reviews)}
+                  {
+                    reviews.map((review) =>(
+                      <div key={review} className="row">
+                        <div className="col-3">
+                          {review.first_name} {review.last_name}
+                        </div>
+                        <div className="col-9">
+                          {review.content}
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div className="col-3">
               <select className="form-select" onChange={handleSurveyFilter}>
                 <option value="0">-- Select a Survey --</option>
                 {

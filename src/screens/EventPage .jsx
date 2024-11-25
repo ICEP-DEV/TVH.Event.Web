@@ -114,7 +114,7 @@ const EventPage = () => {
       });
     
       document.getElementById("eventForm").reset();
-      navigate('/home');
+      navigate('/event');
       
     } catch (error) {
       console.log(error);
