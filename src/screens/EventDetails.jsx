@@ -4,7 +4,10 @@ import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import axios from "axios";
 import api from "../APIs/API";
-
+import AllRegisteredComponent from "../components/manage_events/AllRegistered";
+import SurveyComponent from "../components/manage_events/Survey";
+import AllParticipantsComponent from "../components/manage_events/participants";
+import Footer from "../components/Footer";
 
 
 
@@ -14,7 +17,7 @@ const EventDetails = () =>{
     const { event } = loc.state || {};
     const navigate = useNavigate()
     const [register, setRegister] = useState([])
-    const [controller, setController] = useState([])
+    const [controller, setController] = useState("")
 
     //Register Form
     const [questions, setQuestions] = useState([]); 
@@ -29,7 +32,11 @@ const EventDetails = () =>{
     const [end_date, setEnd_date] = useState('');
     const [image, setImage] = useState(null)
 
-    
+    // manage events
+    const [manageController, setManageController] = useState("")
+    const [attendees, setAttendees] = useState([])
+
+    const [surveys, setSurveys] = useState([])
 
     const handleEditEvent = async() => {
         
@@ -56,13 +63,22 @@ const EventDetails = () =>{
                     questionair : questions 
                 }
             );
-            if(response.data.message === "Successfully Created"){
-                Navigate({to : "/event/details", state : event });
-            }
+            Navigate({to : "/event/details", state : event });
         }catch(error){
 
         }
         
+    }
+
+    const deleteRegistrationForm = async(e)=>{
+        e.preventDefault();
+        await axios.delete(
+            api + "register/form/" + register.registration_form_id
+        ).then((response) => {
+            Navigate({to : "/event/details", state : event });
+        }).catch((error) =>{
+            console.log(error)
+        });
     }
 
 
@@ -76,7 +92,6 @@ const EventDetails = () =>{
         setImage(event.image)
         setController('')
         const getRegister = async()=>{
-            console.log(event.event_id)
             await axios.get(api + 'register/' + event.event_id)
             .then((response)=>{
                 setRegister(response.data.results)
@@ -85,7 +100,25 @@ const EventDetails = () =>{
             })
         }
 
-        getRegister()
+        const fetchRegister = async()=>{
+            await axios.get(
+                api + 'register/attendee/' + event.event_id
+            ).then((response) =>{
+                setAttendees(response.data.results)
+            })
+        }
+
+        const fetchSurveys = async()=>{
+            await axios.get(
+                api + 'survey/all/' + event.event_id
+            ).then((response) =>{
+                setSurveys(response.data.results)
+            })
+            
+        }
+        fetchRegister();
+        getRegister();
+        fetchSurveys();
 
     }, [event]);
 
@@ -93,19 +126,32 @@ const EventDetails = () =>{
     const controllerStyle = (ctrl) =>(
         
         controller === ctrl ? {
-            backgroundColor : "#040081"
+            backgroundColor : "var(--blue2)",
+            color : "white"
         } : {
             backgroundColor : "white",
             color : "black",
         }
     )
 
+    const manageStyles = (ctrl) =>(
+        manageController === ctrl ? {
+            backgroundColor : "var(--blue2)",
+            color : "white"
+        } : {
+            backgroundColor : "white"
+        }
+    )
+
     return (
-        <div className="container-fluid">
-            <NavBar/>
-            <div className="row">
+        <div className="container-fluid m-0 p-0">
+            <div className="d-flex">
                 <SideBar />
-                <div className="col">
+                
+                <div className="col mt-5">
+                    <p className="fs-1 text-center pb-5">
+                        {event.title} - Event
+                    </p>
                     <div className="d-flex container-fluid">
                         <div className="col-1">
                             <button className="btn" onClick={()=>{navigate("/event")}}>
@@ -113,13 +159,13 @@ const EventDetails = () =>{
                             </button>
                         </div>
                         <div className="btn-group container-fluid  justify-self-center">
-                            <button className="btn btn-primary" onClick={()=>{setController("")}} style={controllerStyle("")}>
+                            <button className="btn" onClick={()=>{setController("")}} style={controllerStyle("")}>
                                 Registration Form
                             </button>
-                            <button className="btn btn-primary" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
-                                View Register
+                            <button className="btn" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
+                                Manage Event
                             </button>
-                            <button className="btn btn-primary" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
+                            <button className="btn" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
                                 Edit Event
                             </button>
                         </div>
@@ -129,24 +175,29 @@ const EventDetails = () =>{
                             controller === "" ? 
                                 register.length === 0 ?
                                 <div>
-                                    <h3 className="pt-5">Registration Form </h3> 
+                                    {/* <p className="pt-5 fs-3">{event.title} Registration Form </p>  */}
                                     <form onSubmit={handleRegisterSave}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
-                                    {showAdditionalQuestions &&
-                                        questions.slice(1).map((question, index) => (
+                                        <input type="text" className="form-control mt-3" value="Email" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Gender" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Ethnic Group" readOnly/>
+                                    { showAdditionalQuestions ?
+                                        questions.map((question, index) => (
                                             <div key={index + 1} className="question-set">
                                             <input
                                                 type="text"
-                                                name={`question-${index + 1}`}
+                                                name={`question-${index}`}
                                                 value={question}
-                                                onChange={(e) => handleChange(index + 1, e)}
+                                                onChange={(e) => handleChange(index, e)}
                                                 required
                                                 className="form-control mt-3"
                                             />
                                             </div>
-                                        ))}
-                                        <div className="add-question-section">
+                                        )) :    <></>
+
+                                    }
+                                        <div className="add-question-section mt-2">
                                             <div className="add-question-icon" onClick={addQuestion}>
                                             <i
                                                 className="fas fa-plus-circle"
@@ -157,16 +208,19 @@ const EventDetails = () =>{
                                                 Add form question
                                             </label>
                                         </div>
-                                        <button className="btn btn-info">
+                                        <button className="btn text-white" style={{backgroundColor:"var(--blue2)"}}>
                                             Create Register
                                         </button>
                                     </form>
                                 </div>
                                 : <div>
                                     <h3 className="pt-5">Form for {event.title}</h3>
-                                    <form action="">
+                                    <form onSubmit={(e)=>{deleteRegistrationForm(e)}}>
                                         <input type="text" className="form-control mt-3" value="Name" readOnly/>
                                         <input type="text" className="form-control mt-3" value="Surname" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Email" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Gender" readOnly/>
+                                        <input type="text" className="form-control mt-3" value="Ethnic Group" readOnly/>
                                         {
                                             register.questionair.map((question) => (
                                                 <input 
@@ -177,22 +231,47 @@ const EventDetails = () =>{
                                                 />
                                             ))
                                         }
-                                        <button className="mt-5 btn btn-danger">Delete Form</button>
+                                        <button type="submit" className="mt-5 btn btn-danger">Delete Form</button>
                                     </form>
                                 </div>
                             :   <div></div>
                         }
                         {
                             controller === "view" ? 
-                                <div>
-                                    View registered attendees form
+                                <div className="container-fluid mt-5">
+                                    <div className="fs-3 ">
+                                        {/* {event.title} */}
+                                    </div>
+                                    <div className="d-flex mt-5 mx-2">
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("")}} style={manageStyles('')}>Registered</button>
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("participants")}} style={manageStyles('participants')}>Participants</button>
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("survey")}} style={manageStyles('survey')}>Survey</button>
+                                    </div>
+                                    {
+                                        manageController === "" ?
+                                        <AllRegisteredComponent attendees={attendees}/>
+                                        : <></>
+                                        
+                                    }
+                                    {
+                                        manageController === "participants" ?
+                                        <AllParticipantsComponent attendees={attendees}/>
+                                        : <></>
+                                        
+                                    }
+                                    {
+                                        manageController === "survey" ?
+                                        <SurveyComponent event_id={event.event_id} surveys={surveys} />
+                                        : <></>
+                                        
+                                    }
                                 </div>
                             :   <div></div>
                         }
                         {
                             controller === "edit" ? 
                                 <div>
-                                    <h3>Edit Event</h3>
+                                    <p className="fs-3 mt-5">Edit Event</p>
                                     <form id="eventForm" onSubmit={handleEditEvent} encType="multipart/form-data">
                                         <div className="form-group">
                                             <label >Event Name: </label>
@@ -278,10 +357,7 @@ const EventDetails = () =>{
                     </div>
                 </div>
             </div>
-            {/* Footer */}
-            <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+            <Footer/>
         </div>
     )
 }

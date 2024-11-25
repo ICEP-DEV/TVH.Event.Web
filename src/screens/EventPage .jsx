@@ -2,7 +2,7 @@ import React, { useState }  from "react";
 import "../style/EventPage.css"; // Custom CSS for this page
 import { useNavigate, Link } from "react-router-dom";
 import SideBar from "../components/SideBar";
-import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 import axios from "axios";
 import api from "../APIs/API";
 
@@ -62,6 +62,14 @@ const EventPage = () => {
     getMyEvents();
   },[])
 
+
+
+
+  const controllerStyles = (active)=>({
+    backgroundColor : controller === active ? "var(--blue2)" : "",
+    color : controller === active ? "var(--grey2)" : "black",
+  })
+
   const navToEvent = (event) =>{
     //console.log("Implement to event Here : ");
     //console.log(event)
@@ -116,16 +124,15 @@ const EventPage = () => {
   
 
   return (
-   <div className="container-fluid">
-    <NavBar />
-    <div className="row">
+   <div className="container-fluid p-0">
+    <div className="d-flex">
       <SideBar />
 
-      <div className="col">
+      <div className="col mt-5">
         <div className="d-flex justify-content-center">
-          <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("")}}>All Events</button>
-          <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("create")}}>Create Event</button>
-          <button className="btn btn-light filter-btn m-1" onClick={()=>{setController("myevents")}}>My Events</button>
+          <button className="btn filter-btn m-1" style={controllerStyles("")} onClick={()=>{setController("")}}>All Events</button>
+          <button className="btn filter-btn m-1" style={controllerStyles("create")} onClick={()=>{setController("create")}}>Create Event</button>
+          <button className="btn filter-btn m-1" style={controllerStyles("myevents")} onClick={()=>{setController("myevents")}}>My Events</button>
           
         </div>
 
@@ -134,8 +141,7 @@ const EventPage = () => {
               controller === "" ? (
                 allevents.map((event) =>(
                   <div key={event.event_id}
-
-                    className="event-card m-5"
+                    className="event-card m-5 text-blakc rounded-10, bg-light"
                     style={{cursor:"pointer"}}
                     onClick={()=>{ modalEvent(event) }}
                   >
@@ -146,11 +152,11 @@ const EventPage = () => {
                   />
                 </div>
                 <div className="event-details">
-                  <h3>{event.title}</h3>
-                  <p className="event-location-date">
+                  <p className="fs-3">{event.title}</p>
+                  <p className="fs-6 text-secondary">
                     {event.location} - {event.start_date.split('T')[0]}
                   </p>
-                  <p className="event-description">{event.description}</p>
+                  <p className="fs-6 text-secondary">{event.description}</p>
                 </div>
     
                   </div>
@@ -263,7 +269,7 @@ const EventPage = () => {
               controller === "myevents" ? (
                 myevents.map((event) =>(
                   <Link key={event.event_id}
-                    className="event-card m-5"
+                    className="event-card m-5 rounded-10 bg-light"
                     style={{cursor:"pointer", textDecoration:"none"}}
                     to={"/event/details"}
                     state={{event}}
@@ -275,12 +281,12 @@ const EventPage = () => {
                     alt={event.title} 
                   />
                 </div>
-                <div className="event-details">
-                  <h3>{event.title}</h3>
-                  <p className="event-location-date">
+                <div className="event-details text-black">
+                  <p className="fs-3">{event.title}</p>
+                  <p className="fs-6 text-secondary">
                     {event.location} - {event.start_date}
                   </p>
-                  <p className="event-description">{event.description}</p>
+                  <p className="fs-6 text-secondary">{event.description}</p>
                 </div>
     
                   </Link>
@@ -290,10 +296,9 @@ const EventPage = () => {
           </div>
       </div>
     </div>
-    {/* Footer */}
-    <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+    
+    <Footer />
+    
    </div>
   );
 };

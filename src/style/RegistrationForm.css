@@ -78,25 +78,25 @@
   background-color: #0056b3;
 }
 form div {
-  margin-bottom: 10px; /* Adds space between each label/input group */
+  margin-bottom: 10px; 
 }
 
 label {
   display: inline-block;
-  width: 100px; /* Adjust width as needed to create spacing */
-  margin-right: 10px; /* Space between label and input */
+  width: 100px;
+  margin-right: 10px;
 }
 
 input {
   padding: 5px;
 }
 .form-container {
-  background-color: #ffe6e6; /* Light pink background */
-  height: 50vh; /* Full viewport height */
-  width: 60vw; /* Full viewport width */
+  background-color: #ffe6e6; 
+  height: 50vh; 
+  width: 60vw; 
   padding: 40px;
-  box-sizing: border-box; /* Ensures padding doesn’t exceed width */
-  overflow-y: auto; /* Allows scrolling if content overflows */
+  box-sizing: border-box; 
+  overflow-y: auto; 
 }
 .enter-paragraph{
   text-align: center;
@@ -106,9 +106,9 @@ input {
 .email-field input,
 .organization-field input,
 .event-name-field input {
-  width: 100%; /* Makes the input field take up the full width of its container */
-  max-width: 500px; /* Optional: set a max-width for better readability */
-  border-radius: 12px; /* Makes corners rounded */
-  border: 1px solid #ccc; /* Light border color */
-  box-sizing: border-box; /* Ensures padding does not increase total width */
+  width: 100%; 
+  max-width: 500px; 
+  border-radius: 12px; 
+  border: 1px solid #ccc; 
+  box-sizing: border-box; 
 }
