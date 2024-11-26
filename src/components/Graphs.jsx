@@ -189,24 +189,38 @@ const RatingGraph = ({labels, values, label, colors})=>{
 
 
 const ReviewGaugeComponent = ({label,values})=>{
+  
+  let counter = 0;
+  let sum = 0;
 
-  const gaugeStyle = ()=> {
-    width : "0%",
-    height : "30px",
-    backgroundColor : "#000000",
-    left : 0,
+  values.map((val) =>{
+    sum += val;
+  })
+
+  const calculatePerc = (val)=>{
+    return ((val / sum) * 100).toFixed(2)
   }
+
+  const gaugeStyle = (val)=> (
+    {
+      width : calculatePerc(val) + "%",
+      height : "30px",
+      backgroundColor : "var(--blue2)",
+      left : 0,
+    }
+  )
 
   return <div className="container-fluid">
       {
         label.map((l) => (
-          <div key={label} className='row'>
+          <div key={l[0]} className='row'>
             <div className='col-2 text-center align-self-center'>
               {l}
             </div>
             <div className="col-10 py-1">
-              <div className="container-fluid p-0" style={{border : "1px solid #000000", height:"30px"}}>
-                <div className="" style={gaugeStyle}></div>
+              <div className="container-fluid p-0 rounded-2 border" style={{height:"30px"}}>
+                <div className="rounded-2" style={gaugeStyle(values[counter])}></div>
+                <div hidden>{counter++}</div>
               </div>
             </div>
           </div>

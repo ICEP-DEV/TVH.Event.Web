@@ -314,7 +314,7 @@ const FeedbackPage = ()=>{
 
             <div className="row mb-5">
               
-              <div className="col-md-5 mt-2">
+              <div className="col-lg-5 mt-2">
                 {
                   /*
                   <RatingGraph 
@@ -325,13 +325,15 @@ const FeedbackPage = ()=>{
                 />
                   */
                 }
-                
+                <p>
+                  Overall Ratings
+                </p>
                 <ReviewGaugeComponent
                   label={["1 Star", "2 Star","3 Star","4 Star","5 Star"]}
                   values={ratings}
                 />
               </div>
-              <div className="col rounded-3 py-5 bg-light">
+              <div className="col rounded-3 pt-2 px-2" >
                 <div className="col-2">
                   <select className="form-select" name="" id="">
                     <option value="">All Reviews</option>
@@ -343,19 +345,39 @@ const FeedbackPage = ()=>{
                   </select>
                 </div>
 
-                <div className="container-fluid">
-                  <div className="row py-3">
-                    <div className="col-9 fs-4">
-                      Content
-                    </div>
-                  </div>
-                  {console.log(reviews)}
+                <div className="container-fluid pt-1 overflow-auto" style={{height : "25vh"}}>
                   {
                     reviews.map((review) =>(
-                      <div key={review} className="row">
-                        <div className="col-9">
-                          {review.content}
-                        </div>
+                      <div key={review} className="row my-2 p-1 border-bottom">
+                        {review.content}
+                      </div>
+                    ))
+                  }
+                  {
+                    reviews.map((review) =>(
+                      <div key={review} className="row my-2 p-1 border-bottom">
+                        {review.content}
+                      </div>
+                    ))
+                  }
+                  {
+                    reviews.map((review) =>(
+                      <div key={review} className="row my-2 p-1 border-bottom">
+                        {review.content}
+                      </div>
+                    ))
+                  }
+                  {
+                    reviews.map((review) =>(
+                      <div key={review} className="row my-2 p-1 border-bottom">
+                        {review.content}
+                      </div>
+                    ))
+                  }
+                  {
+                    reviews.map((review) =>(
+                      <div key={review} className="row my-2 p-1 border-bottom">
+                        {review.content}
                       </div>
                     ))
                   }
@@ -394,7 +416,7 @@ const FeedbackPage = ()=>{
                     <tbody>
                       {
                         feedbacks.map((feedback)=>(
-                          <tr>
+                          <tr key={feedback}>
                             <td>{feedback.submitted.split('T')[0]} {feedback.submitted.split('T')[1].split('.')[0]}</td>
                             <td>{feedback.first_name}</td>
                             <td>{feedback.last_name}</td>
