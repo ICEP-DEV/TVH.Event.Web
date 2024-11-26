@@ -3,6 +3,7 @@ import "../style/ManagedOrganizers.css";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import Footer from "../components/Footer";
 
 const ManagedOrganizers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -150,39 +151,42 @@ const ManagedOrganizers = () => {
 
   return (
     <div className="container-fluid">
-      <NavBar />
       <div className="row">
         <SideBar />
         <div className="col">
           <h2 className="page-title">Managed Organizers</h2>
-          <div className="search-bar-section">
-            <input
-              type="text"
-              placeholder="Search organizers..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="search-bar"
-            />
-            <select
-              value={filter}
-              onChange={handleFilterChange}
-              className="filter-dropdown"
-            >
-              <option value="All">All</option>
-              <option value="TUT">TUT</option>
-              <option value="GKHack">GKHack</option>
-              <option value="XYZ">XYZ</option>
-            </select>
-            <button className="btn add-btn" onClick={toggleModal}>
+          <div className="d-flex">
+            <div className="col-3">
+              <input
+                type="text"
+                placeholder="Search organizers..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="form-control"
+              />
+            </div>
+            <div className="col-3 mx-5 d-flex pt-1">
+              <select
+                value={filter}
+                onChange={handleFilterChange}
+                className="form-select justify-self-center"
+              >
+                <option value="All">All</option>
+                <option value="TUT">TUT</option>
+                <option value="GKHack">GKHack</option>
+                <option value="XYZ">XYZ</option>
+              </select>
+            </div>
+            <button className="btn btn-success" onClick={toggleModal}>
               Add Users
             </button>
             {selectedOrganizers.length > 0 && (
-              <button className="btn delete-btn" onClick={handleDeleteSelected}>
+              <button className="btn btn-danger ms-5" onClick={handleDeleteSelected}>
                 Delete Selected
               </button>
             )}
           </div>
-          <table className="organizers-table">
+          <table className="table">
             <thead>
               <tr>
                 <th>Select</th>
@@ -278,9 +282,7 @@ const ManagedOrganizers = () => {
           </table>
         </div>
         {/* Footer */}
-      <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+        <Footer />
       </div>
 
       {isModalOpen && (

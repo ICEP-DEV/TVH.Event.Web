@@ -72,7 +72,7 @@ const BarGraphComponent = ({ labels, label_1, values_1, label_2,values_2, colour
     }
 
     const options = {
-      indexAxis: 'y',
+      indexAxis: 'x',
       plugins : {
           legend : {
               labels : {
@@ -188,4 +188,34 @@ const RatingGraph = ({labels, values, label, colors})=>{
 
 
 
-export {PieChart, BarGraphComponent, RatingGraph};
+const ReviewGaugeComponent = ({label,values})=>{
+
+  const gaugeStyle = ()=> {
+    width : "0%",
+    height : "30px",
+    backgroundColor : "#000000",
+    left : 0,
+  }
+
+  return <div className="container-fluid">
+      {
+        label.map((l) => (
+          <div key={label} className='row'>
+            <div className='col-2 text-center align-self-center'>
+              {l}
+            </div>
+            <div className="col-10 py-1">
+              <div className="container-fluid p-0" style={{border : "1px solid #000000", height:"30px"}}>
+                <div className="" style={gaugeStyle}></div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+  </div>
+}
+
+
+
+
+export {PieChart, BarGraphComponent, RatingGraph,ReviewGaugeComponent};

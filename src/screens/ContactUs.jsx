@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-import React from 'react';
+import React, {useState} from 'react';
 import "../style/ContactUs.css"; 
-=======
-import React, { useState } from 'react';
-import SideBar from "../components/SideBar";
-import NavBar from "../components/NavBar";
-import "../style/ContactUs.css";
->>>>>>> d545129b495c8c1e14b6245fc205584dfab01dc6
 
 const ContactUS = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -36,7 +29,6 @@ const ContactUS = () => {
 
   return (
     <div className="contact-page">
-<<<<<<< HEAD
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <div className="navbar-brand" href="#"></div>
@@ -60,11 +52,6 @@ const ContactUS = () => {
             </nav>
 
       
-=======
-      {/* Render the NavBar */}
-      <NavBar />
-
->>>>>>> d545129b495c8c1e14b6245fc205584dfab01dc6
       <div className="contact-content">
         {/* Render the SideBar */}
 

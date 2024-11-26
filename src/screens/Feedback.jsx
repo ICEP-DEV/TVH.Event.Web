@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import api from "../APIs/API";
 import InfoBox from "../components/dashboard/infobox";
-import { BarGraphComponent, PieChart, RatingGraph} from "../components/Graphs";
+import { BarGraphComponent, PieChart, ReviewGaugeComponent} from "../components/Graphs";
 import Modal from 'react-modal';
 
 
@@ -315,11 +315,20 @@ const FeedbackPage = ()=>{
             <div className="row mb-5">
               
               <div className="col-md-5 mt-2">
-                <RatingGraph 
+                {
+                  /*
+                  <RatingGraph 
                   label={["1 Star", "2 Star","3 Star","4 Star","5 Star"]}
                   values={ratings}
                   labels={["Ratings"]}
                   colors={["#93dffa", "#79cbf7","#005e61","#003a57","#000238"]}
+                />
+                  */
+                }
+                
+                <ReviewGaugeComponent
+                  label={["1 Star", "2 Star","3 Star","4 Star","5 Star"]}
+                  values={ratings}
                 />
               </div>
               <div className="col rounded-3 py-5 bg-light">
@@ -336,9 +345,6 @@ const FeedbackPage = ()=>{
 
                 <div className="container-fluid">
                   <div className="row py-3">
-                    <div className="col-3 fs-4">
-                      Names
-                    </div>
                     <div className="col-9 fs-4">
                       Content
                     </div>
@@ -347,9 +353,6 @@ const FeedbackPage = ()=>{
                   {
                     reviews.map((review) =>(
                       <div key={review} className="row">
-                        <div className="col-3">
-                          {review.first_name} {review.last_name}
-                        </div>
                         <div className="col-9">
                           {review.content}
                         </div>
