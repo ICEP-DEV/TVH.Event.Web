@@ -323,8 +323,7 @@ const ManagedOrganizers = () => {
               <button type="button" onClick={toggleModal}>Close</button>
             </form>
           </div>
-        </div>
-        
+        </div>  
       )}
     </div>
   );
