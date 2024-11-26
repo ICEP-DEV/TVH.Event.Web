@@ -1,137 +1,151 @@
 import React, { useState } from "react";
-import "../style/ManagedOrganizers.css"; // Custom CSS for this page
-
-// Import Components
+import "../style/ManagedOrganizers.css";
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
-import { FaTrashAlt, FaEdit } from "react-icons/fa"; // Import delete and edit icons
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
 
 const ManagedOrganizers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("All");
   const [selectedOrganizers, setSelectedOrganizers] = useState([]);
+  const [organizers, setOrganizers] = useState([
+    {
+      id: 1,
+      name: "Lethabo",
+      surname: "Molefe",
+      email: "lethabo@example.com",
+      password: "password123",
+      organization: "TUT",
+    },
+    {
+      id: 2,
+      name: "Chun",
+      surname: "Lee",
+      email: "chun@example.com",
+      password: "password123",
+      organization: "GKHack",
+    },
+    {
+      id: 3,
+      name: "John",
+      surname: "Doe",
+      email: "john@example.com",
+      password: "password123",
+      organization: "XYZ",
+    },
+    {
+      id: 4,
+      name: "Amara",
+      surname: "Nkosi",
+      email: "amara@example.com",
+      password: "password123",
+      organization: "GKHack",
+    },
+    {
+      id: 5,
+      name: "Carlos",
+      surname: "Ramirez",
+      email: "carlos@example.com",
+      password: "password123",
+      organization: "XYZ",
+    },
+    {
+      id: 6,
+      name: "Samantha",
+      surname: "Brown",
+      email: "samantha@example.com",
+      password: "password123",
+      organization: "TUT",
+    },
+    {
+      id: 7,
+      name: "Raj",
+      surname: "Patel",
+      email: "raj@example.com",
+      password: "password123",
+      organization: "GKHack",
+    },
+    {
+      id: 8,
+      name: "Fatima",
+      surname: "Hassan",
+      email: "fatima@example.com",
+      password: "password123",
+      organization: "TUT",
+    },
+    {
+      id: 9,
+      name: "Liam",
+      surname: "Anderson",
+      email: "liam@example.com",
+      password: "password123",
+      organization: "XYZ",
+    },
+    {
+      id: 10,
+      name: "Chen",
+      surname: "Wang",
+      email: "chen@example.com",
+      password: "password123",
+      organization: "GKHack",
+    },
+  ]);
 
-const organizers = [
-  {
-    id: 1,
-    name: "Lethabo",
-    surname: "Molefe",
-    email: "lethabo@example.com",
-    password: "password123",
-    organization: "TUT",
-  },
-  {
-    id: 2,
-    name: "Chun",
-    surname: "Lee",
-    email: "chun@example.com",
-    password: "password123",
-    organization: "GKHack",
-  },
-  {
-    id: 3,
-    name: "John",
-    surname: "Doe",
-    email: "john@example.com",
-    password: "password123",
-    organization: "XYZ",
-  },
-  {
-    id: 4,
-    name: "Amara",
-    surname: "Nkosi",
-    email: "amara@example.com",
-    password: "password123",
-    organization: "GKHack",
-  },
-  {
-    id: 5,
-    name: "Carlos",
-    surname: "Ramirez",
-    email: "carlos@example.com",
-    password: "password123",
-    organization: "XYZ",
-  },
-  {
-    id: 6,
-    name: "Samantha",
-    surname: "Brown",
-    email: "samantha@example.com",
-    password: "password123",
-    organization: "TUT",
-  },
-  {
-    id: 7,
-    name: "Raj",
-    surname: "Patel",
-    email: "raj@example.com",
-    password: "password123",
-    organization: "GKHack",
-  },
-  {
-    id: 8,
-    name: "Fatima",
-    surname: "Hassan",
-    email: "fatima@example.com",
-    password: "password123",
-    organization: "TUT",
-  },
-  {
-    id: 9,
-    name: "Liam",
-    surname: "Anderson",
-    email: "liam@example.com",
-    password: "password123",
-    organization: "XYZ",
-  },
-  {
-    id: 10,
-    name: "Chen",
-    surname: "Wang",
-    email: "chen@example.com",
-    password: "password123",
-    organization: "GKHack",
-  },
-];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newOrganizer, setNewOrganizer] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    organization: "",
+  });
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value);
-  };
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+  const handleFilterChange = (e) => setFilter(e.target.value);
 
   const handleCheckboxChange = (id) => {
-    if (selectedOrganizers.includes(id)) {
-      setSelectedOrganizers(
-        selectedOrganizers.filter((organizerId) => organizerId !== id)
-      );
-    } else {
-      setSelectedOrganizers([...selectedOrganizers, id]);
-    }
+    setSelectedOrganizers((prev) =>
+      prev.includes(id)
+        ? prev.filter((organizerId) => organizerId !== id)
+        : [...prev, id]
+    );
   };
 
   const handleDeleteSelected = () => {
-    const remainingOrganizers = organizers.filter(
-      (organizer) => !selectedOrganizers.includes(organizer.id)
+    setOrganizers((prev) =>
+      prev.filter((organizer) => !selectedOrganizers.includes(organizer.id))
     );
-    console.log("Deleted selected organizers: ", selectedOrganizers);
-    console.log("Remaining organizers: ", remainingOrganizers);
-    setSelectedOrganizers([]); // Clear selection after deletion
+    setSelectedOrganizers([]);
   };
 
   const handleDeleteSingle = (id) => {
-    const remainingOrganizers = organizers.filter(
-      (organizer) => organizer.id !== id
-    );
-    console.log("Deleted organizer with ID: ", id);
-    console.log("Remaining organizers: ", remainingOrganizers);
+    setOrganizers((prev) => prev.filter((organizer) => organizer.id !== id));
   };
 
-  const handleEdit = (id) => {
-    console.log("Edit organizer with ID: ", id);
-    // Add logic to open an edit modal or navigate to an edit page
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
+
+  const handleInputChange = (e, id, field) => {
+    const { value } = e.target;
+    setOrganizers((prev) =>
+      prev.map((organizer) =>
+        organizer.id === id ? { ...organizer, [field]: value } : organizer
+      )
+    );
+  };
+
+  const handleAddUser = (e) => {
+    e.preventDefault();
+    const newId = organizers.length + 1;
+    const organizerToAdd = { ...newOrganizer, id: newId };
+    setOrganizers((prev) => [...prev, organizerToAdd]);
+    setNewOrganizer({
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      organization: "",
+    });
+    toggleModal();
   };
 
   return (
@@ -140,10 +154,7 @@ const organizers = [
       <div className="row">
         <SideBar />
         <div className="col">
-          <h2 className="page-title">
-            Managed Organizers
-          </h2>
-
+          <h2 className="page-title">Managed Organizers</h2>
           <div className="search-bar-section">
             <input
               type="text"
@@ -161,16 +172,16 @@ const organizers = [
               <option value="TUT">TUT</option>
               <option value="GKHack">GKHack</option>
               <option value="XYZ">XYZ</option>
-              {/* Add more filter options as needed */}
             </select>
-            <button className="btn add-btn">Add Users</button>
+            <button className="btn add-btn" onClick={toggleModal}>
+              Add Users
+            </button>
             {selectedOrganizers.length > 0 && (
               <button className="btn delete-btn" onClick={handleDeleteSelected}>
                 Delete Selected
               </button>
             )}
           </div>
-
           <table className="organizers-table">
             <thead>
               <tr>
@@ -209,21 +220,52 @@ const organizers = [
                       />
                     </td>
                     <td>{organizer.id}</td>
-                    <td>{organizer.name}</td>
-                    <td>{organizer.surname}</td>
-                    <td>{organizer.email}</td>
-                    <td>{organizer.password}</td>
-                    <td>{organizer.organization}</td>
                     <td>
-                      <FaEdit
-                        className="edit-icon"
-                        onClick={() => handleEdit(organizer.id)}
-                        style={{
-                          color: "blue",
-                          cursor: "pointer",
-                          marginRight: "10px",
-                        }}
+                      <input
+                        type="text"
+                        value={organizer.name}
+                        onChange={(e) =>
+                          handleInputChange(e, organizer.id, "name")
+                        }
                       />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={organizer.surname}
+                        onChange={(e) =>
+                          handleInputChange(e, organizer.id, "surname")
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="email"
+                        value={organizer.email}
+                        onChange={(e) =>
+                          handleInputChange(e, organizer.id, "email")
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="password"
+                        value={organizer.password}
+                        onChange={(e) =>
+                          handleInputChange(e, organizer.id, "password")
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={organizer.organization}
+                        onChange={(e) =>
+                          handleInputChange(e, organizer.id, "organization")
+                        }
+                      />
+                    </td>
+                    <td>
                       <FaTrashAlt
                         className="delete-icon"
                         onClick={() => handleDeleteSingle(organizer.id)}
@@ -235,11 +277,64 @@ const organizers = [
             </tbody>
           </table>
         </div>
-      </div>
-      {/* Footer */}
+        {/* Footer */}
       <footer className="bg-dark text-white text-center py-3 mt-5">
                 <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
             </footer>
+      </div>
+
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Add Organizer</h2>
+            <form onSubmit={handleAddUser}>
+              <input
+                type="text"
+                name="name"
+                value={newOrganizer.name}
+                onChange={(e) => setNewOrganizer({ ...newOrganizer, name: e.target.value })}
+                placeholder="Name"
+                required
+              />
+              <input
+                type="text"
+                name="surname"
+                value={newOrganizer.surname}
+                onChange={(e) => setNewOrganizer({ ...newOrganizer, surname: e.target.value })}
+                placeholder="Surname"
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                value={newOrganizer.email}
+                onChange={(e) => setNewOrganizer({ ...newOrganizer, email: e.target.value })}
+                placeholder="Email"
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                value={newOrganizer.password}
+                onChange={(e) => setNewOrganizer({ ...newOrganizer, password: e.target.value })}
+                placeholder="Password"
+                required
+              />
+              <input
+                type="text"
+                name="organization"
+                value={newOrganizer.organization}
+                onChange={(e) => setNewOrganizer({ ...newOrganizer, organization: e.target.value })}
+                placeholder="Organization"
+                required
+              />
+              <button type="submit">Add</button>
+              <button type="button" onClick={toggleModal}>Close</button>
+            </form>
+          </div>
+        </div>
+        
+      )}
     </div>
   );
 };
