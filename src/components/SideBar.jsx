@@ -59,14 +59,13 @@ const SideBar = () => {
             <FontAwesomeIcon icon={faCalendarCheck} className="bi me-2" width="24" height="24" />
             {isSidebarExpanded && <span>Events</span>}
           </Link>
-          {
-            localStorage.getItem('type') === "admin" ? 
+          
+            
             <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
               <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
               {isSidebarExpanded && <span>Organisers</span>}
             </Link>
-            : <></>
-          }
+
           <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
             <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24" />
             {isSidebarExpanded && <span>Notifications</span>}

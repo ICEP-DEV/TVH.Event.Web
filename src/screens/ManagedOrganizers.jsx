@@ -194,7 +194,6 @@ const ManagedOrganizers = () => {
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Organization</th>
                 <th>Actions</th>
               </tr>
@@ -251,15 +250,7 @@ const ManagedOrganizers = () => {
                         }
                       />
                     </td>
-                    <td>
-                      <input
-                        type="password"
-                        value={organizer.password}
-                        onChange={(e) =>
-                          handleInputChange(e, organizer.id, "password")
-                        }
-                      />
-                    </td>
+                   
                     <td>
                       <input
                         type="text"
@@ -334,8 +325,7 @@ const ManagedOrganizers = () => {
               <button type="button" onClick={toggleModal}>Close</button>
             </form>
           </div>
-        </div>
-        
+        </div>  
       )}
     </div>
   );
