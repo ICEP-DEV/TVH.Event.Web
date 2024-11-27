@@ -121,6 +121,35 @@ const EventPage = () => {
     }
   };
   
+
+  const eventStatus = (event)=>{
+    const today = new Date();
+    const end_date = new Date(event.end_date);
+
+    const difference = end_date - today;
+
+
+    if(difference < 0){
+      return <p>
+        Event Concluded
+      </p>
+    }
+    else{
+      const diffInSeconds = difference / 1000;
+      const hours = diffInSeconds / 3600;
+      const minutes = diffInSeconds / 60;
+
+      //const seconds = diffInSeconds
+      console.log("event : " + event.title)
+      console.log("Difference : " + hours)
+    }
+
+    
+    
+
+
+
+  }
   
 
   return (
@@ -154,7 +183,7 @@ const EventPage = () => {
                 <div className="event-details">
                   <p className="fs-3">{event.title}</p>
                   <p className="fs-6 text-secondary">
-                    {event.location} - {event.start_date.split('T')[0]}
+                    {event.location} - {event.start_date.split('T')[0]} 
                   </p>
                   <p className="fs-6 text-secondary">{event.description}</p>
                 </div>
@@ -275,20 +304,22 @@ const EventPage = () => {
                     state={{event}}
                     onClick={()=>{navToEvent(event)}}
                   >
-                <div className="event-image">
-                  <img 
-                    src={`data:image/*;base64,${event.image}`}
-                    alt={event.title} 
-                  />
-                </div>
-                <div className="event-details text-black">
-                  <p className="fs-3">{event.title}</p>
-                  <p className="fs-6 text-secondary">
-                    {event.location} - {event.start_date}
-                  </p>
-                  <p className="fs-6 text-secondary">{event.description}</p>
-                </div>
-    
+                    <div className="event-image">
+                      <img 
+                        src={`data:image/*;base64,${event.image}`}
+                        alt={event.title} 
+                      />
+                    </div>
+                    <div className="event-details text-black">
+                      <p className="fs-3">{event.title}</p>
+                      <p className="fs-6 text-secondary">
+                        {event.location} - {event.start_date.split('T')[0]} - {event.end_date.split('T')[0]} - {event.time.split('T')[1].split('.')[0]}
+                      </p>
+                      <p className="fs-6 text-secondary">{event.description}</p>
+                    </div>
+                    <div className="justify-self-right">
+                      {eventStatus(event)}
+                    </div>
                   </Link>
                 ))
               ) : <></>

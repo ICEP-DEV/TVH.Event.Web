@@ -347,7 +347,7 @@ const EventDetails = () =>{
                                         </div>
                                         <div className="buttons mt-4">
                                             <button type="submit" className="btn btn-primary">
-                                            Save Event
+                                                Save Event
                                             </button>
                                         </div>
                                         </form>

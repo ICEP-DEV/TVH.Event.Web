@@ -72,7 +72,7 @@ const BarGraphComponent = ({ labels, label_1, values_1, label_2,values_2, colour
     }
 
     const options = {
-      indexAxis: 'y',
+      indexAxis: 'x',
       plugins : {
           legend : {
               labels : {
@@ -188,4 +188,48 @@ const RatingGraph = ({labels, values, label, colors})=>{
 
 
 
-export {PieChart, BarGraphComponent, RatingGraph};
+const ReviewGaugeComponent = ({label,values})=>{
+  
+  let counter = 0;
+  let sum = 0;
+
+  values.map((val) =>{
+    sum += val;
+  })
+
+  const calculatePerc = (val)=>{
+    return ((val / sum) * 100).toFixed(2)
+  }
+
+  const gaugeStyle = (val)=> (
+    {
+      width : calculatePerc(val) + "%",
+      height : "30px",
+      backgroundColor : "var(--blue2)",
+      left : 0,
+    }
+  )
+
+  return <div className="container-fluid">
+      {
+        label.map((l) => (
+          <div key={l[0]} className='row'>
+            <div className='col-2 text-center align-self-center'>
+              {l}
+            </div>
+            <div className="col-10 py-1">
+              <div className="container-fluid p-0 rounded-2 border" style={{height:"30px"}}>
+                <div className="rounded-2" style={gaugeStyle(values[counter])}></div>
+                <div hidden>{counter++}</div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+  </div>
+}
+
+
+
+
+export {PieChart, BarGraphComponent, RatingGraph,ReviewGaugeComponent};

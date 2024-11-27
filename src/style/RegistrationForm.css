@@ -40,21 +40,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  font-weight: bold;
-}
-
-.form-control {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-top: 5px;
-}
 
 .add-question-btn, .upload-btn {
   width: 100%;
@@ -77,19 +62,7 @@
 .add-question-btn:hover, .upload-btn:hover {
   background-color: #0056b3;
 }
-form div {
-  margin-bottom: 10px; 
-}
 
-label {
-  display: inline-block;
-  width: 100px;
-  margin-right: 10px;
-}
-
-input {
-  padding: 5px;
-}
 .form-container {
   background-color: #ffe6e6; 
   height: 50vh; 
