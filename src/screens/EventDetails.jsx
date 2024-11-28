@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
-import NavBar from "../components/NavBar";
 import axios from "axios";
 import api from "../APIs/API";
 import AllRegisteredComponent from "../components/manage_events/AllRegistered";
 import SurveyComponent from "../components/manage_events/Survey";
 import AllParticipantsComponent from "../components/manage_events/participants";
 import Footer from "../components/Footer";
+import Countdown from "react-countdown";
 
 
 
@@ -15,6 +15,7 @@ const EventDetails = () =>{
 
     const loc = useLocation();
     const { event } = loc.state || {};
+    const [ eventState, setEventState ] = useState("")
     const navigate = useNavigate()
     const [register, setRegister] = useState([])
     const [controller, setController] = useState("")
@@ -116,6 +117,26 @@ const EventDetails = () =>{
             })
             
         }
+
+        const checkEventState = ()=>{
+            const active = new Date(event.start_date) - new Date()
+            const concluded = new Date(event.end_date) - new Date()
+
+
+            if(parseFloat(active) <= 0 ){
+                if(parseFloat(concluded) <= 0){
+                    setEventState("concluded")
+                    setController("view")
+                }else{
+                    setEventState("started")
+                    setController("view")
+                }
+            }else{
+                setEventState("")
+            }
+        }   
+
+        checkEventState();
         fetchRegister();
         getRegister();
         fetchSurveys();
@@ -149,28 +170,53 @@ const EventDetails = () =>{
                 <SideBar />
                 
                 <div className="col mt-5">
-                    <p className="fs-1 text-center pb-5">
-                        {event.title} - Event
+                    <p className="fs-1 text-center">
+                        {event.title} {
+                            eventState !== "" ?
+                            (
+                                <span className="text-danger"> : event has {eventState}</span>
+                            )
+                            : null
+                        }
                     </p>
-                    <div className="d-flex container-fluid">
+                    {
+                        eventState === "" ?
+                        <p className="text-center">
+                            <span className="fs-5">Until Event Begins : </span> <Countdown date={new Date(event.end_date).getTime()} className="fs-5" style={{color:"var(--blue2)"}}/>
+                        </p>
+                        : null
+                    }
+                    <div className="d-flex container-fluid pt-3">
                         <div className="col-1">
-                            <button className="btn" onClick={()=>{navigate("/event")}}>
+                            <button className="btn container-fluid" onClick={()=>{navigate("/event")}}>
                                 Back
                             </button>
                         </div>
-                        <div className="btn-group container-fluid  justify-self-center">
-                            <button className="btn" onClick={()=>{setController("")}} style={controllerStyle("")}>
-                                Registration Form
-                            </button>
+                        <div className="btn-group container-fluid border p-0 me-5 justify-self-center">
+                            {
+                                eventState === "" ?
+                                <button className="btn" onClick={()=>{setController("")}} style={controllerStyle("")}>
+                                    Registration Form
+                                </button>
+                                : <button disabled className="btn border-0" onClick={()=>{setController("")}} style={controllerStyle("")}>
+                                    Registration Form
+                                </button>
+                            }
                             <button className="btn" onClick={()=>{setController("view")}} style={controllerStyle("view")}>
                                 Manage Event
                             </button>
-                            <button className="btn" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
-                                Edit Event
-                            </button>
+                            {
+                                eventState === "" ?
+                                <button className="btn" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
+                                    Edit Event
+                                </button>
+                                : <button disabled className="btn border-0" onClick={()=>{setController("edit")}} style={controllerStyle("edit")}>
+                                    Edit Event
+                                </button>
+                            }
                         </div>
                     </div>
-                    <div className="container-fluid">
+                    <div className="container-fluid px-5">
                         {
                             controller === "" ? 
                                 register.length === 0 ?
@@ -208,9 +254,16 @@ const EventDetails = () =>{
                                                 Add form question
                                             </label>
                                         </div>
-                                        <button className="btn text-white" style={{backgroundColor:"var(--blue2)"}}>
-                                            Create Register
-                                        </button>
+                                        <div className="d-flex mt-5">
+                                            <button className="btn text-white" style={{backgroundColor:"var(--blue2)"}}>
+                                                Create Register
+                                            </button>
+                                            <button className="btn text-white btn-danger ms-3" onClick={()=>{
+                                                setQuestions([])
+                                            }}>
+                                                Clear Form
+                                            </button>
+                                        </div>
                                     </form>
                                 </div>
                                 : <div>

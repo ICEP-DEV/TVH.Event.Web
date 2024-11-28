@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SideBar from "../components/SideBar";  // Importing the SideBar component
 import NavBar from "../components/NavBar";    // Assuming NavBar is also in place
 import "../style/Notifications.css";               // Importing the CSS for Notifications
+import Footer from "../components/Footer";
 
 const Notifications = () => {
   const [event, setEvent] = useState("");
@@ -12,9 +13,8 @@ const Notifications = () => {
   };
 
   return (
-    <div className="notifications-page">
-      <NavBar />
-      <div className="content">
+    <div className="container-fluid m-0 p-0">
+      <div className="d-flex">
         <SideBar />  {/* Sidebar is displayed on the left */}
         <div className="main">
           <h2>Event Notifications</h2>
@@ -72,10 +72,7 @@ const Notifications = () => {
           </div>
         </div>
       </div>
-      {/* Footer */}
-      <footer className="bg-dark text-white text-center py-3 mt-5">
-                <p>&copy; 2024 Hacktrack Event Management System. All rights reserved.</p>
-            </footer>
+      <Footer />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import api from "../APIs/API";
+import Countdown from 'react-countdown';
 
 const EventPage = () => {
 
@@ -126,22 +127,21 @@ const EventPage = () => {
     const today = new Date();
     const end_date = new Date(event.end_date);
 
+    
     const difference = end_date - today;
-
+  
 
     if(difference < 0){
-      return <p>
+      return <p style={{color:"var(--blue)"}}>
         Event Concluded
       </p>
     }
     else{
-      const diffInSeconds = difference / 1000;
-      const hours = diffInSeconds / 3600;
-      const minutes = diffInSeconds / 60;
+      
 
-      //const seconds = diffInSeconds
-      console.log("event : " + event.title)
-      console.log("Difference : " + hours)
+      
+
+      return 
     }
 
     
@@ -159,10 +159,9 @@ const EventPage = () => {
 
       <div className="col mt-5">
         <div className="d-flex justify-content-center">
-          <button className="btn filter-btn m-1" style={controllerStyles("")} onClick={()=>{setController("")}}>All Events</button>
-          <button className="btn filter-btn m-1" style={controllerStyles("create")} onClick={()=>{setController("create")}}>Create Event</button>
-          <button className="btn filter-btn m-1" style={controllerStyles("myevents")} onClick={()=>{setController("myevents")}}>My Events</button>
-          
+          <button className="btn filter-btn m-0 border" style={controllerStyles("")} onClick={()=>{setController("")}}>All Events</button>
+          <button className="btn filter-btn m-0 border" style={controllerStyles("create")} onClick={()=>{setController("create")}}>Create Event</button>
+          <button className="btn filter-btn m-0 border" style={controllerStyles("myevents")} onClick={()=>{setController("myevents")}}>My Events</button>
         </div>
 
         <div className="container-fluid">
@@ -174,29 +173,39 @@ const EventPage = () => {
                     style={{cursor:"pointer"}}
                     onClick={()=>{ modalEvent(event) }}
                   >
-                <div className="event-image">
-                  <img 
-                    src={`data:image/*;base64,${event.image}`}
-                    alt={event.title} 
-                  />
-                </div>
-                <div className="event-details">
-                  <p className="fs-3">{event.title}</p>
-                  <p className="fs-6 text-secondary">
-                    {event.location} - {event.start_date.split('T')[0]} 
-                  </p>
-                  <p className="fs-6 text-secondary">{event.description}</p>
-                </div>
-    
+                  <div className="event-image">
+                    <img 
+                      src={`data:image/*;base64,${event.image}`}
+                      alt={event.title} 
+                    />
                   </div>
+                  <div className="event-details">
+                    <p className="fs-3">{event.title}</p>
+                    <p className="fs-6 text-secondary">
+                      {event.location} - {event.start_date.split('T')[0]} 
+                    </p>
+                    <p className="fs-6 text-secondary">{event.description}</p>
+                  </div>
+                  <div className="justify-self-right">
+                    {
+                      (new Date(event.start_date) - new Date() <= 0) ?
+                        new Date(event.end_date) - new Date() <= 0 ?
+                        <p className="fs-6" style={{color:"var(--blue2)"}}>Event Concluded</p>
+                        : <p className="text-success fs-5">Currently Active</p>
+                      
+                      : <Countdown date={new Date(event.end_date).getTime()} className="fs-5" style={{color:"var(--blue2)"}}/>
+                        
+                    }
+                  </div>
+                </div>
                 ))
               ) : <></>
             }
             {
               controller === "create" ? (
-                <div className="d-flex flex-column justify-content-center">
-                  <h1 className="align-self-center">Create New Event</h1>
-                  <div className="card col-6 align-self-center">
+                <div className="container-fluid px-5 py-2">
+                  <h1 className="text-center">Create New Event</h1>
+                  <div className="card p-5 align-self-center">
                     <form id="eventForm" onSubmit={handleSaveEvent} encType="multipart/form-data">
                       <div className="form-group">
                         <label >Event Name: </label>
@@ -214,7 +223,8 @@ const EventPage = () => {
                           name="description"
                           onChange={(e) => setDescription(e.target.value)}
                           className="form-control"
-                          rows="3"
+                          rows="4"
+                          style={{resize:"none"}}
                         ></textarea>
                       </div>
 
@@ -313,12 +323,20 @@ const EventPage = () => {
                     <div className="event-details text-black">
                       <p className="fs-3">{event.title}</p>
                       <p className="fs-6 text-secondary">
-                        {event.location} - {event.start_date.split('T')[0]} - {event.end_date.split('T')[0]} - {event.time.split('T')[1].split('.')[0]}
+                        {event.location} - {event.start_date.split('T')[0]}
                       </p>
                       <p className="fs-6 text-secondary">{event.description}</p>
                     </div>
                     <div className="justify-self-right">
-                      {eventStatus(event)}
+                      {
+                        (new Date(event.start_date) - new Date() <= 0) ?
+                          new Date(event.end_date) - new Date() <= 0 ?
+                          <p className="fs-6" style={{color:"var(--blue2)"}}>Event Concluded</p>
+                          : <p className="text-success fs-5">Currently Active</p>
+                        
+                        : <Countdown date={new Date(event.end_date).getTime()} className="fs-5" style={{color:"var(--blue2)"}}/>
+                          
+                      }
                     </div>
                   </Link>
                 ))

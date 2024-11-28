@@ -40,7 +40,7 @@ const SideBar = () => {
         whiteSpace: "nowrap",
         minHeight : "95vh",
       }}
-      className="d-flex flex-column"
+      className="d-flex flex-column shadow-lg"
     > 
       <div style={{position:"fixed"}}>
         <div className="d-flex align-items-center justify-content-between ps-2 px-4 py-2">
