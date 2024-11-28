@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import "../style/ContactUs.css";
+import NavBar from "../components/NavBar"; // Import NavBar component
 
 export const ContactUs = () => {
   const form = useRef();
-  const [messageSent, setMessageSent] = useState(false); 
+  const [messageSent, setMessageSent] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -15,8 +16,8 @@ export const ContactUs = () => {
       })
       .then(
         () => {
-          setMessageSent(true); 
-          form.current.reset(); 
+          setMessageSent(true);
+          form.current.reset();
         },
         (error) => {
           console.log('FAILED...', error.text);
@@ -24,8 +25,22 @@ export const ContactUs = () => {
       );
   };
 
+
+  useEffect(() => {
+    if (messageSent) {
+      const timer = setTimeout(() => setMessageSent(false), 2000); 
+
+      
+      return () => clearTimeout(timer);
+    }
+  }, [messageSent]);
+
   return (
     <div>
+      {/* Add NavBar at the top */}
+      <NavBar />
+
+      {/* Contact Form Section */}
       <form ref={form} onSubmit={sendEmail} className="contact-form">
         <h1 className="form-title">CONTACT US</h1>
         <p className="form-description">
