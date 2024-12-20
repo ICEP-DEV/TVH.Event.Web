@@ -113,9 +113,11 @@ const EventDetails = () =>{
             await axios.get(
                 api + 'survey/all/' + event.event_id
             ).then((response) =>{
+                console.log(response)
                 setSurveys(response.data.results)
+            }).catch((error) =>{
+                console.log(error)
             })
-            
         }
 
         const checkEventState = ()=>{

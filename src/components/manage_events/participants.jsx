@@ -1,11 +1,8 @@
-import axios from "axios";
-import api from "../../APIs/API";
-import { useEffect, useState } from "react";
-
-
+import {QRCodeSVG} from 'qrcode.react';
+import { useState } from 'react';
 
 const AllParticipantsComponent = ({attendees})=>{
-
+    const [isQROpen, setIsQROpen] = useState(false);
     let participants = []
     attendees.map((attendee)=>{
         if(attendee.successful === 1){
@@ -14,11 +11,32 @@ const AllParticipantsComponent = ({attendees})=>{
     })
 
     
-
-
     return <div className="container-fluid">
-        <div className="col-5 my-2">
-            <input type="search" className="form-control" placeholder="Search participant"/>
+        {
+            isQROpen === true ?
+            <div className='col-6 d-flex flex-column' style={{position : 'absolute',background:'#eee'}}>
+                <button onClick={()=>{setIsQROpen(false)}} className='col-1 btn btn-danger align-self-end'>Close</button>
+                <p className='text-center'>
+                    Scan the QR Code to register your attendence
+                </p>
+                <div className='align-self-center'>
+
+                    <QRCodeSVG 
+                        value="Link to sign attendance here!"   
+                        //scale={150} 
+                        size={450}
+                    />
+                </div>
+            </div>
+            :<></>
+        }
+        <div className="d-flex">
+            <div className="col-5 my-2">
+                <input type="search" className="form-control" placeholder="Search participant"/>
+            </div>
+            <div className="col-3 align-self-center">
+                <button className="btn btn-primary" onClick={()=>{setIsQROpen(true)}}>QR Code</button>
+            </div>
         </div>
         <table className="table">
             <thead>
@@ -44,9 +62,12 @@ const AllParticipantsComponent = ({attendees})=>{
                 }
             </tbody>
         </table>
+
+        
     </div>
 
 }
+
 
 
 
