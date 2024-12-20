@@ -310,7 +310,7 @@ const EventDetails = () =>{
                                     }
                                     {
                                         manageController === "participants" ?
-                                        <AllParticipantsComponent attendees={attendees}/>
+                                        <AllParticipantsComponent attendees={attendees} event={event}/>
                                         : <></>
                                         
                                     }

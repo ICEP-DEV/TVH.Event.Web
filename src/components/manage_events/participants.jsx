@@ -1,7 +1,7 @@
 import {QRCodeSVG} from 'qrcode.react';
 import { useState } from 'react';
 
-const AllParticipantsComponent = ({attendees})=>{
+const AllParticipantsComponent = ({attendees, event})=>{
     const [isQROpen, setIsQROpen] = useState(false);
     let participants = []
     attendees.map((attendee)=>{
@@ -22,7 +22,13 @@ const AllParticipantsComponent = ({attendees})=>{
                 <div className='align-self-center'>
 
                     <QRCodeSVG 
-                        value="Link to sign attendance here!"   
+                        value={
+                            JSON.stringify(
+                                {
+                                    "api" : "/attendee/events/" + event.event_id,
+                                }
+                            )
+                        }   
                         //scale={150} 
                         size={450}
                     />
