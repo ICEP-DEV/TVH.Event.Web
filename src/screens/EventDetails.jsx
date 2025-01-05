@@ -298,7 +298,7 @@ const EventDetails = () =>{
                                         {/* {event.title} */}
                                     </div>
                                     <div className="d-flex mt-5 mx-2">
-                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("")}} style={manageStyles('')}>Registered</button>
+                                        <button className="col-lg-2 btn " onClick={()=>{setManageController("")}} style={manageStyles('')}>Applicants</button>
                                         <button className="col-lg-2 btn " onClick={()=>{setManageController("participants")}} style={manageStyles('participants')}>Participants</button>
                                         <button className="col-lg-2 btn " onClick={()=>{setManageController("survey")}} style={manageStyles('survey')}>Survey</button>
                                     </div>
