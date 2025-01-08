@@ -4,6 +4,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import axios from "axios"; 
 import "../style/Notifications.css";
+import api from "../APIs/API";
 
 const Notifications = () => {
   const [event, setEvent] = useState(""); 
