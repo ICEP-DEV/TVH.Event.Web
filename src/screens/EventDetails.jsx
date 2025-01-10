@@ -84,13 +84,18 @@ const EventDetails = () =>{
 
 
     useEffect(() => {
-        setTitle(event.title)
-        setTime(event.time)
-        setDescription(event.description)
-        setLocation(event.location)
-        setEnd_date(event.end_date)
-        setStart_date(event.start_date)
-        setImage(event.image)
+        if(event){
+            setTitle(event.title)
+            setTime(event.time)
+            setDescription(event.description)
+            setLocation(event.location)
+            setEnd_date(event.end_date)
+            setStart_date(event.start_date)
+            setImage(event.image)
+        }
+
+
+
         setController('')
         const getRegister = async()=>{
             await axios.get(api + 'register/' + event.event_id)
