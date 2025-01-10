@@ -1,16 +1,33 @@
 import {QRCodeSVG} from 'qrcode.react';
 import { useState } from 'react';
+import api from '../../APIs/API';
+import axios from 'axios';
 
 const AllParticipantsComponent = ({attendees, event})=>{
     const [isQROpen, setIsQROpen] = useState(false);
-    let participants = []
-    attendees.map((attendee)=>{
-        if(attendee.successful === 1){
-            participants.push(attendee)
-        }
-    })
+    
+
+    const [participantsList, setParticipantsList]  = useState(attendees)
 
     
+    const removeParticipant = async(participant)=>{
+
+        const index = participantsList.findIndex(
+            (a) => a.registration_id === participant.registration_id
+        );
+        if(index !== -1){
+            await axios.delete(
+                api + 'attendee/events/' + participant.registration_id
+            ).catch((error) =>{
+                console.log(error)
+                return; 
+            })
+        }
+        const newParticipants = [...participantsList];
+        newParticipants[index].successful = 0; 
+        setParticipantsList(newParticipants); 
+    }
+
     return <div className="container-fluid">
         {
             isQROpen === true ?
@@ -51,19 +68,27 @@ const AllParticipantsComponent = ({attendees, event})=>{
                     <th>Last Name</th>
                     <th>Email Address</th>
                     <th>Date</th>
+                    <th>Remove Participant</th>
                     <th>Reponses</th>
                 </tr>
             </thead>
             <tbody>
                 {
-                    participants.map((participant)=>(
+                    participantsList.map((participant)=>(
+                        participant.successful === 1 ?
                         <tr key={participant.registration_id}>
                             <td>{participant.first_name}</td>
                             <td>{participant.last_name}</td>
                             <td>{participant.email}</td>
                             <td>{participant.submitted_at.replace('T',' ').split('.')[0]}</td>
+                            <td>
+                                <div className="btn btn-danger" onClick ={()=>{removeParticipant(participant)}}>
+                                    Remove Participant
+                                </div>
+                            </td>
                             <td><div className="btn btn-primary">View Responses</div></td>
                         </tr>
+                        : null
                     ))
                 }
             </tbody>
