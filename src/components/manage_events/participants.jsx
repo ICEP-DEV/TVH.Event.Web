@@ -14,13 +14,18 @@ const AllParticipantsComponent = ({attendees, event})=>{
     return <div className="container-fluid">
         {
             isQROpen === true ?
-            <div className='col-6 d-flex flex-column' style={{position : 'absolute',background:'#eee'}}>
+            <div className='col-6 d-flex flex-column rounded-3' style={{
+                position : 'absolute',
+                background:'#eee',
+                zIndex: 1,
+                left : '25%',
+                top : '25%',
+                }}>
                 <button onClick={()=>{setIsQROpen(false)}} className='col-1 btn btn-danger align-self-end'>Close</button>
                 <p className='text-center'>
                     Scan the QR Code to register your attendence
                 </p>
-                <div className='align-self-center'>
-
+                <div className='align-self-center pb-3'>
                     <QRCodeSVG 
                         value={
                             JSON.stringify(
