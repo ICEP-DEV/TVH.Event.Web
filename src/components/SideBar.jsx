@@ -2,10 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCalendarCheck, faBell, faCalendarAlt, faCommentDots, faUsers, faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const location = useLocation();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [ isLogOutClicked, setIsLogOutClicked] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
@@ -25,8 +28,13 @@ const SideBar = () => {
     textOverflow: "ellipsis",
   });
 
-  const logout = ()=>{
-    console.log("logged out")
+  const logout = (confirmed)=>{
+    setIsLogOutClicked(!confirmed)
+    
+    if(confirmed){
+      localStorage.clear()
+      navigate('/')
+    }
   }
 
   return (
@@ -41,7 +49,33 @@ const SideBar = () => {
         minHeight : "95vh",
       }}
       className="d-flex flex-column shadow-lg"
-    > 
+      > 
+      {
+        isLogOutClicked ? <div className="d-flex " style={{
+          position : 'absolute',
+          width : '100%',
+          height : '100%',
+          zIndex : 1,
+          background : 'rgba(0,0,0,0.5)',
+          justifyContent : 'center'
+        }}>
+          <div className="card" style={{
+            width : '40%',
+            height : '30%',
+            alignSelf :'center',
+          }}>
+            <h6 className="text-center fs-3 p-4">Are you sure you want to log out?</h6>
+            <div className="text-center pb-4">
+            <FontAwesomeIcon icon={faArrowRightFromBracket} height="100" width="100" size="2x" className="text-center me-2" style={{justifySelf:'center'}} color="black"/>
+            </div>
+            <div className="text-center">
+              <button className="btn btn-danger" onClick={()=>{setIsLogOutClicked(false)}}>Cancel</button>
+              <button className="btn btn-success" onClick={()=>{logout(true)}}>Confirm</button>
+            </div>
+          </div>
+        </div>
+        : <></>
+      }
       <div style={{position:"fixed"}}>
         <div className="d-flex align-items-center justify-content-between ps-2 px-4 py-2">
           <button onClick={toggleSidebar} type="button" className="btn btn-light px-4">
@@ -91,12 +125,14 @@ const SideBar = () => {
               localStorage.getItem('username') }
             </span>
           </li>
-          <Link className="nav-link my-3 text-white">
+          <Link className="nav-link my-3 text-white" onClick={()=>{logout(false)}}>
               <FontAwesomeIcon icon={faArrowRightFromBracket} height="24" width="24" className="bi me-2"/>
               {isSidebarExpanded && <span>Log Out</span>}
           </Link>
         </ul>
+        
       </div>
+      
     </aside>
   );
 };

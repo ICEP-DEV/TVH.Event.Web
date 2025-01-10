@@ -23,6 +23,7 @@ const FeedbackPage = ()=>{
   const [ totalApplicants, setTotalApplicants] = useState(0)
   const [ totalParticipants, setTotalParticipants] = useState(0)
   const [ reviews , setReviews] = useState([])
+  const [ reviewsFiltered, setReviewsFiltered] = useState([])
   const [ ratings, setRatings] = useState([])
   //const [ attendees, setAttendees] = useState([])
 
@@ -215,6 +216,7 @@ const FeedbackPage = ()=>{
         api + "reviews/event/" + parseInt(e.target.value)
       ).then((response) =>{
         setReviews(response.data.results)
+        setReviewsFiltered(response.data.results)
         getRatings(response.data.results)
       }).catch((error) =>{
         console.log(error.message)
@@ -229,7 +231,15 @@ const FeedbackPage = ()=>{
   }
 
   
-
+  const handleReviewFilter = (e)=>{
+    console.log(reviews[0].rating)
+    if(e.target.value === '0'){
+      setReviewsFiltered(reviews)
+    }
+    else{
+      setReviewsFiltered(reviews.filter( (r) => r.rating === parseInt(e.target.value) ))
+    }
+  }
 
   const handleSurveyFilter = (e) =>{
     setSelectedSurveyID(e.target.value);
@@ -335,47 +345,19 @@ const FeedbackPage = ()=>{
               </div>
               <div className="col rounded-3 pt-2 px-2" >
                 <div className="col-2">
-                  <select className="form-select" name="" id="">
-                    <option value="">All Reviews</option>
-                    <option value="">1 Star Reviews</option>
-                    <option value="">2 Star Reviews</option>
-                    <option value="">3 Star Reviews</option>
-                    <option value="">4 Star Reviews</option>
-                    <option value="">5 Star Reviews</option>
+                  <select className="form-select" name="" id="" onChange={handleReviewFilter}>
+                    <option value="0">All Reviews</option>
+                    <option value="1">1 Star Reviews</option>
+                    <option value="2">2 Star Reviews</option>
+                    <option value="3">3 Star Reviews</option>
+                    <option value="4">4 Star Reviews</option>
+                    <option value="5">5 Star Reviews</option>
                   </select>
                 </div>
 
                 <div className="container-fluid pt-1 overflow-auto" style={{height : "25vh"}}>
                   {
-                    reviews.map((review) =>(
-                      <div key={review} className="row my-2 p-1 border-bottom">
-                        {review.content}
-                      </div>
-                    ))
-                  }
-                  {
-                    reviews.map((review) =>(
-                      <div key={review} className="row my-2 p-1 border-bottom">
-                        {review.content}
-                      </div>
-                    ))
-                  }
-                  {
-                    reviews.map((review) =>(
-                      <div key={review} className="row my-2 p-1 border-bottom">
-                        {review.content}
-                      </div>
-                    ))
-                  }
-                  {
-                    reviews.map((review) =>(
-                      <div key={review} className="row my-2 p-1 border-bottom">
-                        {review.content}
-                      </div>
-                    ))
-                  }
-                  {
-                    reviews.map((review) =>(
+                    reviewsFiltered.map((review) =>(
                       <div key={review} className="row my-2 p-1 border-bottom">
                         {review.content}
                       </div>
