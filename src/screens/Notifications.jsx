@@ -59,34 +59,33 @@ const Notifications = () => {
   };
 
   const handleSendMessage = async () => {
-    if (!event || !message) {
-      alert("Please select an event and enter a message.");
-      return;
-    }
+  if (!event || !message) {
+    alert("Please select an event and enter a message.");
+    return;
+  }
 
-    const newNotification = {
-      notification_id: Math.random().toString(36).substring(7),
-      event_id: event,
-      message: `${message}`,
-    };
-
-    try {
-      await axios.post(`${api}notifications`, newNotification);
-      alert("Notification sent successfully!");
-
-      setNotifications((prev) => [newNotification, ...prev]);
-
-      if (!event || newNotification.event_id === event) {
-        setFilteredNotifications((prev) => [newNotification, ...prev]);
-      }
-
-      setEvent("");
-      setMessage("");
-    } catch (error) {
-      console.error("Failed to send notification:", error);
-      alert("Failed to send notification. Please try again.");
-    }
+  const newNotification = {
+    notification_id: parseInt(Math.random().toString(36).substring(7), 36),
+    attendee_id: localStorage.getItem("user_id"), // Replace with actual user logic
+    admin_id: "1", // Adjust as needed
+    message: message,
+    organiser_id: "1", // Adjust as needed
   };
+
+  console.log("Payload being sent:", newNotification);
+
+  try {
+    const response = await axios.post(`${api}notifications`, newNotification);
+    alert(response.data.message || "Notification sent successfully!");
+    setNotifications((prev) => [newNotification, ...prev]);
+    setEvent("");
+    setMessage("");
+  } catch (error) {
+    console.error("Failed to send notification:", error);
+    alert("Failed to send notification. Please try again.");
+  }
+};
+
 
   return (
     <div className="container-fluid m-0 p-0">
