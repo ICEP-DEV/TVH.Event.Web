@@ -11,9 +11,7 @@ const Notifications = () => {
   const [message, setMessage] = useState(""); 
   const [notifications, setNotifications] = useState([]); 
   const [events, setEvents] = useState([]); 
-  const [filteredNotifications, setFilteredNotifications] = useState([]); // New state for filtered notifications
-
- 
+  const [filteredNotifications, setFilteredNotifications] = useState([]); 
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -22,78 +20,72 @@ const Notifications = () => {
           type: localStorage.getItem("type"),
           user_id: localStorage.getItem("user_id"),
         });
-        setEvents(response.data.results);
+        setEvents(response.data.results || []);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
     };
 
     fetchEvents();
-  }, [api]);
+  }, []);
 
-  // Fetch notifications on component mount
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get(`${api}notifications`); // Adjust URL based on your API structure
-        setNotifications(response.data);
+        const response = await axios.get(`${api}notifications`);
+        setNotifications(response.data || []);
+        setFilteredNotifications(response.data || []); // Show all by default
+        console.log("Notifications fetched:", response.data);
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
     };
 
     fetchNotifications();
-  }, [api]);
+  }, []);
 
-  // Function to handle event filtering
   const handleEventFilter = (e) => {
     const selectedEvent = e.target.value;
-    setEvent(selectedEvent); // Update selected event
+    setEvent(selectedEvent);
 
-    // Filter notifications for the selected event
     if (selectedEvent) {
       const filtered = notifications.filter(
         (notification) => notification.event_id === selectedEvent
       );
       setFilteredNotifications(filtered);
     } else {
-      setFilteredNotifications([]);
+      setFilteredNotifications(notifications); // Show all if no event selected
     }
   };
 
-  // Function to handle sending a new notification
   const handleSendMessage = async () => {
-    if (!event || !message) {
-      alert("Please select an event and enter a message.");
-      return;
-    }
+  if (!event || !message) {
+    alert("Please select an event and enter a message.");
+    return;
+  }
 
-    const newNotification = {
-      notification_id: Math.random().toString(36).substring(7), // Temporary unique ID
-      event_id: event, // The selected event ID
-      message: `${message}`, // The message entered by the organizer
-    };
-
-    try {
-      await axios.post(`${api}notifications`, newNotification); // Adjust API URL
-      alert("Notification sent successfully!");
-
-      // Update the notifications state to include the new notification
-      setNotifications((prev) => [newNotification, ...prev]);
-
-      // Update filtered notifications if the selected event matches
-      if (newNotification.event_id === event) {
-        setFilteredNotifications((prev) => [newNotification, ...prev]);
-      }
-
-      // Clear input fields
-      setEvent("");
-      setMessage("");
-    } catch (error) {
-      console.error("Failed to send notification:", error);
-      alert("Failed to send notification. Please try again.");
-    }
+  const newNotification = {
+    notification_id: parseInt(Math.random().toString(36).substring(7), 36),
+    attendee_id: localStorage.getItem("user_id"), // Replace with actual user logic
+    admin_id: "1", // Adjust as needed
+    message: message,
+    organiser_id: "1", // Adjust as needed
   };
+
+  console.log("Payload being sent:", newNotification);
+
+  try {
+    const response = await axios.post(`${api}notifications`, newNotification);
+    alert(response.data.message || "Notification sent successfully!");
+    setNotifications((prev) => [newNotification, ...prev]);
+    setEvent("");
+    setMessage("");
+  } catch (error) {
+    console.error("Failed to send notification:", error);
+    alert("Failed to send notification. Please try again.");
+  }
+};
+
 
   return (
     <div className="container-fluid m-0 p-0">
@@ -128,9 +120,9 @@ const Notifications = () => {
           </div>
 
           <div className="my-notifications">
-            <h3>My Event Notifications</h3>
+            <h3>All Notifications</h3>
             {filteredNotifications.length === 0 ? (
-              <p>No notifications for the selected event.</p>
+              <p>No notifications available.</p>
             ) : (
               filteredNotifications.map((notification) => (
                 <div className="notification-box" key={notification.notification_id}>
