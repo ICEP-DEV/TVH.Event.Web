@@ -64,26 +64,30 @@ const Notifications = () => {
     return;
   }
 
-  const newNotification = {
-    notification_id: parseInt(Math.random().toString(36).substring(7), 36),
-    attendee_id: localStorage.getItem("user_id"), // Replace with actual user logic
-    admin_id: "1", // Adjust as needed
-    message: message,
-    organiser_id: "1", // Adjust as needed
-  };
+const newNotification = {
+  notification_id: parseInt(Math.random().toString(36).substring(7), 36),
+  attendee_id: localStorage.getItem("user_id"), // Replace with actual user logic
+  admin_id: "1", 
+  message: message,
+  organiser_id: "1", 
+  event_id: event, 
+};
 
   console.log("Payload being sent:", newNotification);
 
-  try {
-    const response = await axios.post(`${api}notifications`, newNotification);
-    alert(response.data.message || "Notification sent successfully!");
-    setNotifications((prev) => [newNotification, ...prev]);
-    setEvent("");
-    setMessage("");
-  } catch (error) {
-    console.error("Failed to send notification:", error);
-    alert("Failed to send notification. Please try again.");
-  }
+ try {
+  const response = await axios.post(`${api}notifications`, newNotification);
+  alert(response.data.message || "Notification sent successfully!");
+  
+  // Add the new notification with the correct `event_id`
+  setNotifications((prev) => [response.data.notification, ...prev]); 
+  
+  setEvent("");
+  setMessage("");
+} catch (error) {
+  console.error("Failed to send notification:", error);
+  alert(error.response?.data?.error || "Failed to send notification. Please try again.");
+}
 };
 
 
