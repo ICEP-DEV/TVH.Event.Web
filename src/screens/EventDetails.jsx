@@ -170,6 +170,9 @@ const EventDetails = () =>{
         }
     )
 
+
+
+
     return (
         <div className="container-fluid m-0 p-0">
             <div className="d-flex">

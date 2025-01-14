@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCalendarCheck, faBell, faCalendarAlt, faCommentDots, faUsers, faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCalendarCheck, faBell, faCalendarAlt, faCommentDots, faUsers, faUser, faArrowRightFromBracket, faMailBulk } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,10 @@ const SideBar = () => {
   const location = useLocation();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const [ isLogOutClicked, setIsLogOutClicked] = useState(false);
+
+  const userType = localStorage.getItem('type');
+  const username = localStorage.getItem('username');
+
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -95,10 +99,14 @@ const SideBar = () => {
           </Link>
           
             
-            <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
-              <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
-              {isSidebarExpanded && <span>Organisers</span>}
-            </Link>
+          { userType === 'admin' ? 
+          
+          <Link to="/organisers" className="nav-link my-3" style={linkStyle("/organisers")}>
+            <FontAwesomeIcon icon={faUsers} className="bi me-2" width="24" height="24"/>
+            {isSidebarExpanded && <span>Organisers</span>}
+          </Link>
+          : <></>
+          }
 
           <Link to="/notifications" className="nav-link my-3" style={linkStyle("/notifications")}>
             <FontAwesomeIcon icon={faBell} className="bi me-2" width="24" height="24" />
@@ -112,6 +120,15 @@ const SideBar = () => {
             <FontAwesomeIcon icon={faCommentDots} className="bi me-2" width="24" height="24" />
             {isSidebarExpanded && <span>Feedback & Review</span>}
           </Link>
+
+          { userType === 'organiser' ? 
+          
+          <Link to="/contact-admin" className="nav-link my-3" style={linkStyle("/contact-admin")}>
+            <FontAwesomeIcon icon={faMailBulk} className="bi me-2" width="24" height="24"/>
+            {isSidebarExpanded && <span>Contact Admin</span>}
+          </Link>
+          : <></>
+          }
         </ul>
 
         <div className="mt-5 mb-5">
@@ -122,13 +139,14 @@ const SideBar = () => {
             <FontAwesomeIcon icon={faUser} width="24" height="24" className="bi me-2"/>
             <span>
               { isSidebarExpanded && 
-              localStorage.getItem('username') }
+              username }
+              {console.log(localStorage.getItem('type'))}
             </span>
           </li>
-          <Link className="nav-link my-3 text-white" onClick={()=>{logout(false)}}>
+          <div className="nav-link my-3 text-white" role="button" onClick={()=>{logout(false)}}>
               <FontAwesomeIcon icon={faArrowRightFromBracket} height="24" width="24" className="bi me-2"/>
               {isSidebarExpanded && <span>Log Out</span>}
-          </Link>
+          </div>
         </ul>
         
       </div>
