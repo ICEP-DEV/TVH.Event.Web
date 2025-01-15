@@ -59,35 +59,35 @@ const Notifications = () => {
   };
 
   const handleSendMessage = async () => {
-  if (!event || !message) {
-    alert("Please select an event and enter a message.");
-    return;
-  }
+    if (!event || !message) {
+      alert("Please select an event and enter a message.");
+      return;
+    }
 
-const newNotification = {
-  admin_id: "1", 
-  message: message,
-  organiser_id: "1", 
-  event_id: event, 
-};
+    const newNotification = {
+      admin_id: "1", 
+      organiser_id: "1", 
+      event_id: event, 
+      message: message, 
+    };
 
-  console.log("Payload being sent:", newNotification);
+    console.log("Payload being sent:", newNotification);
 
- try {
-  const response = await axios.post(`${api}notifications`, newNotification);
-  alert(response.data.message || "Notification sent successfully!");
-  
-  // Add the new notification with the correct `event_id`
-  setNotifications((prev) => [response.data.notification, ...prev]); 
-  
-  setEvent("");
-  setMessage("");
-} catch (error) {
-  console.error("Failed to send notification:", error);
-  alert(error.response?.data?.error || "Failed to send notification. Please try again.");
-}
-};
+    try {
+      const response = await axios.post(`${api}notifications`, newNotification);
+      alert(response.data.message || "Notification sent successfully!");
 
+      
+      setNotifications((prev) => [response.data.notification, ...prev]);
+
+      // Clear the input fields
+      setEvent("");
+      setMessage("");
+    } catch (error) {
+      console.error("Failed to send notification:", error);
+      alert(error.response?.data?.error || "Failed to send notification. Please try again.");
+    }
+  };
 
   return (
     <div className="container-fluid m-0 p-0">
