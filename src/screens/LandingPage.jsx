@@ -9,7 +9,7 @@ import api from '../APIs/API';
 
 
 function LandingPage() {
-    const bg = require('../assets/leaf.jpg')
+    const bg = require('../assets/leaf1.jpg')
     const [isOpened, setIsOpened] = useState(false);
 
     const [Email, setEmail] = useState('');
@@ -62,7 +62,7 @@ function LandingPage() {
 
     return (
         <div className="container-fluid p-0" style={{
-            backgroundImage : bg,
+            //backgroundImage : bg,
             height : '100vh',
             backgroundImage : `url(${bg})`
         }}>

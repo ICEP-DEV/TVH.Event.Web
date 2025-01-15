@@ -65,8 +65,6 @@ const Notifications = () => {
   }
 
 const newNotification = {
-  notification_id: parseInt(Math.random().toString(36).substring(7), 36),
-  attendee_id: localStorage.getItem("user_id"), // Replace with actual user logic
   admin_id: "1", 
   message: message,
   organiser_id: "1", 
