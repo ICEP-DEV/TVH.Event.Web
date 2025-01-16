@@ -67,8 +67,8 @@ const Notifications = () => {
     const newNotification = {
       admin_id: "1", 
       organiser_id: "1", 
-      event_id: event, 
-      message: message, 
+      event_id: event, // The event ID selected by the user
+      message: message, // The message entered by the user
     };
 
     console.log("Payload being sent:", newNotification);
@@ -77,7 +77,7 @@ const Notifications = () => {
       const response = await axios.post(`${api}notifications`, newNotification);
       alert(response.data.message || "Notification sent successfully!");
 
-      
+      // Add the new notification to the list (including the generated `notification_id` from the backend)
       setNotifications((prev) => [response.data.notification, ...prev]);
 
       // Clear the input fields
