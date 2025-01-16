@@ -17,7 +17,7 @@ import ContactUs from "./screens/ContactUs";
 import CalendarPage from "./screens/CalendarPage";
 import EventPage from "./screens/EventPage ";
 import RegistrationForm from "./screens/RegistrationForm";
-import ManagedOrganizers from "./screens/ManagedOrganizers";
+import OrganizersManagement from "./screens/OrganizersManagement";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path="/calendar" element={< CalendarPage />} />
         <Route path="/Notifications" element={< Notifications />} />
         <Route path="/registrationform" element={< RegistrationForm />} />
-        <Route path="/organisers" element={< ManagedOrganizers />} />
+        <Route path="/organisers" element={< OrganizersManagement />} />
         <Route path="/Feedback" element={< Feedback />} />
 
         <Route path="/event/details" element={<EventDetails/>} />
