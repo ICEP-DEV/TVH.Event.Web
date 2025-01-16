@@ -1,5 +1,4 @@
 import React from "react";
-import "../style/NavBar.css"; // Import your CSS for styling
 import { useNavigate, Link } from 'react-router-dom';
 import { isAuthenticated } from '../authentication/auth';
 
