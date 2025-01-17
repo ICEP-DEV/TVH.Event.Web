@@ -140,7 +140,6 @@ const SideBar = () => {
             <span>
               { isSidebarExpanded && 
               username }
-              {console.log(localStorage.getItem('type'))}
             </span>
           </li>
           <div className="nav-link my-3 text-white" role="button" onClick={()=>{logout(false)}}>
