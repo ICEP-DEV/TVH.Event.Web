@@ -25,6 +25,7 @@ function LandingPage() {
                 endpoint,
                 data
             );
+
             if (response.status === 200){
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("type", response.data.type);
@@ -40,8 +41,7 @@ function LandingPage() {
                 toast.warn(response.data.message);
             }
         }catch(error){
-            console.log(error)
-            //toast.error(error.response.data.message)
+            toast.error(error.response.data.message)
         }
     };
 
