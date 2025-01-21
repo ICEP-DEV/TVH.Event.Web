@@ -11,6 +11,8 @@ import UserDetails from "./screens/UserDetails";
 import EventDetails from "./screens/EventDetails";
 
 import ContactUs from "./screens/ContactUs";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
+
 
 
 // Side Bar imports
@@ -24,6 +26,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={ <LandingPage/> }/>
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/UserDetails" element={< UserDetails />} />
         <Route path="/event" element={ <EventPage/> }/>
 
