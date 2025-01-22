@@ -107,7 +107,7 @@ function LandingPage() {
                         </div>
 
                         <div className="mt-3 text-center">
-                            <a href="/forgot-password" className="text-muted">Forgot password?</a>
+                           <Link to="/forgot-password" className="text-muted">Forgot password?</Link>
                         </div>
                     </form>
                 </div> : <></>

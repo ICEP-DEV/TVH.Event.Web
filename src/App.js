@@ -11,6 +11,8 @@ import Feedback from "./screens/Feedback";
 import EventDetails from "./screens/EventDetails";
 
 import ContactUs from "./screens/ContactUs";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
+
 
 
 // Side Bar imports
@@ -23,9 +25,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={ <LoggedInRoute><LandingPage/></LoggedInRoute> }/>
-        <Route path="/event" element={ <ProtectedRoute><EventPage/></ProtectedRoute> }/>
+        <Route path="/" element={ <LandingPage/> }/>
 
+        <Route path="/event" element={ <ProtectedRoute><EventPage/></ProtectedRoute> }/>
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/contact" element={<LoggedInRoute>< ContactUs /></LoggedInRoute>} />
 
         <Route path="/calendar" element={<ProtectedRoute>< CalendarPage /></ProtectedRoute>} />
