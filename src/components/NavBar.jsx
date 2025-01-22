@@ -1,9 +1,7 @@
 import React from "react";
-import { useNavigate, Link } from 'react-router-dom';
-import { isAuthenticated } from '../authentication/auth';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
-  const navigate = useNavigate();
 
   return (
     <div className="container-fluid bg-light" style={{height : "10vh"}}>

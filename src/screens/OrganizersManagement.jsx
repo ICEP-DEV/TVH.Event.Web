@@ -20,12 +20,19 @@ const OrganizersManagement = () =>{
     const [modalError, setModalError] = useState(false);
 
     //create organizer
-    const [newOrganizerEmail, setNewOrganizerEmail] = useState(null);
-    const [newOrganization, setNewOrganization] = useState('');
+    //const [newOrganizerEmail, setNewOrganizerEmail] = useState(null);
+    //const [newOrganization, setNewOrganization] = useState('');
+
+    const token = localStorage.getItem('token');
+    const config = {
+        headers : {
+            'token' : `Bearer ${token}`
+        }
+    }
 
     const fetchOrganizations = async()=>{
         await axios.get(
-            api + 'organization'
+            api + 'organization', config
         ).then((response) => {
             setOrganization(response.data.results);
         }).catch((error) => {
@@ -36,7 +43,7 @@ const OrganizersManagement = () =>{
     const fetchOrganizers = async()=>{
         try{
             await axios.get(
-                api + 'organiser'
+                api + 'organiser', config
             ).then((response) =>{
                 setOrganizers(response.data.slice(1));
                 setOrganizersFiltered(response.data.slice(1));
@@ -98,7 +105,8 @@ const OrganizersManagement = () =>{
         
         await axios.post(
             api + "auth/web/organiser",
-            {email,org_id}
+            {email,org_id},
+            config
         ).then(() =>{
             setIsModalOpen(false);
             handleInfoBox("Account has been created and an email sent to the organizer")
@@ -137,7 +145,7 @@ const OrganizersManagement = () =>{
 
     const archiveOrganizer = async(organizer_id) =>{
         await axios.put(
-            api + 'organiser/archive/' + organizer_id
+            api + 'organiser/archive/' + organizer_id,{},config
         ).then(() => {
             fetchOrganizers();
             setIsModalOpen(false);
@@ -148,7 +156,7 @@ const OrganizersManagement = () =>{
 
     const reinstateOrganizer = async(organizer_id) =>{
         await axios.put(
-            api + 'organiser/reinstate/' + organizer_id
+            api + 'organiser/reinstate/' + organizer_id,{}, config
         ).then(()=>{
             fetchOrganizers();
             
@@ -241,7 +249,8 @@ const OrganizersManagement = () =>{
 
         await axios.post(
             api + 'send_mail',
-            {email, subject, content}
+            {email, subject, content},
+            config
         ).then(()=>{
             handleInfoBox("Successfully send email to organizer")
         }).catch((error)=>{

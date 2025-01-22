@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 
 
-const AllRegisteredComponent = ({attendees})=>{
+const AllRegisteredComponent = ({attendees, config})=>{
 
     const [attendeesList, setAttendees] = useState(attendees);
 
@@ -19,13 +19,14 @@ const AllRegisteredComponent = ({attendees})=>{
                     api + 'attendee/events/' + attendee.registration_id,
                     {
                         "registration_id" : attendee.registration_id
-                    }
+                    }, config
                 ).catch((error) =>{
                     return; 
                 })
             }else if(code === 0){
                 await axios.delete(
                     api + 'attendee/events/' + attendee.registration_id,
+                    config
                 ).catch((error) =>{
                     console.log(error)
                     return; 

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  } from "@fortawesome/free-solid-svg-icons";
 
 
-const SurveyComponent = ({surveys, event_id})=>{
+const SurveyComponent = ({surveys, event_id, config})=>{
     const [error, setError] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [surveyTitle, setSurveyTitle] = useState("")
@@ -39,9 +39,9 @@ const SurveyComponent = ({surveys, event_id})=>{
         }
         await axios.post(
             api + "survey/create",
-            data
+            data,
+            config
         ).then((response) =>{
-            console.log()
             window.location.reload()
         }).catch((error)=>{
             setError(true)

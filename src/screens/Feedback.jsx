@@ -48,6 +48,12 @@ const FeedbackPage = ()=>{
   const [ indianParticipants, setIndianParticipants ] = useState(0)
   const [ otherParticipants, setOtherParticipants ] = useState(0)
 
+  const token = localStorage.getItem("token")
+  const config = {
+    headers : {
+      "token" : `Bearer ${token}`
+    }
+  }
 
   useState(()=>{
     
@@ -57,7 +63,8 @@ const FeedbackPage = ()=>{
         {
           type : localStorage.getItem("type"),
           user_id : localStorage.getItem("user_id")
-        }
+        },
+        config
       ).then((response) =>{
         setEvents(response.data.results)
       }).catch((error) =>{
@@ -74,7 +81,7 @@ const FeedbackPage = ()=>{
 
     async function getParticipants(){
       await axios.get(
-        api + 'register/attendee/' + parseInt(e.target.value)
+        api + 'register/attendee/' + parseInt(e.target.value), config
       ).then((response) =>{
         //setAttendees(response.data.results);
         setTotalApplicants(response.data.results.length);
@@ -177,7 +184,7 @@ const FeedbackPage = ()=>{
 
     async function getSurveys(){
       await axios.get(
-        api + "survey/all/" + parseInt(e.target.value)
+        api + "survey/all/" + parseInt(e.target.value), config
       ).then((response) => {
         setSurveys(response.data.results)
       }).catch((error) =>{
@@ -213,7 +220,7 @@ const FeedbackPage = ()=>{
 
     async function getReviews(){
       await axios.get(
-        api + "reviews/event/" + parseInt(e.target.value)
+        api + "reviews/event/" + parseInt(e.target.value), config
       ).then((response) =>{
         setReviews(response.data.results)
         setReviewsFiltered(response.data.results)
@@ -232,7 +239,6 @@ const FeedbackPage = ()=>{
 
   
   const handleReviewFilter = (e)=>{
-    console.log(reviews[0].rating)
     if(e.target.value === '0'){
       setReviewsFiltered(reviews)
     }
@@ -245,9 +251,8 @@ const FeedbackPage = ()=>{
     setSelectedSurveyID(e.target.value);
 
     async function getSurvey(){
-      console.log(selectedEvent)
       await axios.get(
-        api + "feedback/event/" + parseInt(selectedEvent)
+        api + "feedback/event/" + parseInt(selectedEvent), config
       ).then((response) =>{
         setFeedbacks(response.data.results)
       }).catch((error) =>{
@@ -267,6 +272,7 @@ const FeedbackPage = ()=>{
     
     return (sum / reviews.length).toFixed(2);
   }
+
 
   return <div className="container-fluid p-0">
     <div className="d-flex">
@@ -358,7 +364,7 @@ const FeedbackPage = ()=>{
                 <div className="container-fluid pt-1 overflow-auto" style={{height : "25vh"}}>
                   {
                     reviewsFiltered.map((review) =>(
-                      <div key={review} className="row my-2 p-1 border-bottom">
+                      <div key={review.reviews_id} className="row my-2 p-1 border-bottom">
                         {review.content}
                       </div>
                     ))
@@ -398,11 +404,11 @@ const FeedbackPage = ()=>{
                     <tbody>
                       {
                         feedbacks.map((feedback)=>(
-                          <tr key={feedback}>
-                            <td>{feedback.submitted.split('T')[0]} {feedback.submitted.split('T')[1].split('.')[0]}</td>
+                          <tr key={feedback.feedback_id}>
+                            <td>{feedback.submitted_at.split('T')[0]} {feedback.submitted_at.split('T')[1].split('.')[0]}</td>
                             <td>{feedback.first_name}</td>
                             <td>{feedback.last_name}</td>
-                            <td>{feedback.rating}</td>
+                            <td>{feedback.responses.split('|')[0]}</td>
                           </tr>
                         ))
                       }

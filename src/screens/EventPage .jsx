@@ -7,6 +7,7 @@ import axios from "axios";
 import api from "../APIs/API";
 import Countdown from 'react-countdown';
 
+
 const EventPage = () => {
 
   const [controller, setController] = useState('');
@@ -23,10 +24,20 @@ const EventPage = () => {
   const navigate = useNavigate()
 
 
+  const token = localStorage.getItem("token");
+  let config = {
+    headers : {
+      "token" : `Bearer ${token}`
+    }
+  }
+
 
   useState(()=>{
     const getAllEvents = async()=>{
-      await axios.get(api + "event/all")
+      
+
+      await axios.get(
+        api + "event/all",config)
         .then((response) => {
           setAllEvents(response.data.results);
         }).catch((error) => {
@@ -35,7 +46,7 @@ const EventPage = () => {
     }
 
     const getAllCategories = async()=>{
-      await axios.get(api + "category/all")
+      await axios.get(api + "category/all", config)
         .then((response) =>{
           setCategory(response.data.results)
         }).catch((error) => {
@@ -49,7 +60,8 @@ const EventPage = () => {
         {
           type : localStorage.getItem("type"),
           user_id : localStorage.getItem("user_id")
-        }
+        },
+        config
       )
       .then((response) => {
         setMyevents(response.data.results)
@@ -111,6 +123,7 @@ const EventPage = () => {
       await axios.post(api + "event/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          "token" : `Bearer ${token}`
         },
       });
     

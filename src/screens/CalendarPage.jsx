@@ -16,10 +16,19 @@ const CalendarPage = () => {
     setDate(newDate);
   };
 
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers : {
+      "token" : `Bearer ${token}`
+    }
+  }
+
+
   useEffect(() => {
     const getAllEvents = async () => {
       try {
-        const response = await axios.get(api + "event/all");
+        const response = await axios.get(api + "event/all", config);
         setEvents(response.data.results);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -40,9 +49,8 @@ const CalendarPage = () => {
           eventDate.getFullYear() === date.getFullYear()
         );
       });
-
       return dayEvents.map((event) => (
-        <div key={event.id} className="event-indicator">
+        <div key={event.event_id} className="event-indicator">
           {event.title}
         </div>
       ));

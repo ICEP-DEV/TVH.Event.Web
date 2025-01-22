@@ -13,13 +13,23 @@ const Notifications = () => {
   const [events, setEvents] = useState([]); 
   const [filteredNotifications, setFilteredNotifications] = useState([]); 
 
+  const token = localStorage.getItem('token')
+  const config = {
+    headers : {
+      'token' : `Bearer ${token}`
+    }
+  }
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.post(`${api}event/fetchbyuser`, {
+        const response = await axios.post(
+          `${api}event/fetchbyuser`, {
           type: localStorage.getItem("type"),
           user_id: localStorage.getItem("user_id"),
-        });
+          },
+          config
+      );
         setEvents(response.data.results || []);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -32,10 +42,9 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get(`${api}notifications`);
+        const response = await axios.get(`${api}notifications`, config);
         setNotifications(response.data || []);
         setFilteredNotifications(response.data || []); // Show all by default
-        console.log("Notifications fetched:", response.data);
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
@@ -74,7 +83,7 @@ const Notifications = () => {
     console.log("Payload being sent:", newNotification);
 
     try {
-      const response = await axios.post(`${api}notifications`, newNotification);
+      const response = await axios.post(`${api}notifications`, newNotification, config);
       alert(response.data.message || "Notification sent successfully!");
 
       // Add the new notification to the list (including the generated `notification_id` from the backend)
@@ -91,11 +100,10 @@ const Notifications = () => {
 
   return (
     <div className="container-fluid m-0 p-0">
-      <NavBar />
       <div className="d-flex">
         <SideBar />
-        <div className="main">
-          <h2>Event Notifications</h2>
+        <div className="col p-5">
+          <p className="fs-1">Event Notifications</p>
 
           <div className="col-3 d-flex mb-3">
             <select onChange={handleEventFilter} value={event} className="form-select">
@@ -122,7 +130,7 @@ const Notifications = () => {
           </div>
 
           <div className="my-notifications">
-            <h3>All Notifications</h3>
+            <p className="fs-3">All Notifications</p>
             {filteredNotifications.length === 0 ? (
               <p>No notifications available.</p>
             ) : (

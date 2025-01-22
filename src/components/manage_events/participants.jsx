@@ -3,7 +3,7 @@ import { useState } from 'react';
 import api from '../../APIs/API';
 import axios from 'axios';
 
-const AllParticipantsComponent = ({attendees, event})=>{
+const AllParticipantsComponent = ({attendees, event, config})=>{
     const [isQROpen, setIsQROpen] = useState(false);
     
 
@@ -17,7 +17,8 @@ const AllParticipantsComponent = ({attendees, event})=>{
         );
         if(index !== -1){
             await axios.delete(
-                api + 'attendee/events/' + participant.registration_id
+                api + 'attendee/events/' + participant.registration_id,
+                config
             ).catch((error) =>{
                 console.log(error)
                 return; 

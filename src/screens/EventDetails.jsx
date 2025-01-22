@@ -62,7 +62,8 @@ const EventDetails = () =>{
                 {
                     event_id : event.event_id,
                     questionair : questions 
-                }
+                },
+                config
             );
             Navigate({to : "/event/details", state : event });
         }catch(error){
@@ -74,7 +75,7 @@ const EventDetails = () =>{
     const deleteRegistrationForm = async(e)=>{
         e.preventDefault();
         await axios.delete(
-            api + "register/form/" + register.registration_form_id
+            api + "register/form/" + register.registration_form_id, config
         ).then((response) => {
             Navigate({to : "/event/details", state : event });
         }).catch((error) =>{
@@ -82,6 +83,12 @@ const EventDetails = () =>{
         });
     }
 
+    const token = localStorage.getItem('token');
+    const config = {
+        headers : {
+            'token' : `Bearer ${token}`
+        }
+    }
 
     useEffect(() => {
         if(event){
@@ -98,7 +105,7 @@ const EventDetails = () =>{
 
         setController('')
         const getRegister = async()=>{
-            await axios.get(api + 'register/' + event.event_id)
+            await axios.get(api + 'register/' + event.event_id, config)
             .then((response)=>{
                 setRegister(response.data.results)
             }).catch((error)=>{
@@ -108,7 +115,7 @@ const EventDetails = () =>{
 
         const fetchRegister = async()=>{
             await axios.get(
-                api + 'register/attendee/' + event.event_id
+                api + 'register/attendee/' + event.event_id, config
             ).then((response) =>{
                 setAttendees(response.data.results)
             })
@@ -116,7 +123,7 @@ const EventDetails = () =>{
 
         const fetchSurveys = async()=>{
             await axios.get(
-                api + 'survey/all/' + event.event_id
+                api + 'survey/all/' + event.event_id, config
             ).then((response) =>{
                 setSurveys(response.data.results)
             }).catch((error) =>{
@@ -311,19 +318,19 @@ const EventDetails = () =>{
                                     </div>
                                     {
                                         manageController === "" ?
-                                        <AllRegisteredComponent attendees={attendees}/>
+                                        <AllRegisteredComponent attendees={attendees} config={config}/>
                                         : <></>
                                         
                                     }
                                     {
                                         manageController === "participants" ?
-                                        <AllParticipantsComponent attendees={attendees} event={event}/>
+                                        <AllParticipantsComponent attendees={attendees} event={event} config={config}/>
                                         : <></>
                                         
                                     }
                                     {
                                         manageController === "survey" ?
-                                        <SurveyComponent event_id={event.event_id} surveys={surveys} />
+                                        <SurveyComponent event_id={event.event_id} surveys={surveys} config={config} />
                                         : <></>
                                         
                                     }

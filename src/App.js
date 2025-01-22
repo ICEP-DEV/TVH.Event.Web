@@ -2,11 +2,11 @@ import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 //import "bootstrap/dist/css/bootstrap.min.css";
+import {ProtectedRoute, LoggedInRoute} from './HOC';
 import LandingPage from "./screens/LandingPage";
 import Notifications from "./screens/Notifications";
 import Feedback from "./screens/Feedback";
 
-import UserDetails from "./screens/UserDetails";
 
 import EventDetails from "./screens/EventDetails";
 
@@ -23,19 +23,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={ <LandingPage/> }/>
-        <Route path="/UserDetails" element={< UserDetails />} />
-        <Route path="/event" element={ <EventPage/> }/>
+        <Route path="/" element={ <LoggedInRoute><LandingPage/></LoggedInRoute> }/>
+        <Route path="/event" element={ <ProtectedRoute><EventPage/></ProtectedRoute> }/>
 
-        <Route path="/contact" element={< ContactUs />} />
+        <Route path="/contact" element={<LoggedInRoute>< ContactUs /></LoggedInRoute>} />
 
-        <Route path="/calendar" element={< CalendarPage />} />
-        <Route path="/Notifications" element={< Notifications />} />
-        <Route path="/registrationform" element={< RegistrationForm />} />
-        <Route path="/organisers" element={< OrganizersManagement />} />
-        <Route path="/Feedback" element={< Feedback />} />
+        <Route path="/calendar" element={<ProtectedRoute>< CalendarPage /></ProtectedRoute>} />
+        <Route path="/Notifications" element={<ProtectedRoute>< Notifications /></ProtectedRoute>} />
+        <Route path="/registrationform" element={<ProtectedRoute>< RegistrationForm /></ProtectedRoute>} />
+        <Route path="/organisers" element={<ProtectedRoute>< OrganizersManagement /></ProtectedRoute>} />
+        <Route path="/Feedback" element={<ProtectedRoute>< Feedback /></ProtectedRoute>} />
 
-        <Route path="/event/details" element={<EventDetails/>} />
+        <Route path="/event/details" element={<ProtectedRoute><EventDetails/></ProtectedRoute>} />
       </Routes>
     </Router>
   );
