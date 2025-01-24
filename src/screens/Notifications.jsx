@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../components/SideBar";
-import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import axios from "axios"; 
 import "../style/Notifications.css";

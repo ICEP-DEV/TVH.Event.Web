@@ -16,5 +16,24 @@ const LoggedInRoute = ({ children }) => {
 }
 
 
+const OrganizersRoute = ({ children }) =>{
+    if(isAuthenticated){
+        const type = localStorage.getItem('type');
 
-export{ProtectedRoute, LoggedInRoute};
+        return type === 'organiser' ? children : <Navigate to="/access-denied" />
+    }
+    
+    return <Navigate to="/" />
+}
+const AdminRoute = ({ children }) =>{
+    if(isAuthenticated){
+        const type = localStorage.getItem('type');
+
+        return type === 'admin' ? children : <Navigate to="/access-denied" />
+    }
+    
+    return <Navigate to="/" />
+}
+
+
+export{ProtectedRoute, LoggedInRoute, OrganizersRoute, AdminRoute};

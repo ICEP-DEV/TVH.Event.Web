@@ -66,7 +66,7 @@ export const ContactUs = () => {
             style={{resize: 'none'}}
           ></textarea>
         </div>
-        <input type="submit" value="Send" className="btn btn-primary btn-lg" />
+        <input type="submit" value="Send" className="btn btn-primary btn-lg my-3" />
 
         {messageSent && (
           <p className="success-message">

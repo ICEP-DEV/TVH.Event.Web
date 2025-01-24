@@ -77,7 +77,7 @@ const OrganizersManagement = () =>{
                         id="organizerEmail"
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group my-3">
                     <label className="form-label">Name of Organization</label>
                     <select className="form-control form-select" name="organizationName" id="organizationName">
                         {
@@ -88,7 +88,7 @@ const OrganizersManagement = () =>{
                     </select>
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-md" style={{backgroundColor: "var(--blue2)", color: "white"}} type="submit">
+                    <button className="btn btn-md p-3" style={{backgroundColor: "var(--blue2)", color: "white"}} type="submit">
                         Create Organizer
                     </button>
                 </div>
@@ -220,7 +220,7 @@ const OrganizersManagement = () =>{
                         readOnly 
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group my-2">
                     <label className="form-label">Email Subject</label>
                     <input 
                         type="text"
@@ -231,7 +231,7 @@ const OrganizersManagement = () =>{
                     <label className="form-label">Email Content</label>
                     <textarea name="" id="" rows={6} className="form-control" style={{resize:"none"}}></textarea>
                 </div>
-                <div className="form-group">
+                <div className="form-group my-2">
                     <button className="btn btn-success" type="submit">Send Email</button>
                 </div>
             </form>
@@ -380,7 +380,7 @@ const OrganizersManagement = () =>{
                                     </span>
                                 }
                             </span>
-                            <button className="btn btn-danger col-2 mb-1" onClick={closeModal}>Cancel</button>
+                            <button className="btn btn-danger col-2 mb-1 py-2" onClick={closeModal}>Cancel</button>
                         </div>
 
                         {modalContent}
