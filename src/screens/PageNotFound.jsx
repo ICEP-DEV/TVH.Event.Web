@@ -5,7 +5,6 @@ import React from "react";
 
 
 const PageNotFound = () =>{
-
     const image_404 = require("../assets/error_bg.jpg")
 
     return <div className="container-fluid d-flex flex-column justify-content-center align-items-center mt-5" style={{height : '100%'}}>

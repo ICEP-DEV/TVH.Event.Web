@@ -20,7 +20,10 @@ const OrganizersRoute = ({ children }) =>{
     if(isAuthenticated){
         const type = localStorage.getItem('type');
 
-        return type === 'organiser' ? children : <Navigate to="/access-denied" />
+        if(type === 'admin'){
+            return type === 'organiser' ? children : <Navigate to="/access-denied" />
+        }
+
     }
     
     return <Navigate to="/" />
@@ -29,7 +32,9 @@ const AdminRoute = ({ children }) =>{
     if(isAuthenticated){
         const type = localStorage.getItem('type');
 
-        return type === 'admin' ? children : <Navigate to="/access-denied" />
+        if(type === 'organiser'){
+            return type === 'admin' ? children : <Navigate to="/access-denied" />
+        }
     }
     
     return <Navigate to="/" />
