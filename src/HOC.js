@@ -21,9 +21,9 @@ const OrganizersRoute = ({ children }) =>{
         const type = localStorage.getItem('type');
 
         if(type === 'admin'){
-            return type === 'organiser' ? children : <Navigate to="/access-denied" />
+            return <Navigate to="/access-denied" />
         }
-
+        return children;
     }
     
     return <Navigate to="/" />

@@ -29,7 +29,6 @@ import ContactAdmin from "./screens/ContactAdmin";
 
 function App() {
 
-  console.log(localStorage.getItem('type'))
   return (
     <Router>
       <Routes>
