@@ -6,7 +6,8 @@ import { useState } from "react";
 const AllRegisteredComponent = ({attendees, config})=>{
 
     const [attendeesList, setAttendees] = useState(attendees);
-
+    const [searchAttendee, setSearchAttendee] = useState('')
+    
     const updateAttendee = async(attendee, code)=>{
         const index = attendeesList.findIndex(
             (a) => a.registration_id === attendee.registration_id
@@ -43,8 +44,14 @@ const AllRegisteredComponent = ({attendees, config})=>{
     }
 
     return <div className="container-fluid mt-2" style={{minHeight: "70vh"}}>
-        <div className="col-5 my-2">
-            <input type="search" className="form-control" placeholder="Search"/>
+        <div className="col-6 my-2">
+            <input 
+                type="search" 
+                className="form-control" 
+                placeholder="Search Applicants"
+                value={searchAttendee}
+                onChange={(e)=>setSearchAttendee(e.target.value.toLowerCase())}
+            />
         </div>
         <table className="table">
             <thead>
@@ -59,7 +66,12 @@ const AllRegisteredComponent = ({attendees, config})=>{
             </thead>
             <tbody>
                 {
-                    attendeesList.map((attendee)=>(
+                    attendeesList.filter((attendee) =>
+                        //searchAttendee === '' || 
+                        attendee.first_name.toLowerCase().includes(searchAttendee) || 
+                        attendee.last_name.toLowerCase().includes(searchAttendee) ||
+                        attendee.email.toLowerCase().includes(searchAttendee)
+                    ).map((attendee)=>(
                         <tr key={attendee.registration_id}>
                             <td>{attendee.first_name}</td>
                             <td>{attendee.last_name}</td>
@@ -78,7 +90,7 @@ const AllRegisteredComponent = ({attendees, config})=>{
                                         </div>
                                 }
                             </td>
-                            <td><div className="btn btn-primary">View Responses</div></td>
+                            <td><div className="btn btn-success">View Responses</div></td>
                         </tr>
                     ))
                 }

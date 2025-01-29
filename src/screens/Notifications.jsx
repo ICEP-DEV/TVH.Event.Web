@@ -123,7 +123,7 @@ const Notifications = () => {
               className="form-control mb-2"
               rows="3"
             />
-            <button onClick={handleSendMessage} className="btn btn-primary">
+            <button onClick={handleSendMessage} className="btn btn-success">
               Send Notification
             </button>
           </div>

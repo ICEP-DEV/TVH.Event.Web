@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const AllParticipantsComponent = ({attendees, event, config})=>{
     const [isQROpen, setIsQROpen] = useState(false);
-    
+    const [searchParticipant, setSearchParticipant] = useState('')
 
     const [participantsList, setParticipantsList]  = useState(attendees)
 
@@ -60,11 +60,17 @@ const AllParticipantsComponent = ({attendees, event, config})=>{
             :<></>
         }
         <div className="d-flex">
-            <div className="col-5 my-2">
-                <input type="search" className="form-control" placeholder="Search participant"/>
+            <div className="col-6 my-2">
+                <input 
+                    type="search" 
+                    className="form-control" 
+                    placeholder="Search participant"
+                    value={searchParticipant}
+                    onChange={(e)=>setSearchParticipant(e.target.value.toLowerCase())}    
+                />
             </div>
             <div className="col-3 align-self-center">
-                <button className="btn btn-primary" onClick={()=>{setIsQROpen(true)}}>QR Code</button>
+                <button className="btn btn-success" onClick={()=>{setIsQROpen(true)}}>QR Code</button>
             </div>
         </div>
         <table className="table">
@@ -79,8 +85,12 @@ const AllParticipantsComponent = ({attendees, event, config})=>{
                 </tr>
             </thead>
             <tbody>
-                {
-                    participantsList.map((participant)=>(
+                {   
+                    participantsList.filter((participant)=>
+                        participant.first_name.toLowerCase().includes(searchParticipant) ||
+                        participant.last_name.toLowerCase().includes(searchParticipant) ||
+                        participant.email.toLowerCase().includes(searchParticipant) 
+                    ).map((participant)=>(
                         participant.successful === 1 ?
                         <tr key={participant.registration_id}>
                             <td>{participant.first_name}</td>
@@ -92,7 +102,7 @@ const AllParticipantsComponent = ({attendees, event, config})=>{
                                     Remove Participant
                                 </div>
                             </td>
-                            <td><div className="btn btn-primary">View Responses</div></td>
+                            <td><div className="btn btn-success">View Responses</div></td>
                         </tr>
                         : null
                     ))

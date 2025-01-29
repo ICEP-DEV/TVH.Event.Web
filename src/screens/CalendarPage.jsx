@@ -3,7 +3,6 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; 
 import "../style/CalendarPage.css"; // Custom styling
 import SideBar from "../components/SideBar"; // Import SideBar component
-import NavBar from "../components/NavBar"; // Import NavBar component
 import Footer from "../components/Footer";
 import axios from "axios";
 import api from "../APIs/API";
@@ -63,9 +62,8 @@ const CalendarPage = () => {
       
       <div className="d-flex">
         <SideBar />
-        <div className="col d-flex flex-column">
-          <NavBar />
-          <h2 className="page-title" style={{alignSelf:"center"}}>Calendar</h2>
+        <div className="col d-flex flex-column mt-5">
+          <p className="fs-1" style={{alignSelf:"center"}}>Calendar</p>
           <Calendar
             onChange={handleDateChange}
             value={date}

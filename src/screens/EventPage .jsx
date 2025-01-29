@@ -172,9 +172,9 @@ const EventPage = () => {
 
       <div className="col mt-5">
         <div className="d-flex justify-content-center">
-          <button className="btn filter-btn m-0 border" style={controllerStyles("")} onClick={()=>{setController("")}}>All Events</button>
-          <button className="btn filter-btn m-0 border" style={controllerStyles("create")} onClick={()=>{setController("create")}}>Create Event</button>
-          <button className="btn filter-btn m-0 border" style={controllerStyles("myevents")} onClick={()=>{setController("myevents")}}>My Events</button>
+          <button className="btn btn-lg filter-btn m-0 border" style={controllerStyles("")} onClick={()=>{setController("")}}>All Events</button>
+          <button className="btn btn-lg filter-btn m-0 border" style={controllerStyles("create")} onClick={()=>{setController("create")}}>Create Event</button>
+          <button className="btn btn-lg filter-btn m-0 border" style={controllerStyles("myevents")} onClick={()=>{setController("myevents")}}>My Events</button>
         </div>
 
         <div className="container-fluid">

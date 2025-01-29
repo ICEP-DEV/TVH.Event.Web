@@ -24,11 +24,17 @@ body{
   background-color: rgb(230, 40,90);
 }
 
+.btn-danger:hover{
+  background-color: rgb(230, 40,90);
+  opacity: 0.7;
+}
+
 .btn-success{
-  background-color: var(--blue);
+  background-color: var(--blue2);
+  border: 1px solid var(--blue2);
 }
 
 .btn-success:hover{
-  background-color: var(--blue);
+  background-color: var(--blue2);
   opacity: 0.7;
 }
