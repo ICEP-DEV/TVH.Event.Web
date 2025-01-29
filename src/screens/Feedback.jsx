@@ -6,6 +6,8 @@ import api from "../APIs/API";
 import InfoBox from "../components/dashboard/infobox";
 import { BarGraphComponent, PieChart, ReviewGaugeComponent} from "../components/Graphs";
 import Modal from 'react-modal';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 
@@ -273,25 +275,241 @@ const FeedbackPage = ()=>{
     return (sum / reviews.length).toFixed(2);
   }
 
+  const wrapText = (text, maxWidth,pdf) => {
+    return pdf.splitTextToSize(text, maxWidth);
+  };
+
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  const margin = 10;
+  let yPos = margin + 10;
+
+  const incrementYPos = (val)=>{
+    if(yPos > pdf.internal.pageSize.getHeight() - margin){
+      pdf.addPage();
+      yPos = margin;
+    }else{
+      yPos += val
+    }
+  }
+
+  const downloadPDF = ()=>{
+    const currentEvent = events[selectedEvent - 2]
+    
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    console.log(`Page info : ${pageWidth}`)
+    
+    const graphChartElement = document.getElementById("genderGraph");
+    const ethnicgroupChartElement = document.getElementById("ethnicgroupGraph");
+
+    pdf.setFontSize(26);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Times-Roman','', 700)
+    pdf.text(`Event Management System Report`, pageWidth / 2, yPos, {align:"center"})
+    incrementYPos(20);
+
+    pdf.setFontSize(18);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Times-Roman')
+    pdf.text(`Event Summary`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Event Title : ${currentEvent.title}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+
+
+    const wrappedText = wrapText(`Event Description : ${currentEvent.description}`, pageWidth - 2 * margin, pdf)
+
+    wrappedText.forEach((line) =>{
+      if(yPos > pdf.internal.pageSize.getHeight() - margin){
+        pdf.addPage();
+        yPos = margin;
+      }
+      pdf.text(line, margin, yPos);
+      yPos += 10;
+    })
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Start Date : ${currentEvent.start_date.split('T')[0]}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`End Date : ${currentEvent.end_date.split('T')[0]}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Location : ${currentEvent.location}`, margin, yPos)
+    incrementYPos(20);
+
+
+    //Key Stats
+    pdf.setFontSize(18);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Times-Roman')
+    pdf.text(`Key Statistics`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Total Applicants : ${totalApplicants}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Total Participants : ${totalParticipants}`, margin, yPos)
+    incrementYPos(20);
+
+    console.log(`Top of demographics ${yPos}`)
+    // Demographics
+    pdf.setFontSize(18);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Times-Roman')
+    pdf.text(`Demographics`, margin, yPos)
+    incrementYPos(10);
+
+    let imgData = graphChartElement.children[0].toDataURL('image/png')
+    let imgProps = pdf.getImageProperties(imgData);
+    let pdfHeight = (imgProps.height * pageWidth) / (imgProps.width * 1.5);
+    
+    pdf.addImage(imgData, 'PNG', pageWidth * 0.15, yPos - 5, pageWidth * 0.7, pdfHeight); 
+    yPos += pdfHeight + 5;
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Male Applicants: ${maleApplicants}`, margin, yPos)
+    incrementYPos(20);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Female Applicants : ${totalParticipants}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Male Participants: ${maleParticipants}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Female Participants : ${totalParticipants}`, margin, yPos)
+    incrementYPos(20);
+
+    console.log(`Top of ethnic group ${yPos}`)
+    // Ethnic Group Distribution
+    pdf.setFontSize(18);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Times-Roman')
+    pdf.text(`Ethnic Group Distribution`, margin, yPos)
+    incrementYPos(10);
+
+    imgData = ethnicgroupChartElement.children[0].toDataURL('image/png')
+    imgProps = pdf.getImageProperties(imgData);
+    pdfHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+    pdf.addImage(imgData, 'PNG', 0, yPos , pageWidth, pdfHeight); 
+    yPos += pdfHeight;
+
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'bold', 100)
+    pdf.text(`Applicants`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`African : ${africanApplicants}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`White : ${whiteApplicants}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Coloured : ${colouredApplicants}`, margin, yPos)
+    incrementYPos(10);
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Indian : ${indianApplicants}`, margin, yPos)
+    incrementYPos(10);
+
+    
+
+    pdf.setFontSize(12);
+    pdf.setTextColor(0,0,0);
+    pdf.setFont('Courier', 'normal', 100)
+    pdf.text(`Other : ${otherApplicants}`, margin, yPos)
+    incrementYPos(20);
+
+    console.log(`end of pdf ${yPos}`)
+
+    pdf.save();
+    
+  }
+
+  const downloadXLSX = ()=>{
+    
+  }
+
+
+
 
   return <div className="container-fluid p-0">
     <div className="d-flex">
       <SideBar />
       <div className="col m-5">
-        <div className="col-3 d-flex ">
-          <select onChange={handleEventFilter} className="form-select" >
-            <option value="">-- Select an event --</option>
+        <div className="row">
+          <div className="col-3 d-flex ">
+            <select onChange={handleEventFilter} className="form-select" >
+              <option value="">-- Select an event --</option>
+              {
+                events.map((event) =>(
+                  <option
+                    key={event.event_id}
+                    value={event.event_id}
+                  >
+                    {event.title}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+
+
             {
-              events.map((event) =>(
-                <option
-                  key={event.event_id}
-                  value={event.event_id}
-                >
-                  {event.title}
-                </option>
-              ))
+              selectedEvent !== "" ?
+              <div className="col">
+                <button className="btn btn-lg me-4 btn-success" onClick={downloadPDF}>Download PDF</button>
+                <button className="btn btn-lg btn-success" onClick={downloadXLSX}>Download XLSX</button>
+              </div>
+              : null
             }
-          </select>
+
         </div>
         {
           selectedEvent !== "" ?
@@ -303,7 +521,7 @@ const FeedbackPage = ()=>{
               <InfoBox title="Overall Average Rating" quantity={calculateAverageRating()} colour="var(--blue2)" />
             </div>
             <div className="row mb-5">
-              <div className="col-md mt-2">
+              <div className="col-md mt-2" id="genderGraph">
                 <BarGraphComponent 
                   label_1={"Total Applications"}
                   label_2={"Total Participants"}
@@ -315,7 +533,7 @@ const FeedbackPage = ()=>{
                 />
               </div>
               <div className="col-1"></div>
-              <div className="col-md mt-2">
+              <div className="col-md mt-2" id="ethnicgroupGraph">
                 <BarGraphComponent 
                   label_1={"Total Applications"}
                   label_2={"Total Participants"}
@@ -432,11 +650,11 @@ const FeedbackPage = ()=>{
                 </div>
               </div>
 
-              : <></>
+              : null
             }
           </div>
 
-          : <></>
+          : null
         }
       </div>
     </div>
