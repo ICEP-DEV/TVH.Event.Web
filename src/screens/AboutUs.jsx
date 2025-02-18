@@ -9,17 +9,19 @@ export const AboutUs = () => {
       <div className="about-us-container" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "100vh" }}>
         <div className="info-box">
           <h1>About Us</h1>
-          <p>
+          <p1>
             <b>Welcome to the Hacktrack Event Management System!</b><br />
             We aim to simplify event management by offering robust tools for planning,<br />
-            execution, and analytics, ensuring every event is a success.
-          </p>
+            execution, and analytics, ensuring every event is a success.<br></br>
+          </p1><br></br>
 
           <h2>Our Mission</h2>
-          <p>
+          <br></br>
+          <p1>
             To streamline event planning and provide an exceptional platform<br />
             for managing events, seminars, and workshops effortlessly.
-          </p>
+          </p1>
+          <br></br>
 
           <h2>Features</h2>
           

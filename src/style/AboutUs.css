@@ -49,6 +49,11 @@ h1 {
   color: #ffffff;
   margin-bottom: 20px;
 }
+p1 {
+  font-size: 18px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
 
 h1 {
   font-size: 36px;
@@ -68,11 +73,11 @@ h2 {
   margin-top: 20px;
   margin-bottom: 15px;
 }
-p {
+/*p {
   font-size: 18px;
   color: #ffffff;
   line-height: 1.6;
-}
+}*/
 li li {
   font-size: 18px;
   color: #ffffff;
