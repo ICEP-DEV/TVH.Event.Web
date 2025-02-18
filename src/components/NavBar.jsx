@@ -19,7 +19,7 @@ const NavBar = () => {
             <Link to="/contact" className="nav-link px-2 link-secondary">Contact</Link>
           </li>
           <li>
-            <Link className="nav-link px-2 link-secondary">About Us</Link>
+            <Link to="/AboutUs"className="nav-link px-2 link-secondary">About Us</Link>
           </li>
           
         </ul>

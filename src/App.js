@@ -16,7 +16,7 @@ import EventDetails from "./screens/EventDetails";
 
 import ContactUs from "./screens/ContactUs";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
-
+import AboutUs from "./screens/AboutUs";
 
 
 // Side Bar imports
@@ -51,6 +51,7 @@ function App() {
         <Route path="/pagenotfound" element={<PageNotFound />} />
 
         <Route path="*" element={<Navigate to={'/pagenotfound'} />}/>
+        <Route path="/AboutUs" element={<AboutUs />} />
       </Routes>
     </Router>
   );

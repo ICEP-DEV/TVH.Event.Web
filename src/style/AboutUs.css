@@ -1,0 +1,100 @@
+/* AboutUs.css */
+
+
+/* General body styling */
+.about-us-container {
+  background: url('../assets/leaf.jpg') no-repeat center center;
+  background-size: cover; /* Ensures the image covers the full section */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+  padding: 15px;
+}
+
+
+
+.info-box:hover {
+  transform: scale(1.02);
+}
+
+/* Header Styling 
+*/
+
+/*
+
+
+
+/* Styling for the Features List 
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+
+
+/* Footer Styling 
+footer {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 15px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}*/
+h1 {
+  font-size: 36px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 36px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px;
+  color: #ffffff;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+h2 {
+  font-size: 28px;
+  color: #ffffff;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+p {
+  font-size: 18px;
+  color: #ffffff;
+  line-height: 1.6;
+}
+li li {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+Media query for responsiveness 
+@media (max-width: 768px) {
+  .info-box {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  p, ul li {
+    font-size: 16px;
+  }
+}
